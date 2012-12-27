@@ -9,6 +9,8 @@ from project_setup.api import register_setup
 from project_tools.api import register_tool
 
 from .conf.settings import SIDE_BAR_SEARCH, DISABLE_HOME_VIEW
+from .links import (maintenance_menu, statistics, diagnostics, sentry,
+    admin_site, home_link, search_link)
 
 __author__ = 'Roberto Rosario'
 __copyright__ = 'Copyright 2012 Roberto Rosario'
@@ -26,20 +28,10 @@ __version_info__ = {
     'serial': 0
 }
 
-
-def is_superuser(context):
-    return context['request'].user.is_staff or context['request'].user.is_superuser
-
-maintenance_menu = {'text': _(u'maintenance'), 'view': 'maintenance_menu', 'famfam': 'wrench', 'icon': 'wrench.png'}
-statistics = {'text': _(u'statistics'), 'view': 'statistics', 'famfam': 'table', 'icon': 'blackboard_sum.png', 'condition': is_superuser, 'children_view_regex': [r'statistics']}
-diagnostics = {'text': _(u'diagnostics'), 'view': 'diagnostics', 'famfam': 'pill', 'icon': 'pill.png'}
-sentry = {'text': _(u'sentry'), 'view': 'sentry', 'famfam': 'bug', 'icon': 'bug.png', 'condition': is_superuser}
-admin_site = {'text': _(u'admin site'), 'view': 'admin:index', 'famfam': 'keyboard', 'icon': 'keyboard.png', 'condition': is_superuser}
-
 if not DISABLE_HOME_VIEW:
-    register_top_menu('home', link={'text': _(u'home'), 'view': 'home', 'famfam': 'house'}, position=0)
+    register_top_menu('home', link=home_link, position=0)
 if not SIDE_BAR_SEARCH:
-    register_top_menu('search', link={'text': _(u'search'), 'view': 'search', 'famfam': 'zoom'}, children_path_regex=[r'^search/'])
+    register_top_menu('search', link=search_link, children_path_regex=[r'^search/'])
 
 
 def get_version():
@@ -53,6 +45,7 @@ def get_version():
     if __version_info__['releaselevel'] != 'final':
         vers.append('%(releaselevel)s%(serial)i' % __version_info__)
     return ''.join(vers)
+
 
 __version__ = get_version()
 
