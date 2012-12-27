@@ -10,9 +10,6 @@ from common.utils import encapsulate
 from acls.api import class_permissions
 from documents.models import Document
 
-if 'django.contrib.comments' not in settings.INSTALLED_APPS:
-    raise Exception('This app depends on the django.contrib.comments app.')
-
 from .permissions import (PERMISSION_COMMENT_CREATE,
     PERMISSION_COMMENT_DELETE, PERMISSION_COMMENT_VIEW)
 from .links import (comment_delete, comment_multiple_delete, comment_add,
