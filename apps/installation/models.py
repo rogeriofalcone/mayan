@@ -4,14 +4,14 @@ import platform
 import uuid
 import time
 
-import pbs
+import sh
 import psutil
 import requests
 from git import Repo
 
 try:
-    from pbs import lsb_release, uname
-except pbs.CommandNotFound:
+    from sh import lsb_release, uname
+except sh.CommandNotFound:
     LSB = False
 else:
     LSB = True
@@ -84,26 +84,26 @@ class Installation(Singleton):
         self.add_property(Property('total_phymem', _(u'Total physical memory'), pretty_size(psutil.TOTAL_PHYMEM)))
         self.add_property(Property('disk_partitions', _(u'Disk partitions'), '; '.join(['%s %s %s %s' % (partition.device, partition.mountpoint, partition.fstype, partition.opts) for partition in psutil.disk_partitions()])))
 
-        tesseract = pbs.Command(TESSERACT_PATH)
+        tesseract = sh.Command(TESSERACT_PATH)
         try:
             self.add_property(Property('tesseract', _(u'tesseract version'), tesseract('-v').stderr))
-        except pbs.CommandNotFound:
+        except sh.CommandNotFound:
             self.add_property(Property('tesseract', _(u'tesseract version'), _(u'not found')))
         except Exception:
             self.add_property(Property('tesseract', _(u'tesseract version'), _(u'error getting version')))
 
-        unpaper = pbs.Command(UNPAPER_PATH)
+        unpaper = sh.Command(UNPAPER_PATH)
         try:
             self.add_property(Property('unpaper', _(u'unpaper version'), unpaper('-V').stdout))
-        except pbs.CommandNotFound:
+        except sh.CommandNotFound:
             self.add_property(Property('unpaper', _(u'unpaper version'), _(u'not found')))
         except Exception:
             self.add_property(Property('unpaper', _(u'unpaper version'), _(u'error getting version')))
 
-        pdftotext = pbs.Command(PDFTOTEXT_PATH)
+        pdftotext = sh.Command(PDFTOTEXT_PATH)
         try:
             self.add_property(Property('pdftotext', _(u'pdftotext version'), pdftotext('-v').stderr))
-        except pbs.CommandNotFound:
+        except sh.CommandNotFound:
             self.add_property(Property('pdftotext', _(u'pdftotext version'), _(u'not found')))
         except Exception:
             self.add_property(Property('pdftotext', _(u'pdftotext version'), _(u'error getting version')))
