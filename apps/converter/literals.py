@@ -303,3 +303,5 @@ FILE_FORMATS = {
     'Y': _(u'Raw yellow samples'),
     'YUV': _(u'CCIR 601 4:1:1 or 4:2:2 (8-bit only)'),
 }
+
+DEFAULT_LIBREOFFICE_PATH = '/usr/bin/libreoffice'
