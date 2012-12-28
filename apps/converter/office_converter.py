@@ -1,8 +1,9 @@
 from __future__ import absolute_import
 
 import os
-import subprocess
 import logging
+
+import sh
 
 from mimetype.api import get_mimetype
 from common.conf.settings import TEMPORARY_DIRECTORY
@@ -31,7 +32,6 @@ CONVERTER_OFFICE_FILE_MIMETYPES = [
     u'text/plain',
     u'text/rtf',
 ]
-
 
 logger = logging.getLogger(__name__)
 
@@ -81,50 +81,36 @@ class OfficeConverter(object):
 
 class OfficeConverterBackendDirect(object):
     def __init__(self):
-        self.libreoffice_path = LIBREOFFICE_PATH if LIBREOFFICE_PATH else u'/usr/bin/libreoffice'
-        if not os.path.exists(self.libreoffice_path):
-            raise OfficeBackendError('cannot find LibreOffice executable')
-        logger.debug('self.libreoffice_path: %s' % self.libreoffice_path)
+        self.binary = sh.Command(LIBREOFFICE_PATH)
+        try:
+            self.version_info = self.binary('-V').stdout
+        except sh.CommandNotFound:
+            raise OfficeBackendError('Error initializing LibreOffice backend, cannot find LibreOffice executable.')
+        except Exception as exception:
+            raise OfficeBackendError('Error initializing LibreOffice backend; %s' % exception.stderr)
 
     def convert(self, input_filepath, output_filepath):
         """
-        Executes libreoffice using subprocess's Popen
+        Executes libreoffice using the sh library
         """
-        self.input_filepath = input_filepath
-        self.output_filepath = output_filepath
-
-        command = []
-        command.append(self.libreoffice_path)
-
-        command.append(u'--headless')
-        command.append(u'--convert-to')
-        command.append(u'pdf')
-        command.append(self.input_filepath)
-        command.append(u'--outdir')
-        command.append(TEMPORARY_DIRECTORY)
-
-        logger.debug('command: %s' % command)
+        new_environment = os.environ.copy()
+        new_environment['HOME'] = TEMPORARY_DIRECTORY
 
         try:
-            os.environ['HOME'] = TEMPORARY_DIRECTORY
-            proc = subprocess.Popen(command, close_fds=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
-            return_code = proc.wait()
-            logger.debug('return_code: %s' % return_code)
+            self.binary('--headless', '--convert-to', 'pdf', input_filepath, '--outdir', TEMPORARY_DIRECTORY, _env=new_environment)
+        except Exception as exception:
+            raise OfficeBackendError('LibreOffice PDF conversion error; %s' % (exception.stderr or 'No error message return by LibreOffice'))
+        else:
+            try:
+                filename, extension = os.path.splitext(os.path.basename(input_filepath))
+                logger.debug('filename: %s' % filename)
+                logger.debug('extension: %s' % extension)
 
-            readline = proc.stderr.readline()
-            logger.debug('stderr: %s' % readline)
-            if return_code != 0:
-                raise OfficeBackendError(readline)
-            filename, extension = os.path.splitext(os.path.basename(self.input_filepath))
-            logger.debug('filename: %s' % filename)
-            logger.debug('extension: %s' % extension)
-
-            converted_output = os.path.join(TEMPORARY_DIRECTORY, os.path.extsep.join([filename, 'pdf']))
-            logger.debug('converted_output: %s' % converted_output)
-         
-            os.rename(converted_output, self.output_filepath)      
-        except OSError, msg:
-            raise OfficeBackendError(msg)
-        except Exception, msg:
-            logger.error('Unhandled exception', exc_info=msg)
-
+                converted_output = os.path.join(TEMPORARY_DIRECTORY, os.path.extsep.join([filename, 'pdf']))
+                logger.debug('converted_output: %s' % converted_output)
+             
+                os.rename(converted_output, output_filepath)      
+            except OSError as exception:
+                raise OfficeBackendError('Office document conversion failed; %s' % exception)
+            except Exception as exception:
+                logger.error('Unhandled exception; %s' % exception)
