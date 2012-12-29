@@ -8,7 +8,7 @@ from .runtime import scheduler, lockdown
 
 from project_tools.api import register_tool
 
-from .links import job_list
+from .links import link_job_list
 from .literals import SHUTDOWN_COMMANDS
     
 logger = logging.getLogger(__name__)
@@ -28,4 +28,4 @@ if any([command in sys.argv for command in SHUTDOWN_COMMANDS]):
     
 
 atexit.register(schedule_shutdown_on_exit)
-register_tool(job_list)
+register_tool(link_job_list)

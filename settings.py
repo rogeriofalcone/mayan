@@ -164,8 +164,8 @@ INSTALLED_APPS = (
     'user_management',
     'mimetype',
     'history',
-    #'scheduler',
-    #'job_processor',
+    'scheduler',
+    'job_processor',
     #'installation',
 # Mayan EDMS
     #'storage',
