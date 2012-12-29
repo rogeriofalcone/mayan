@@ -1,80 +1,52 @@
-object_navigation = {}
+from __future__ import absolute_import
+
+import logging
+
+from xml.etree.ElementTree import Element, SubElement
+
+from django.template import (VariableDoesNotExist, Variable)
+
+from .utils import resolve_to_name, get_navigation_objects
+
 multi_object_navigation = {}
 model_list_columns = {}
 sidebar_templates = {}
-top_menu_entries = []
+bound_links = {}
+logger = logging.getLogger(__name__)
+main_menu = Element('root')
 
 
-def register_multi_item_links(src, links, menu_name=None):
+def bind_links(sources, links, menu_name=None, position=0):
     """
-    Register a multiple item action action to be displayed in the
-    generic list template
+    Associate a link to a model, a view, or an url
     """
-
-    multi_object_navigation.setdefault(menu_name, {})
-    if hasattr(src, '__iter__'):
-        for one_src in src:
-            multi_object_navigation[menu_name].setdefault(one_src, {'links': []})
-            multi_object_navigation[menu_name][one_src]['links'].extend(links)
-    else:
-        multi_object_navigation[menu_name].setdefault(src, {'links': []})
-        multi_object_navigation[menu_name][src]['links'].extend(links)
-
-
-def register_links(src, links, menu_name=None, position=None):
-    """
-    Associate a link to a model a view, or an url
-    """
-
-    object_navigation.setdefault(menu_name, {})
-    if hasattr(src, '__iter__'):
-        for one_src in src:
-            object_navigation[menu_name].setdefault(one_src, {'links': []})
-            if position is not None:
-                for link in reversed(links):
-                    object_navigation[menu_name][one_src]['links'].insert(position, link)
-            else:
-                object_navigation[menu_name][one_src]['links'].extend(links)
-    else:
-        object_navigation[menu_name].setdefault(src, {'links': []})
-        if position is not None:
-            for link in reversed(links):
-                object_navigation[menu_name][src]['links'].insert(position, link)
-        else:
-            object_navigation[menu_name][src]['links'].extend(links)
+    bound_links.setdefault(menu_name, {})
+    try:
+        for source in sources:
+            bound_links[menu_name].setdefault(source, {'links': []})
+            try:
+                bound_links[menu_name][source]['links'].extend(links)
+            except TypeError:
+                # Try to see if links is a single link
+                bound_links[menu_name][source]['links'].append(links)
+    except TypeError:
+        raise Exception('The bind_links source argument must be a list, even for single element sources.')
 
 
-def register_top_menu(name, link, children_views=None,
-                      children_path_regex=None, children_view_regex=None,
-                      position=None):
+def register_top_menu(name, link, position=None):
     """
     Register a new menu entry for the main menu displayed at the top
     of the page
     """
+    new_menu = SubElement(main_menu, name, link=link, position=position)
 
-    entry = {'link': link, 'name': name}
-    if children_views:
-        entry['children_views'] = children_views
-    if children_path_regex:
-        entry['children_path_regex'] = children_path_regex
-    if children_view_regex:
-        entry['children_view_regex'] = children_view_regex
-    if position is not None:
-        entry['position'] = position
-        top_menu_entries.insert(position, entry)
-    else:
-        length = len(top_menu_entries)
-        entry['position'] = length
-        top_menu_entries.append(entry)
+    sorted_menus = sorted(main_menu.getchildren(), key=lambda k: (k.get('position') < 0, k.get('position')))
+    main_menu.clear()
 
-    sort_menu_entries()
-    
-    return entry
+    for menu in sorted_menus:
+        main_menu.append(menu)
 
-
-def sort_menu_entries():
-    global top_menu_entries
-    top_menu_entries = sorted(top_menu_entries, key=lambda k: (k['position'] < 0, k['position']))
+    return new_menu
 
 
 def register_model_list_columns(model, columns):
@@ -91,3 +63,61 @@ def register_sidebar_template(source_list, template_name):
     for source in source_list:
         sidebar_templates.setdefault(source, [])
         sidebar_templates[source].append(template_name)
+
+
+def register_multi_item_links(sources, links, menu_name=None):
+    """
+    Register a multiple item action action to be displayed in the
+    generic list template
+    """
+    multi_object_navigation.setdefault(menu_name, {})
+    for source in sources:
+        multi_object_navigation[menu_name].setdefault(source, {'links': []})
+        multi_object_navigation[menu_name][source]['links'].extend(links)
+
+
+def get_context_navigation_links(context, menu_name=None, links_dict=bound_links):
+    request = Variable('request').resolve(context)
+    current_path = request.META['PATH_INFO']
+    current_view = resolve_to_name(current_path)
+    context_links = {}
+
+    # Don't fudge with the original global dictionary
+    # TODO: fix this
+    links_dict = links_dict.copy()
+
+    # Dynamic sources
+    # TODO: improve name to 'injected...'
+    try:
+        """
+        Check for and inject a temporary navigation dictionary
+        """
+        temp_navigation_links = Variable('temporary_navigation_links').resolve(context)
+        if temp_navigation_links:
+            links_dict.update(temp_navigation_links)
+    except VariableDoesNotExist:
+        pass
+
+    try:
+        view_links = links_dict[menu_name][current_view]['links']
+        if view_links:
+            context_links.setdefault(None, [])
+
+        for link in view_links:
+            context_links[None].append(link.resolve(context, request=request, current_path=current_path, current_view=current_view))
+    except KeyError:
+        pass
+
+    for resolved_object, object_properties in get_navigation_objects(context).items():
+        try:
+            resolved_object_reference = resolved_object
+            object_links = links_dict[menu_name][type(resolved_object_reference)]['links']
+            if object_links:
+                context_links.setdefault(resolved_object_reference, [])
+
+            for link in object_links:
+                context_links[resolved_object_reference].append(link.resolve(context, request=request, current_path=current_path, current_view=current_view))
+        except KeyError:
+            pass
+
+    return context_links

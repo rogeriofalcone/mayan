@@ -4,6 +4,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from project_setup.api import register_setup
 
-from .links import check_settings
+from .links import link_check_settings
 
-register_setup(check_settings)
+register_setup(link_check_settings)
