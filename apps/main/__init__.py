@@ -46,12 +46,12 @@ def get_version():
 
 __version__ = get_version()
 
-if 'django.contrib.admin' in settings.INSTALLED_APPS:
-    register_setup(admin_site)
+#if 'django.contrib.admin' in settings.INSTALLED_APPS:
+#    register_setup(admin_site)
 
-register_tool(maintenance_menu)
-register_tool(statistics)
-register_tool(diagnostics)
+#register_tool(maintenance_menu)
+#register_tool(statistics)
+#register_tool(diagnostics)
 
 if 'sentry' in settings.INSTALLED_APPS:
     register_tool(sentry)

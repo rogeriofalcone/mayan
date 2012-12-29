@@ -6,4 +6,4 @@ from navigation.classes import Link
 
 from .icons import icon_tool
 
-tools_menu_link = Link(text=_(u'tools'), view='tools_list', icon=icon_tool)
+link_tools_menu = Link(text=_(u'tools'), view='tools_list', icon=icon_tool)

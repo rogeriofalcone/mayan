@@ -1,14 +1,9 @@
 from __future__ import absolute_import
 
-from . import setup_link
+from xml.etree.ElementTree import Element, SubElement
 
-setup_items = []
+from . import setup_menu
 
 
 def register_setup(link):
-    pass
-    #setup_items.append(link)
-
-    # Append the link's children_view_regex to the setup main menu children view regex
-    #setup_link.setdefault('children_view_regex', [])
-    #setup_link['children_view_regex'].extend(link.get('children_view_regex', []))
+    SubElement(setup_menu, 'setup_link', link=link)

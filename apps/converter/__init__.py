@@ -8,7 +8,7 @@ from project_tools.api import register_tool
 
 from .utils import load_backend
 from .conf.settings import GRAPHICS_BACKEND
-from .links import formats_list
+from .links import link_formats_list
 
 register_sidebar_template(['formats_list'], 'converter_file_formats_help.html')
 
@@ -17,4 +17,4 @@ try:
 except ImproperlyConfigured:
     raise ImproperlyConfigured(u'Missing or incorrect converter backend: %s' % GRAPHICS_BACKEND)
 
-register_tool(formats_list)
+register_tool(link_formats_list)
