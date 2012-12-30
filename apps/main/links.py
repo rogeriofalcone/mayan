@@ -10,7 +10,6 @@ def is_superuser(context):
     return context['request'].user.is_staff or context['request'].user.is_superuser
 
 
-maintenance_menu = Link(text=_(u'maintenance'), view='maintenance_menu')#, 'famfam': 'wrench', 'icon': 'wrench.png'}
 statistics = Link(text=_(u'statistics'), view='statistics', condition=is_superuser)#'famfam': 'table', 'icon': 'blackboard_sum.png', , 'children_view_regex': [r'statistics']}
 diagnostics = Link(text=_(u'diagnostics'), view='diagnostics')#, 'famfam': 'pill', 'icon': 'pill.png'}
 sentry = Link(text=_(u'sentry'), view='sentry', condition=is_superuser)#'famfam': 'bug', 'icon': 'bug.png',

@@ -8,7 +8,7 @@ from project_setup.api import register_setup
 from project_tools.api import register_tool
 
 from .conf.settings import SIDE_BAR_SEARCH, DISABLE_HOME_VIEW
-from .links import (maintenance_menu, statistics, diagnostics, sentry,
+from .links import (statistics, diagnostics, sentry,
     admin_site, home_link)
 
 __author__ = 'Roberto Rosario'
@@ -49,7 +49,6 @@ __version__ = get_version()
 #if 'django.contrib.admin' in settings.INSTALLED_APPS:
 #    register_setup(admin_site)
 
-#register_tool(maintenance_menu)
 #register_tool(statistics)
 #register_tool(diagnostics)
 
