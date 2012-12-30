@@ -12,7 +12,7 @@ from .links import (maintenance_menu, statistics, diagnostics, sentry,
     admin_site, home_link)
 
 __author__ = 'Roberto Rosario'
-__copyright__ = 'Copyright 2012 Roberto Rosario'
+__copyright__ = 'Copyright 2011, 2012, 2013 Roberto Rosario'
 __credits__ = ['Roberto Rosario',]
 __license__ = 'GPL'
 __maintainer__ = 'Roberto Rosario'
@@ -20,10 +20,10 @@ __email__ = 'roberto.rosario.gonzalez@gmail.com'
 __status__ = 'Production'
 
 __version_info__ = {
-    'major': 0,
-    'minor': 13,
+    'major': 1,
+    'minor': 0,
     'micro': 0,
-    'releaselevel': 'final',
+    'releaselevel': 'alpha',
     'serial': 0
 }
 
