@@ -170,6 +170,7 @@ INSTALLED_APPS = (
     #'installation',
 # Mayan EDMS
     'storage',
+    'maintenance',
     'app_registry',
     'documents',
     #'folders',

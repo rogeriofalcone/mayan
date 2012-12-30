@@ -8,7 +8,7 @@ from common.utils import validate_path, encapsulate
 from navigation.api import (bind_links, register_top_menu,
     register_model_list_columns, register_multi_item_links,
     register_sidebar_template)
-from main.api import register_maintenance_links
+from maintenance.api import MaintenanceNamespace
 from diagnostics.api import DiagnosticNamespace
 from history.api import register_history_type
 from history.permissions import PERMISSION_HISTORY_VIEW
@@ -93,7 +93,10 @@ bind_links(['document_page_transformation_edit', 'document_page_transformation_d
 
 #register_diagnostic('documents', _(u'Documents'), document_missing_list)
 
-#register_maintenance_links([document_find_all_duplicates, document_update_page_count, document_clear_image_cache], namespace='documents', title=_(u'documents'))
+namespace = MaintenanceNamespace(_(u'documents'))
+namespace.create_tool(document_find_all_duplicates)
+namespace.create_tool(document_update_page_count)
+namespace.create_tool(document_clear_image_cache)
 
 register_model_list_columns(Document, [
         {'name':_(u'thumbnail'), 'attribute':

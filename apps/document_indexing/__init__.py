@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from navigation.api import (register_top_menu, register_sidebar_template,
     bind_links)
 
-from main.api import register_maintenance_links
+from maintenance.api import MaintenanceNamespace
 from documents.models import Document
 from project_setup.api import register_setup
 
@@ -14,7 +14,8 @@ from .links import (index_setup, index_setup_list, index_setup_create, index_set
 
 register_top_menu('indexes', link_menu)
 
-#register_maintenance_links([rebuild_index_instances], namespace='document_indexing', title=_(u'Indexes'))
+namespace = MaintenanceNamespace(_(u'indexes'))
+namespace.create_tool(rebuild_index_instances)
 
 register_sidebar_template(['index_instance_list'], 'indexing_help.html')
 
