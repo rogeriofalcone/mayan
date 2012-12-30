@@ -174,7 +174,7 @@ INSTALLED_APPS = (
     'app_registry',
     'documents',
     'rest_api',
-    #'folders',
+    'folders',
     #'tags',
     #'document_comments',
     'metadata',

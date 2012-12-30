@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 from django.utils.translation import ugettext_lazy as _
 
-from navigation.api import (register_links, register_top_menu,
+from navigation.api import (bind_links, register_top_menu,
     register_multi_item_links, register_sidebar_template)
 from documents.models import Document
 from documents.permissions import PERMISSION_DOCUMENT_VIEW
@@ -16,21 +16,22 @@ from .permissions import (PERMISSION_FOLDER_CREATE,
     PERMISSION_FOLDER_ADD_DOCUMENT)
 from .links import (folder_list, folder_create, folder_edit, folder_delete,
     folder_document_multiple_remove, folder_view, folder_add_document,
-    folder_add_multiple_documents, document_folder_list, folder_acl_list)
+    folder_add_multiple_documents, document_folder_list, folder_acl_list,
+    link_menu)
 
 register_multi_item_links(['folder_view'], [folder_document_multiple_remove])
 
-register_links(Folder, [folder_view, folder_edit, folder_delete, folder_acl_list])
+bind_links([Folder], [folder_view, folder_edit, folder_delete, folder_acl_list])
 
-register_links([Folder, 'folder_list', 'folder_create'], [folder_list, folder_create], menu_name='secondary_menu')
+bind_links([Folder, 'folder_list', 'folder_create'], [folder_list, folder_create], menu_name='secondary_menu')
 
-register_top_menu(name='folders', link={'text': _('folders'), 'famfam': 'folder_user', 'view': 'folder_list'}, children_views=['folder_list', 'folder_create', 'folder_edit', 'folder_delete', 'folder_view', 'folder_document_multiple_remove'])
+register_top_menu(name='folders', link=link_menu)
 
-register_links(Document, [document_folder_list], menu_name='form_header')
+bind_links([Document], [document_folder_list], menu_name='form_header')
 
 register_sidebar_template(['folder_list'], 'folders_help.html')
 
-register_links(['document_folder_list', 'folder_add_document'], [folder_add_document], menu_name="sidebar")
+bind_links(['document_folder_list', 'folder_add_document'], [folder_add_document], menu_name="sidebar")
 
 register_multi_item_links(['document_find_duplicates', 'folder_view', 'index_instance_node_view', 'document_type_document_list', 'search', 'results', 'document_group_view', 'document_list', 'document_list_recent', 'tag_tagged_item_list'], [folder_add_multiple_documents])
 
