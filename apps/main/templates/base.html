@@ -233,6 +233,28 @@
 {% endblock %}
 
 {% block web_theme_secondary_navigation %}
+    {% get_object_navigation_links "form_header" as form_header_links %}
+    {% if form_header_links %}
+        <div class="secondary-navigation">
+            {% for object_reference, links in form_header_links.items %}
+                <div class="secondary-navigation">
+                    <ul class="wat-cf">
+                        {% with "true" as as_li %}
+                        {% with "true" as hide_active_anchor %}
+                        {% with "active" as li_class_active %}
+                        {% with "first" as li_class_first %}
+                            {% include "generic_navigation.html" %}
+                        {% endwith %}
+                        {% endwith %}
+                        {% endwith %}
+                        {% endwith %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+{% comment %}
     {% if navigation_object_list %}
         {% for navigation_object_dict in navigation_object_list %}
             {% copy_variable navigation_object_dict.object as "navigation_object_name" %}
@@ -275,7 +297,9 @@
                 </div>    
             {% endif %}
     {% endif %}
+{% endcomment %}
 {% endblock %}
+
 {% block web_theme_sidebar %}
     {% get_object_navigation_links "secondary_menu" as secondary_menu_navigation_links %}
     {% if secondary_menu_navigation_links %}
