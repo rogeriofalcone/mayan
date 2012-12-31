@@ -181,10 +181,10 @@ INSTALLED_APPS = (
     'linking',
     'document_indexing',
     'document_acls',
+    'document_signatures',
+    'checkouts',
     #'ocr',
     #'sources',
-    'document_signatures',
-    #'checkouts',
     #'bootstrap',
 # Has to be last so the other apps can register it's signals
     'signaler',
