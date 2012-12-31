@@ -358,7 +358,7 @@ def index_instance_node_view(request, index_instance_node_pk):
                 }
             )
 
-    return render_to_response('generic_list.html', {
+    context = {
         'object_list': index_instance_list,
         'extra_columns_preffixed': [
             {
@@ -373,9 +373,13 @@ def index_instance_node_view(request, index_instance_node_pk):
         'title': title,
         'hide_links': True,
         'hide_object': True,
-        'object': index_instance
+    }
 
-    }, context_instance=RequestContext(request))
+    if not index_instance.is_root_node():
+        context['object'] = index_instance
+
+    return render_to_response('generic_list.html', context,
+        context_instance=RequestContext(request))
 
 
 def rebuild_index_instances(request):
