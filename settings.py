@@ -167,7 +167,7 @@ INSTALLED_APPS = (
     'scheduler',
     'job_processor',
     'diagnostics',
-    #'installation',
+    'installation',
 # Mayan EDMS
     'storage',
     'maintenance',
@@ -183,8 +183,8 @@ INSTALLED_APPS = (
     'document_acls',
     'document_signatures',
     'checkouts',
-    #'ocr',
-    #'sources',
+    'ocr',
+    'sources',
     #'bootstrap',
 # Has to be last so the other apps can register it's signals
     'signaler',

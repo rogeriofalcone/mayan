@@ -34,9 +34,9 @@ urlpatterns = patterns('',
     (r'^document_acls/', include('document_acls.urls')),
     (r'^documents/signatures/', include('document_signatures.urls')),
     (r'^checkouts/', include('checkouts.urls')),
-    #(r'^ocr/', include('ocr.urls')),
-    #(r'^sources/', include('sources.urls')),
-    #(r'^installation/', include('installation.urls')),
+    (r'^ocr/', include('ocr.urls')),
+    (r'^sources/', include('sources.urls')),
+    (r'^installation/', include('installation.urls')),
     #(r'^bootstrap/', include('bootstrap.urls')),
 )
 
