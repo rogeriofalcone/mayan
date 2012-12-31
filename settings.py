@@ -156,7 +156,6 @@ INSTALLED_APPS = (
     'common',
     'dynamic_search',
     'acls',
-    'registration',
     'main',
     'lock_manager',
     'django_gpg',
@@ -185,6 +184,7 @@ INSTALLED_APPS = (
     'checkouts',
     'ocr',
     'sources',
+    'registration',
     #'bootstrap',
 # Has to be last so the other apps can register it's signals
     'signaler',
