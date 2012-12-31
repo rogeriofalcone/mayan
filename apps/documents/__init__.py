@@ -91,6 +91,7 @@ bind_links(['document_page_transformation_list'], [document_page_transformation_
 bind_links(['document_page_transformation_create'], [document_page_transformation_create], menu_name='sidebar')
 bind_links(['document_page_transformation_edit', 'document_page_transformation_delete'], [document_page_transformation_create], menu_name='sidebar')
 
+#TODO: Enable diagnostics
 #register_diagnostic('documents', _(u'Documents'), document_missing_list)
 
 namespace = MaintenanceNamespace(_(u'documents'))
