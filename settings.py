@@ -183,7 +183,7 @@ INSTALLED_APPS = (
     'document_acls',
     #'ocr',
     #'sources',
-    #'document_signatures',
+    'document_signatures',
     #'checkouts',
     #'bootstrap',
 # Has to be last so the other apps can register it's signals
