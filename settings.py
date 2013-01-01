@@ -185,7 +185,7 @@ INSTALLED_APPS = (
     'ocr',
     'sources',
     'registration',
-    #'bootstrap',
+    'bootstrap',
 # Has to be last so the other apps can register it's signals
     'signaler',
 )

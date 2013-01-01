@@ -37,7 +37,7 @@ urlpatterns = patterns('',
     (r'^ocr/', include('ocr.urls')),
     (r'^sources/', include('sources.urls')),
     (r'^installation/', include('installation.urls')),
-    #(r'^bootstrap/', include('bootstrap.urls')),
+    (r'^bootstrap/', include('bootstrap.urls')),
 )
 
 
