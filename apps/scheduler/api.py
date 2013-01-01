@@ -1,7 +1,8 @@
 from __future__ import absolute_import
 
-from .runtime import scheduler
+from .classes import Task
 from .exceptions import AlreadyScheduled
+from .runtime import scheduler
 
 registered_jobs = {}
 
@@ -27,4 +28,13 @@ def remove_job(name):
         
 
 def get_job_list():
-    return registered_jobs.values()
+    tasks = []
+    for registered_job in registered_jobs.values():
+        tasks.append(
+            Task(
+                label=registered_job['title'],
+                start_date=registered_job['job'].trigger.start_date,
+                interval=registered_job['job'].trigger.interval
+            )
+        )
+    return tasks
