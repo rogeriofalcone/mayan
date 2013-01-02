@@ -42,10 +42,9 @@ def document_verify(request, document_pk):
 
     signature_state = SIGNATURE_STATES.get(getattr(signature, 'status', None))
 
-    widget = (u'<img style="vertical-align: middle;" src="%simages/icons/%s" />' % (settings.STATIC_URL, signature_state['icon']))
     paragraphs = [
-        _(u'Signature status: %(widget)s %(text)s') % {
-            'widget': mark_safe(widget),
+        _(u'Signature status: %(icon)s %(text)s') % {
+            'icon': signature_state['icon'].display_big(),
             'text': signature_state['text']
         },
     ]
@@ -103,7 +102,6 @@ def document_signature_upload(request, document_pk):
 
     return render_to_response('generic_form.html', {
         'title': _(u'Upload detached signature for: %s') % document,
-        'form_icon': 'key_delete.png',
         'next': next,
         'form': form,
         'previous': previous,
