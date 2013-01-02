@@ -20,10 +20,10 @@ from acls.models import AccessEntry
 
 from django_gpg.api import SIGNATURE_STATES
 
-from . import (PERMISSION_DOCUMENT_VERIFY, PERMISSION_SIGNATURE_UPLOAD,
-    PERMISSION_SIGNATURE_DOWNLOAD)
 from .forms import DetachedSignatureForm
 from .models import DocumentVersionSignature
+from .permissions import (PERMISSION_DOCUMENT_VERIFY, PERMISSION_SIGNATURE_UPLOAD,
+    PERMISSION_SIGNATURE_DOWNLOAD)
 
 logger = logging.getLogger(__name__)
 
