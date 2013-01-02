@@ -25,6 +25,7 @@ from .conf.settings import SHOW_EMPTY_SMART_LINKS
 from .forms import (SmartLinkInstanceForm, SmartLinkForm,
     SmartLinkConditionForm)
 from . import smart_link_instance_view_link
+from .icons import icon_smart_link_delete, icon_smart_link_condition_delete
 from .permissions import (PERMISSION_SMART_LINK_VIEW,
     PERMISSION_SMART_LINK_CREATE, PERMISSION_SMART_LINK_DELETE,
     PERMISSION_SMART_LINK_EDIT)
@@ -213,7 +214,7 @@ def smart_link_delete(request, smart_link_pk):
         'title': _(u'Are you sure you wish to delete smart link: %s?') % smart_link,
         'next': next,
         'previous': previous,
-        'form_icon': u'link_delete.png',
+        'form_icon': icon_smart_link_delete,
     }, context_instance=RequestContext(request))
 
 
@@ -333,7 +334,7 @@ def smart_link_condition_delete(request, smart_link_condition_pk):
         'title': _(u'Are you sure you wish to delete smart link condition: "%s"?') % smart_link_condition,
         'next': next,
         'previous': previous,
-        'form_icon': u'cog_delete.png',
+        'form_icon': icon_smart_link_condition_delete,
     }, context_instance=RequestContext(request))
 
 
