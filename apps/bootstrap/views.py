@@ -21,6 +21,8 @@ from .permissions import (PERMISSION_BOOTSTRAP_VIEW, PERMISSION_BOOTSTRAP_CREATE
 from .forms import (BootstrapSetupForm, BootstrapSetupForm_view, BootstrapSetupForm_dump,
     BootstrapSetupForm_edit, BootstrapFileImportForm, BootstrapURLImportForm)
 from .exceptions import ExistingData, NotABootstrapSetup
+from .icons import (icon_nuke_database, icon_bootstrap_setup_delete,
+    icon_bootstrap_setup_execute, icon_bootstrap_setup_repository_sync)
 
 
 def bootstrap_setup_list(request):
@@ -122,7 +124,7 @@ def bootstrap_setup_delete(request, bootstrap_setup_pk):
         'next': next,
         'object': bootstrap,
         'title': _(u'Are you sure you with to delete the bootstrap setup: %s?') % bootstrap,
-        'form_icon': 'lightning_delete.png',
+        'form_icon': icon_bootstrap_setup_delete,
     }
 
     return render_to_response('generic_confirm.html', context,
@@ -173,7 +175,7 @@ def bootstrap_setup_execute(request, bootstrap_setup_pk):
         'delete_view': False,
         'previous': previous,
         'next': next,
-        'form_icon': 'lightning_go.png',
+        'form_icon': icon_bootstrap_setup_execute,
         'object': bootstrap_setup,
     }
 
@@ -249,7 +251,6 @@ def bootstrap_setup_import_from_file(request):
 
     return render_to_response('generic_form.html', {
         'title': _(u'Import bootstrap setup from file'),
-        'form_icon': 'folder.png',
         'form': form,
         'previous': previous,
     }, context_instance=RequestContext(request))
@@ -277,7 +278,6 @@ def bootstrap_setup_import_from_url(request):
 
     return render_to_response('generic_form.html', {
         'title': _(u'Import bootstrap setup from URL'),
-        'form_icon': 'folder.png',
         'form': form,
         'previous': previous,
     }, context_instance=RequestContext(request))
@@ -304,7 +304,7 @@ def erase_database_view(request):
         'delete_view': False,
         'previous': previous,
         'next': next,
-        'form_icon': 'radioactivity.png',
+        'form_icon': icon_nuke_database,
     }
 
     context['title'] = _(u'Are you sure you wish to erase the entire database and document storage?')
@@ -335,7 +335,7 @@ def bootstrap_setup_repository_sync(request):
         'previous': previous,
         'next': next,
         'title': _(u'Are you sure you wish to synchronize with the bootstrap repository?'),
-        'form_icon': 'world.png',
+        'form_icon': icon_bootstrap_setup_repository_sync,
     }
 
     return render_to_response('generic_confirm.html', context,
