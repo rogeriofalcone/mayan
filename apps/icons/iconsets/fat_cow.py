@@ -58,6 +58,7 @@ class IconSet(IconSetBase):
         DRIVE_NETWORK: 'drive_network.png',
         DRIVE_USER: 'drive_user.png',
         DOCUMENT_SIGNATURE: 'document_signature.png',
+        DOCUMENT_LOCK: ['page.png', 'lock.png'],
         EMAIL: 'email.png',
         ERROR: 'error.png',
         FOLDER: 'folder.png',
