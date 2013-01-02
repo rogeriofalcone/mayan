@@ -25,8 +25,8 @@ tag_multiple_delete = Link(text=_(u'delete'), view='tag_multiple_delete', icon=i
 tag_edit = Link(text=_(u'edit'), view='tag_edit', args='object.pk', icon=icon_tag_edit, permissions=[PERMISSION_TAG_EDIT])
 tag_tagged_item_list = Link(text=_(u'tagged documents'), view='tag_tagged_item_list', args='object.pk', icon=icon_tagged_item_list)
 tag_acl_list = Link(text=_(u'ACLs'), view='tag_acl_list', args='object.pk', icon=icon_tag_acl_list, permissions=[ACLS_VIEW_ACL])
-multiple_documents_selection_tag_remove = Link(text=_(u'remove tag'), view='multiple_documents_selection_tag_remove')
-single_document_multiple_tag_remove = Link(text=_(u'remove tags'), view='single_document_multiple_tag_remove', args='document.id', permissions=[PERMISSION_TAG_REMOVE])
+multiple_documents_selection_tag_remove = Link(text=_(u'remove tag'), view='multiple_documents_selection_tag_remove', icon=icon_tag_document_remove)
+single_document_multiple_tag_remove = Link(text=_(u'remove tags'), view='single_document_multiple_tag_remove', args='document.id', permissions=[PERMISSION_TAG_REMOVE], icon=icon_tag_document_remove)
 
 link_menu = Link(text=_(u'tags'), view='tag_list', icon=icon_tag_list, children_view_regex=[r'^tag_(list|create|delete|edit|tagged|acl)'])
 
