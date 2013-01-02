@@ -11,6 +11,8 @@ from django.utils.safestring import mark_safe
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 
+import sendfile
+
 from documents.permissions import (PERMISSION_DOCUMENT_CREATE,
     PERMISSION_DOCUMENT_NEW_VERSION)
 from documents.models import DocumentType, Document
@@ -19,8 +21,9 @@ from documents.exceptions import NewDocumentVersionNotAllowed
 from metadata.api import decode_metadata_from_url, metadata_repr_as_list
 from permissions.models import Permission
 from common.utils import encapsulate
-import sendfile
 from acls.models import AccessEntry
+from navigation.classes import Link
+from icons.classes import Icon
 
 from sources.models import (WebForm, StagingFolder, SourceTransformation,
     WatchFolder)
@@ -36,7 +39,7 @@ from sources.forms import SourceTransformationForm, SourceTransformationForm_cre
 from .permissions import (PERMISSION_SOURCES_SETUP_VIEW,
     PERMISSION_SOURCES_SETUP_EDIT, PERMISSION_SOURCES_SETUP_DELETE,
     PERMISSION_SOURCES_SETUP_CREATE)
-
+from .icons import icon_staging_file_delete, icon_transformation_delete
 
 def return_function(obj):
     return lambda context: context['source'].source_type == obj.source_type and context['source'].pk == obj.pk
@@ -50,14 +53,7 @@ def get_tab_link_for_source(source, document=None):
         view = u'upload_interactive'
         args = [u'"%s"' % source.source_type, source.pk]
 
-    return {
-        'text': source.title,
-        'view': view,
-        'args': args,
-        'famfam': source.icon,
-        'keep_query': True,
-        'conditional_highlight': return_function(source),
-    }
+    return Link(text=source.title, view=view, args=args, icon=Icon(source.icon), keep_query=True, conditional_highlight=return_function(source))
 
 
 def get_active_tab_links(document=None):
@@ -424,7 +420,7 @@ def staging_file_delete(request, source_type, source_id, staging_file_id):
         'object': staging_file,
         'next': next,
         'previous': previous,
-        'form_icon': u'delete.png',
+        'form_icon': icon_staging_file_delete,
         'temporary_navigation_links': {'form_header': {'staging_file_delete': {'links': results['tab_links']}}},
     }, context_instance=RequestContext(request))
 
@@ -666,7 +662,7 @@ def setup_source_transformation_delete(request, transformation_id):
             'transformation': source_transformation.get_transformation_display(),
         },
         'previous': previous,
-        'form_icon': u'shape_square_delete.png',
+        'form_icon': icon_transformation_delete,
     },
     context_instance=RequestContext(request))
 
