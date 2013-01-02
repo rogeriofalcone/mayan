@@ -36,10 +36,11 @@ from sources.forms import (StagingDocumentForm, WebFormForm,
     WatchFolderSetupForm)
 from sources.forms import WebFormSetupForm, StagingFolderSetupForm
 from sources.forms import SourceTransformationForm, SourceTransformationForm_create
+from .icons import (icon_staging_file_delete, icon_transformation_delete,
+    icon_setup_web_form_delete, icon_setup_staging_folder_delete)
 from .permissions import (PERMISSION_SOURCES_SETUP_VIEW,
     PERMISSION_SOURCES_SETUP_EDIT, PERMISSION_SOURCES_SETUP_DELETE,
     PERMISSION_SOURCES_SETUP_CREATE)
-from .icons import icon_staging_file_delete, icon_transformation_delete
 
 def return_function(obj):
     return lambda context: context['source'].source_type == obj.source_type and context['source'].pk == obj.pk
@@ -492,16 +493,17 @@ def setup_source_delete(request, source_type, source_id):
     Permission.objects.check_permissions(request.user, [PERMISSION_SOURCES_SETUP_DELETE])
     if source_type == SOURCE_CHOICE_WEB_FORM:
         cls = WebForm
-        form_icon = u'application_form_delete.png'
+        form_icon = icon_setup_web_form_delete
         redirect_view = 'setup_web_form_list'
     elif source_type == SOURCE_CHOICE_STAGING:
         cls = StagingFolder
-        form_icon = u'folder_delete.png'
+        form_icon = icon_setup_staging_folder_delete
         redirect_view = 'setup_staging_folder_list'
-    elif source_type == SOURCE_CHOICE_WATCH:
-        cls = WatchFolder
-        form_icon = u'folder_delete.png'
-        redirect_view = 'setup_watch_folder_list'
+    # TODO: Reenable when properly implemented
+    #elif source_type == SOURCE_CHOICE_WATCH:
+    #    cls = WatchFolder
+    #    form_icon = u'folder_delete.png'
+    #    redirect_view = 'setup_watch_folder_list'
 
     redirect_view = reverse('setup_source_list', args=[source_type])
     previous = request.POST.get('previous', request.GET.get('previous', request.META.get('HTTP_REFERER', redirect_view)))
