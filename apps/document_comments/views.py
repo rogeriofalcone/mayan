@@ -17,6 +17,7 @@ from documents.models import Document
 from .permissions import (PERMISSION_COMMENT_CREATE,
     PERMISSION_COMMENT_DELETE, PERMISSION_COMMENT_VIEW)
 from .forms import CommentForm
+from .icons import icon_comment_delete
 
 
 def comment_delete(request, comment_id=None, comment_id_list=None):
@@ -56,7 +57,7 @@ def comment_delete(request, comment_id=None, comment_id_list=None):
         'delete_view': True,
         'previous': previous,
         'next': next,
-        'form_icon': u'comment_delete.png',
+        'form_icon': icon_comment_delete,
     }
     if len(comments) == 1:
         context['object'] = comments[0].content_object
