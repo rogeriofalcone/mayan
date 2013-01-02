@@ -14,3 +14,5 @@ icon_metadata_set_create = Icon(TABLE_ADD)
 icon_metadata_set_edit = Icon(TABLE_EDIT)
 icon_metadata_set_delete = Icon(TABLE_DELETE)
 icon_metadata_set_members = Icon(TABLE_REFRESH)
+
+icon_metadata_type_delete = Icon(XHTML_DELETE)

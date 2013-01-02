@@ -7,7 +7,8 @@ from navigation.classes import Link
 
 from .icons import (icon_metadata_view, icon_metadata_edit, icon_metadata_add,
     icon_metadata_remove, icon_metadata_sets, icon_metadata_set_create,
-    icon_metadata_set_edit, icon_metadata_set_delete, icon_metadata_set_members)
+    icon_metadata_set_edit, icon_metadata_set_delete, icon_metadata_set_members,
+    icon_metadata_type_delete)
 from .permissions import (PERMISSION_METADATA_DOCUMENT_EDIT,
     PERMISSION_METADATA_DOCUMENT_ADD, PERMISSION_METADATA_DOCUMENT_REMOVE,
     PERMISSION_METADATA_DOCUMENT_VIEW, PERMISSION_METADATA_TYPE_EDIT,
@@ -26,7 +27,7 @@ metadata_multiple_remove = Link(text=_(u'remove metadata'), view='metadata_multi
 
 setup_metadata_type_list = Link(text=_(u'metadata types'), view='setup_metadata_type_list', icon=icon_metadata_view, permissions=[PERMISSION_METADATA_TYPE_VIEW], children_view_regex=[r'setup_metadata_type'])
 setup_metadata_type_edit = Link(text=_(u'edit'), view='setup_metadata_type_edit', args='object.pk', icon=icon_metadata_edit, permissions=[PERMISSION_METADATA_TYPE_EDIT])
-setup_metadata_type_delete = Link(text=_(u'delete'), view='setup_metadata_type_delete', args='object.pk', icon=icon_metadata_remove, permissions=[PERMISSION_METADATA_TYPE_DELETE])
+setup_metadata_type_delete = Link(text=_(u'delete'), view='setup_metadata_type_delete', args='object.pk', icon=icon_metadata_type_delete, permissions=[PERMISSION_METADATA_TYPE_DELETE])
 setup_metadata_type_create = Link(text=_(u'create new'), view='setup_metadata_type_create', icon=icon_metadata_add, permissions=[PERMISSION_METADATA_TYPE_CREATE])
 
 setup_metadata_set_list = Link(text=_(u'metadata sets'), view='setup_metadata_set_list', icon=icon_metadata_sets, permissions=[PERMISSION_METADATA_SET_VIEW], children_view_regex=[r'setup_metadata_set'])
