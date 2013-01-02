@@ -1,6 +1,7 @@
 from django.template import Library
 
-from common.icons import (icon_tick, icon_cross, icon_resultset_previous, icon_current_user_details)
+from common.icons import (icon_tick, icon_cross, icon_resultset_previous,
+    icon_current_user_details, icon_generic_confirm_icon)
 
 register = Library()
 
@@ -11,4 +12,5 @@ def default_icons(context):
     context['icon_cancel_default'] = icon_cross
     context['icon_current_link'] = icon_resultset_previous
     context['icon_current_user_details'] = icon_current_user_details
+    context['icon_generic_confirm_icon'] = icon_generic_confirm_icon
     return u''
