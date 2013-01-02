@@ -35,7 +35,7 @@ setup_source_transformation_delete = Link(text=_(u'delete'), view='setup_source_
 staging_file_preview = Link(text=_(u'preview'), klass='fancybox-noscaling', view='staging_file_preview', args=['source.source_type', 'source.pk', 'object.pk'], icon=icon_staging_file_preview, permissions=[PERMISSION_DOCUMENT_NEW_VERSION, PERMISSION_DOCUMENT_CREATE])
 staging_file_delete = Link(text=_(u'delete'), view='staging_file_delete', args=['source.source_type', 'source.pk', 'object.pk'], icon=icon_staging_file_delete, keep_query=True, permissions=[PERMISSION_DOCUMENT_NEW_VERSION, PERMISSION_DOCUMENT_CREATE])
 
-setup_sources = Link(text=_(u'sources'), view='setup_web_form_list', icon=icon_setup_sources, permissions=[PERMISSION_SOURCES_SETUP_VIEW], children_view_regex=[r'setup_web_form', r'setup_staging_folder', r'setup_source_', r'setup_pop3', r'setup_imap'])
+setup_sources = Link(text=_(u'sources'), view='setup_web_form_list', icon=icon_setup_sources, permissions=[PERMISSION_SOURCES_SETUP_VIEW])
 setup_web_form_list = Link(text=_(u'web forms'), view='setup_web_form_list', icon=icon_setup_web_form_list, permissions=[PERMISSION_SOURCES_SETUP_VIEW])
 setup_staging_folder_list = Link(text=_(u'staging folders'), view='setup_staging_folder_list', icon=icon_setup_staging_folder_list, permissions=[PERMISSION_SOURCES_SETUP_VIEW])
 setup_watch_folder_list = Link(text=_(u'watch folders'), view='setup_watch_folder_list', icon=icon_setup_watch_folder_list, permissions=[PERMISSION_SOURCES_SETUP_VIEW])
