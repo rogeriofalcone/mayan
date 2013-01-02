@@ -33,7 +33,7 @@ index_setup_create = Link(text=_(u'create index'), view='index_setup_create', ic
 index_setup_edit = Link(text=_(u'edit'), view='index_setup_edit', args='index.pk', icon=icon_index_setup_edit, permissions=[PERMISSION_DOCUMENT_INDEXING_EDIT])
 index_setup_delete = Link(text=_(u'delete'), view='index_setup_delete', args='index.pk', icon=icon_index_setup_delete, permissions=[PERMISSION_DOCUMENT_INDEXING_DELETE])
 index_setup_view = Link(text=_(u'tree template'), view='index_setup_view', args='index.pk', icon=icon_index_setup_view, permissions=[PERMISSION_DOCUMENT_INDEXING_SETUP])
-index_setup_document_types = Link(text=_(u'document types'), view='index_setup_document_types', args='index.pk', icon=icon_index_setup_document_types, permissions=[PERMISSION_DOCUMENT_INDEXING_EDIT], children_view_regex=[r'^index_setup', r'^template_node'])
+index_setup_document_types = Link(text=_(u'document types'), view='index_setup_document_types', args='index.pk', icon=icon_index_setup_document_types, permissions=[PERMISSION_DOCUMENT_INDEXING_EDIT])
 
 template_node_create = Link(text=_(u'new child node'), view='template_node_create', args='node.pk', icon=icon_template_node_create, permissions=[PERMISSION_DOCUMENT_INDEXING_EDIT])
 template_node_edit = Link(text=_(u'edit'), view='template_node_edit', args='node.pk', icon=icon_template_node_edit, permissions=[PERMISSION_DOCUMENT_INDEXING_EDIT], condition=is_not_root_node)
