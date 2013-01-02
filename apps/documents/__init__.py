@@ -30,7 +30,7 @@ from .events import (HISTORY_DOCUMENT_CREATED,
     HISTORY_DOCUMENT_EDITED, HISTORY_DOCUMENT_DELETED)
 from .conf import settings as document_settings
 from .widgets import document_thumbnail
-from .links import (document_list, document_list_recent, document_create_multiple,
+from .links import (document_list, document_list_recent,
     document_create_siblings, document_view_simple, document_view_advanced,
     document_delete, document_multiple_delete, document_edit, document_preview,
     document_download, document_multiple_download, document_version_download,
@@ -67,9 +67,9 @@ register_multi_item_links(['document_find_duplicates', 'folder_view', 'index_ins
 # Document Version links
 bind_links([DocumentVersion], [document_version_revert, document_version_download])
 
-secondary_menu_links = [document_list_recent, document_list, document_create_multiple]
+secondary_menu_links = [document_list_recent, document_list]
 
-bind_links(['document_list_recent', 'document_list', 'document_create', 'document_create_multiple', 'upload_interactive', 'staging_file_delete'], secondary_menu_links, menu_name='secondary_menu')
+bind_links(['document_list_recent', 'document_list', 'document_create', 'upload_interactive', 'staging_file_delete'], secondary_menu_links, menu_name='secondary_menu')
 bind_links([Document], secondary_menu_links, menu_name='secondary_menu')
 
 # Document page links

@@ -8,6 +8,7 @@ from common.utils import encapsulate
 from project_setup.api import register_setup
 from documents.permissions import (PERMISSION_DOCUMENT_NEW_VERSION, 
     PERMISSION_DOCUMENT_CREATE)
+from documents.models import Document
 
 from .staging import StagingFile
 from .models import (WebForm, StagingFolder, SourceTransformation,
@@ -18,7 +19,7 @@ from .links import (staging_file_preview, staging_file_delete, setup_sources,
     setup_source_edit, setup_source_delete, setup_source_create,
     setup_source_transformation_list, setup_source_transformation_create,
     setup_source_transformation_edit, setup_source_transformation_delete,
-    source_list, upload_version)
+    source_list, upload_version, document_create_multiple)
 
 
 bind_links([StagingFile], [staging_file_delete])
@@ -45,6 +46,10 @@ bind_links([WatchFolder], [setup_source_transformation_list, setup_source_edit, 
 bind_links(['document_version_list', 'upload_version', 'document_version_revert'], [upload_version], menu_name='sidebar')
 
 bind_links(['setup_source_transformation_create', 'setup_source_transformation_edit', 'setup_source_transformation_delete', 'setup_source_transformation_list'], [setup_source_transformation_create], menu_name='sidebar')
+
+bind_links(['document_list_recent', 'document_list', 'document_create', 'upload_interactive', 'staging_file_delete', 'document_create_multiple'], [document_create_multiple], menu_name='secondary_menu')
+
+bind_links([Document], document_create_multiple, menu_name='secondary_menu')
 
 source_views = ['setup_web_form_list', 'setup_staging_folder_list', 'setup_watch_folder_list', 'setup_source_edit', 'setup_source_delete', 'setup_source_create', 'setup_source_transformation_list', 'setup_source_transformation_edit', 'setup_source_transformation_delete', 'setup_source_transformation_create']
 

@@ -20,7 +20,7 @@ from .icons import (icon_staging_file_preview, icon_staging_file_delete,
     icon_setup_local_scanner_list, icon_setup_local_scanners_refresh,
     icon_setup_source_edit, icon_setup_source_delete, icon_setup_source_create,
     icon_setup_source_log_list, icon_source_list, icon_upload_version,
-    icon_document_create_multiple)
+    icon_document_create_multiple, icon_document_create_multiple)
 from .models import (WebForm, StagingFolder, SourceTransformation,
     WatchFolder)
 from .permissions import (PERMISSION_SOURCES_SETUP_VIEW,
@@ -47,3 +47,5 @@ setup_source_create = Link(text=_(u'add new source'), view='setup_source_create'
 source_list = Link(text=_(u'Document sources'), view='setup_web_form_list', icon=icon_source_list, children_url_regex=[r'sources/setup'], permissions=[PERMISSION_SOURCES_SETUP_VIEW])
 
 upload_version = Link(text=_(u'upload new version'), view='upload_version', args='object.pk', icon=icon_upload_version, permissions=[PERMISSION_DOCUMENT_NEW_VERSION])
+
+document_create_multiple = Link(text=_(u'upload new documents'), view='document_create_multiple', permissions=[PERMISSION_DOCUMENT_CREATE], children_view_regex=[r'upload_interactive'], icon=icon_document_create_multiple)

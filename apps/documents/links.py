@@ -64,7 +64,6 @@ document_edit = Link(text=_(u'edit'), view='document_edit', args='object.id', ic
 document_preview = Link(text=_(u'preview'), klass='fancybox', view='document_preview', args='object.id', icon=icon_document_preview, permissions=[PERMISSION_DOCUMENT_VIEW])
 
 # TODO move 'document_create_multiple' to sources app
-document_create_multiple = Link(text=_(u'upload new documents'), view='document_create_multiple', permissions=[PERMISSION_DOCUMENT_CREATE], children_view_regex=[r'upload_interactive'])
 document_download = Link(text=_(u'download'), view='document_download', args='object.id', icon=icon_document_download, permissions=[PERMISSION_DOCUMENT_DOWNLOAD])
 document_multiple_download = Link(text=_(u'download'), view='document_multiple_download', icon=icon_document_download, permissions=[PERMISSION_DOCUMENT_DOWNLOAD])
 document_version_download = Link(text=_(u'download'), view='document_version_download', args='object.pk', icon=icon_document_download, permissions=[PERMISSION_DOCUMENT_DOWNLOAD])
