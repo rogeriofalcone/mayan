@@ -11,8 +11,11 @@ from django.contrib.auth.management import create_superuser
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.db import transaction, DatabaseError
+from django.conf import settings
 
 from navigation.api import bind_links, register_top_menu
+from project_setup.api import register_setup
+from project_tools.api import register_tool
 
 from .conf.settings import (AUTO_CREATE_ADMIN, AUTO_ADMIN_USERNAME,
     AUTO_ADMIN_PASSWORD, TEMPORARY_DIRECTORY)
@@ -20,7 +23,8 @@ from .conf import settings as common_settings
 from .utils import validate_path
 from .models import AutoAdminSingleton
 from .links import (link_password_change, link_current_user_details,
-    link_current_user_edit, link_about, link_license, link_admin_site)
+    link_current_user_edit, link_about, link_license, link_admin_site,
+    link_sentry)
 
 bind_links(['current_user_details', 'current_user_edit', 'password_change_view'], [link_current_user_details, link_current_user_edit, link_password_change], menu_name='secondary_menu')
 bind_links(['about_view', 'license_view'], [link_about, link_license], menu_name='secondary_menu')
@@ -74,3 +78,10 @@ def auto_admin_account_passwd_change(sender, instance, **kwargs):
 
 if (validate_path(TEMPORARY_DIRECTORY) == False) or (not TEMPORARY_DIRECTORY):
     setattr(common_settings, 'TEMPORARY_DIRECTORY', tempfile.mkdtemp())
+
+if 'django.contrib.admin' in settings.INSTALLED_APPS:
+    register_setup(link_admin_site)
+
+
+if 'sentry' in settings.INSTALLED_APPS:
+    register_tool(link_sentry)

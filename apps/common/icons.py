@@ -1,7 +1,8 @@
 from __future__ import absolute_import
 
 from icons.literals import (CROSS, TICK, COMPUTER_KEY, VCARD, VCARD_EDIT,
-    INFORMATION, SCRIPT, KEYBOARD, ADD, DELETE, RESULTSET_PREVIOUS, QUESTION)
+    INFORMATION, SCRIPT, KEYBOARD, ADD, DELETE, RESULTSET_PREVIOUS, QUESTION,
+    BUG)
 from icons import Icon
 
 icon_cross = Icon(CROSS)
@@ -17,3 +18,4 @@ icon_admin_site = Icon(KEYBOARD)
 icon_add = Icon(ADD)
 icon_delete = Icon(DELETE)
 icon_generic_confirm_icon = Icon(QUESTION)
+icon_bug = Icon(BUG)

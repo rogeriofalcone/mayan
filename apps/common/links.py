@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from navigation.classes import Link
 
 from .icons import (icon_password_change, icon_current_user_details, icon_current_user_edit,
-    icon_about, icon_license, icon_admin_site)
+    icon_about, icon_license, icon_admin_site, icon_bug)
 
 
 def has_usable_password(context):
@@ -22,3 +22,5 @@ link_current_user_edit = Link(text=_(u'edit details'), view='current_user_edit',
 link_about = Link(text=_('about'), view='about_view', icon=icon_about)
 link_license = Link(text=_('license'), view='license_view', icon=icon_license)
 link_admin_site = Link(text=_(u'admin site'), view='admin:index', icon=icon_admin_site, condition=is_superuser)
+link_sentry = Link(text=_(u'sentry'), view='sentry', condition=is_superuser, icon=icon_bug)
+

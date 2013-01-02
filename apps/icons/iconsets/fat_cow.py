@@ -34,6 +34,7 @@ class IconSet(IconSetBase):
         BOOK_GO: 'book_go.png',
         BOOK_OPEN: 'book_open.png',
         BOOK_OPEN_PENCIL: ['book_open.png', 'pencil.png'],
+        BUG: 'bug.png',
         BULLET_GO: 'bullet_go.png',
         CAMERA_DELETE: 'camera_delete.png',
         CD_BURN: 'cd_burn.png',
