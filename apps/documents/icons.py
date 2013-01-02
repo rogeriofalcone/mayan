@@ -6,7 +6,7 @@ from icons.literals import (LAYOUT, MAGNIFIER, PAGE, PAGE_COPY, PAGE_GEAR, PAGE_
     PAGE_WHITE_TEXT, PAGE_WHITE_EDIT, RESULTSET_NEXT, RESULTSET_PREVIOUS,
     RESULTSET_FIRST, RESULTSET_LAST, ZOOM_IN, ZOOM_OUT, ARROW_TURN_RIGHT,
     ARROW_TURN_LEFT, PAGE_WHITE, LAYOUT_EDIT, LAYOUT_ADD, LAYOUT_DELETE,
-    DATABASE, DATABASE_ADD, DATABASE_EDIT, DATABASE_DELETE, PAGE_FIND)
+    DATABASE, DATABASE_ADD, DATABASE_EDIT, DATABASE_DELETE, PAGE_FIND, DELETE)
 from icons import Icon
 
 icon_documents = Icon(PAGE)
@@ -48,3 +48,6 @@ icon_document_type_filename_list = Icon(DATABASE)
 icon_document_type_filename_create = Icon(DATABASE_ADD)
 icon_document_type_filename_edit = Icon(DATABASE_EDIT)
 icon_document_type_filename_delete = Icon(DATABASE_DELETE)
+
+icon_transformation_delete = Icon(DELETE)
+icon_transformation_clear = Icon(DELETE)

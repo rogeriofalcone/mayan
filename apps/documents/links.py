@@ -21,7 +21,7 @@ from .icons import (icon_documents, icon_create_siblings, icon_document_delete,
     icon_document_type_delete, icon_document_type_create,
     icon_document_type_filename_list, icon_document_type_filename_create,
     icon_document_type_filename_edit, icon_document_type_filename_delete,
-    icon_document_missing_list)
+    icon_document_missing_list, icon_transformation_clear)
 from .permissions import (PERMISSION_DOCUMENT_CREATE,
     PERMISSION_DOCUMENT_PROPERTIES_EDIT, PERMISSION_DOCUMENT_VIEW,
     PERMISSION_DOCUMENT_DELETE, PERMISSION_DOCUMENT_DOWNLOAD,
@@ -71,7 +71,7 @@ document_version_download = Link(text=_(u'download'), view='document_version_dow
 document_find_duplicates = Link(text=_(u'find duplicates'), view='document_find_duplicates', args='object.id', icon=icon_find_duplicates, permissions=[PERMISSION_DOCUMENT_VIEW])
 document_find_all_duplicates = Link(text=_(u'find all duplicates'), view='document_find_all_duplicates', icon=icon_find_duplicates, permissions=[PERMISSION_DOCUMENT_VIEW], description=_(u'Search all the documents\' checksums and return a list of the exact matches.'))
 document_update_page_count = Link(text=_(u'update office documents\' page count'), view='document_update_page_count', icon=icon_document_update_page_count, permissions=[PERMISSION_DOCUMENT_TOOLS], description=_(u'Update the page count of the office type documents.  This is useful when enabling office document support after there were already office type documents in the database.'))
-document_clear_transformations = Link(text=_(u'clear transformations'), view='document_clear_transformations', args='object.id', permissions=[PERMISSION_DOCUMENT_TRANSFORM])
+document_clear_transformations = Link(text=_(u'clear transformations'), view='document_clear_transformations', args='object.id', permissions=[PERMISSION_DOCUMENT_TRANSFORM], icon=icon_transformation_clear)
 document_multiple_clear_transformations = Link(text=_(u'clear transformations'), view='document_multiple_clear_transformations', permissions=[PERMISSION_DOCUMENT_TRANSFORM])
 document_print = Link(text=_(u'print'), view='document_print', args='object.id', icon=icon_print, permissions=[PERMISSION_DOCUMENT_VIEW])
 document_history_view = Link(text=_(u'history'), view='history_for_object', args=['"documents"', '"document"', 'object.pk'], icon=icon_history_link, permissions=[PERMISSION_HISTORY_VIEW])
