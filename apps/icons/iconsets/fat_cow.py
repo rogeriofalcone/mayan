@@ -178,6 +178,7 @@ class IconSet(IconSetBase):
         TICK: 'tick.png',
         TIME: 'time.png',
         TIMELINE_MARKER: 'timeline_marker.png',
+        TRAFFIC_LIGHTS_GREEN: 'traffic_lights_green.png',
         USER: 'user.png',
         USER_ADD:'user_add.png',
         USER_EDIT: 'user_edit.png',
