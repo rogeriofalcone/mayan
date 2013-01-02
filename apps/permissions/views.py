@@ -23,6 +23,7 @@ from acls.classes import EncapsulatedObject
 
 from .models import Role, Permission, PermissionHolder, RoleMember
 from .forms import RoleForm, RoleForm_view
+from .icons import icon_permission_revoke, icon_role_delete, icon_permission_grant
 from .permissions import (PERMISSION_ROLE_VIEW, PERMISSION_ROLE_EDIT,
     PERMISSION_ROLE_CREATE, PERMISSION_ROLE_DELETE,
     PERMISSION_PERMISSION_GRANT, PERMISSION_PERMISSION_REVOKE)
@@ -115,7 +116,7 @@ def role_delete(request, role_id):
             'next': next,
             'previous': previous,
             'object_name': _(u'role'),
-            'form_icon': u'medal_gold_delete.png',
+            'form_icon': icon_role_delete,
         })
 
 
@@ -167,7 +168,7 @@ def permission_grant(request):
     context = {
         'previous': previous,
         'next': next,
-        'form_icon': u'key_add.png',
+        'form_icon': icon_permission_grant,
     }
 
     context['title'] = _(u'Are you sure you wish to grant the %(permissions_label)s %(title_suffix)s?') % {
@@ -230,7 +231,7 @@ def permission_revoke(request):
     context = {
         'previous': previous,
         'next': next,
-        'form_icon': u'key_delete.png',
+        'form_icon': icon_permission_revoke,
     }
 
     context['title'] = _(u'Are you sure you wish to revoke the %(permissions_label)s %(title_suffix)s?') % {
