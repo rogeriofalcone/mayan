@@ -21,6 +21,7 @@ from acls.utils import apply_default_acls
 
 from .models import Folder
 from .forms import FolderForm, FolderListForm
+from .icons import icon_folder_delete, icon_folder_remove_document
 from .permissions import (PERMISSION_FOLDER_CREATE,
     PERMISSION_FOLDER_EDIT, PERMISSION_FOLDER_DELETE,
     PERMISSION_FOLDER_REMOVE_DOCUMENT, PERMISSION_FOLDER_VIEW,
@@ -140,7 +141,7 @@ def folder_delete(request, folder_id):
         'next': next,
         'object': folder,
         'title': _(u'Are you sure you with to delete the folder: %s?') % folder,
-        'form_icon': u'folder_delete.png',
+        'form_icon': icon_folder_delete,
     }
 
     return render_to_response('generic_confirm.html', context,
@@ -279,7 +280,7 @@ def folder_document_remove(request, folder_id, document_id=None, document_id_lis
         'object_name': _(u'folder document'),
         'previous': previous,
         'next': next,
-        'form_icon': u'delete.png',
+        'form_icon': icon_folder_remove_document,
         'object': folder
     }
     if len(folder_documents) == 1:
