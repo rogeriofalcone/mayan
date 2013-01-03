@@ -62,7 +62,7 @@ def role_permissions(request, role_id):
                     {'name': _(u'name'), 'attribute': encapsulate(lambda x: x.label)},
                     {
                         'name':_(u'has permission'),
-                        'attribute': encapsulate(lambda x: two_state_template(x.requester_has_this(role))),
+                        'attribute': encapsulate(lambda x: two_state_template(x.requester_has_this(role)).display_small()),
                     },
                 ],
                 'hide_link': True,
