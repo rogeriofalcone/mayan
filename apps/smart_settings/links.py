@@ -2,9 +2,12 @@ from __future__ import absolute_import
 
 from django.utils.translation import ugettext_lazy as _
 
+from navigation.classes import Link
+
+from .icons import icon_settings
 
 def is_superuser(context):
     return context['request'].user.is_staff or context['request'].user.is_superuser
 
 
-check_settings = {'text': _(u'settings'), 'view': 'setting_list', 'famfam': 'cog', 'icon': 'cog.png', 'condition': is_superuser, 'children_view_regex': [r'^setting_']}
+link_check_settings = Link(text=_(u'settings'), view='setting_list', condition=is_superuser, icon=icon_settings) #'children_view_regex': [r'^setting_']}

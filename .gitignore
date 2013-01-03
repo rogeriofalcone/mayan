@@ -4,7 +4,7 @@
 /*.sqlite
 /settings_local.py
 /celerybeat-schedule
-/document_storage/
+/document_storage
 /misc/mayan.geany
 /image_cache/
 build/

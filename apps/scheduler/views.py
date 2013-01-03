@@ -21,15 +21,15 @@ def job_list(request):
         'extra_columns': [
             {
                 'name': _(u'label'),
-                'attribute': encapsulate(lambda job: job['title'])
+                'attribute': encapsulate(lambda job: job.label)
             },
             {
                 'name': _(u'start date time'),
-                'attribute': encapsulate(lambda job: job['job'].trigger.start_date)
+                'attribute': encapsulate(lambda job: job.start_date)
             },
             {
                 'name': _(u'interval'),
-                'attribute': encapsulate(lambda job: job['job'].trigger.interval)
+                'attribute': encapsulate(lambda job: job.interval)
             },
         ],
         'hide_object': True,

@@ -57,6 +57,10 @@ from .wizards import DocumentCreateWizard
 from .models import (Document, DocumentType, DocumentPage,
     DocumentPageTransformation, RecentDocument, DocumentTypeFilename,
     DocumentVersion)
+from .icons import (icon_document_delete, icon_transformation_delete,
+    icon_find_duplicates, icon_document_update_page_count, icon_transformation_clear,
+    icon_document_type_delete, icon_document_type_filename_delete,
+    icon_document_clear_image_cache, icon_version_revert)
 
 logger = logging.getLogger(__name__)
 
@@ -228,7 +232,7 @@ def document_delete(request, document_id=None, document_id_list=None):
         'delete_view': True,
         'previous': previous,
         'next': next,
-        'form_icon': u'page_delete.png',
+        'form_icon': icon_document_delete,
     }
     if len(documents) == 1:
         context['object'] = documents[0]
@@ -547,7 +551,7 @@ def document_page_transformation_delete(request, document_page_transformation_id
             'document_page': document_page_transformation.document_page},
         'web_theme_hide_menus': True,
         'previous': previous,
-        'form_icon': u'pencil_delete.png',
+        'form_icon': icon_transformation_delete,
     }, context_instance=RequestContext(request))
 
 
@@ -574,7 +578,7 @@ def _find_duplicate_list(request, source_document_list=Document.objects.all(), i
             'previous': previous,
             'title': _(u'Are you sure you wish to find all duplicates?'),
             'message': _(u'On large databases this operation may take some time to execute.'),
-            'form_icon': u'page_refresh.png',
+            'form_icon': icon_find_duplicates,
         }, context_instance=RequestContext(request))
     else:
         duplicated = []
@@ -632,7 +636,7 @@ def document_update_page_count(request):
         'previous': previous,
         'title': _(u'Are you sure you wish to update the page count for the office documents (%d)?') % qs.count(),
         'message': _(u'On large databases this operation may take some time to execute.'),
-        'form_icon': u'page_white_csharp.png',
+        'form_icon': icon_document_update_page_count,
     }, context_instance=RequestContext(request))
 
 
@@ -674,7 +678,7 @@ def document_clear_transformations(request, document_id=None, document_id_list=N
         'delete_view': True,
         'previous': previous,
         'next': next,
-        'form_icon': u'page_paintbrush.png',
+        'form_icon': icon_transformation_clear,
     }
 
     if len(documents) == 1:
@@ -1135,7 +1139,7 @@ def document_type_delete(request, document_type_id):
 
         'title': _(u'Are you sure you wish to delete the document type: %s?') % document_type,
         'message': _(u'The document type of all documents using this document type will be set to none.'),
-        'form_icon': u'layout_delete.png',
+        'form_icon': icon_document_type_delete,
     }
 
     return render_to_response('generic_confirm.html', context,
@@ -1258,7 +1262,7 @@ def document_type_filename_delete(request, document_type_filename_id):
         'title': _(u'Are you sure you wish to delete the filename: %(filename)s, from document type "%(document_type)s"?') % {
             'document_type': document_type_filename.document_type, 'filename': document_type_filename
         },
-        'form_icon': u'database_delete.png',
+        'form_icon': icon_document_type_filename_delete,
     }
 
     return render_to_response('generic_confirm.html', context,
@@ -1316,7 +1320,7 @@ def document_clear_image_cache(request):
     return render_to_response('generic_confirm.html', {
         'previous': previous,
         'title': _(u'Are you sure you wish to clear the document image cache?'),
-        'form_icon': u'camera_delete.png',
+        'form_icon': icon_document_clear_image_cache,
     }, context_instance=RequestContext(request))
 
 
@@ -1392,5 +1396,5 @@ def document_version_revert(request, document_version_pk):
         'object': document_version.document,
         'title': _(u'Are you sure you wish to revert to this version?'),
         'message': _(u'All later version after this one will be deleted too.'),
-        'form_icon': u'page_refresh.png',
+        'form_icon': icon_version_revert,
     }, context_instance=RequestContext(request))

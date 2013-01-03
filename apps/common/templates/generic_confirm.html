@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load common_default_icons_tags %}
 {% block title %} :: {% trans "Confirm" %} {{ title }}{% endblock %}
 
 {% block sidebar %}
@@ -9,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-                
+    {% default_icons %}
     <div class="content">    
         <h2 class="title">
             {% if delete_view %}      
@@ -29,7 +30,12 @@
                 {% endif %}   
                 
                 <div style="float: left; margin-right: 10px;">
-                    <img style="margin-top: 12px;" src="{{ STATIC_URL }}images/icons/{{ form_icon|default:'question.png' }}" alt="{% trans 'form icon' %}" />
+                    {% if form_icon %}
+                        {{ form_icon.display_big }}
+                    {% else %}
+                        {{ icon_generic_confirm_icon.display_big }}
+                    {% endif %}
+                    {#<img style="margin-top: 12px;" src="{{ STATIC_URL }}images/icons/{{ form_icon|default:'question.png' }}" alt="{% trans 'form icon' %}" />#}
                 </div>                
                 <div style="float: left; width: 90%;">
                 {% if title %}

@@ -21,6 +21,7 @@ from acls.utils import apply_default_acls
 
 from .forms import TagListForm, TagForm
 from .models import TagProperties
+from .icons import icon_tag_delete, icon_tag_document_remove
 from .permissions import (PERMISSION_TAG_CREATE, PERMISSION_TAG_ATTACH,
     PERMISSION_TAG_REMOVE, PERMISSION_TAG_DELETE, PERMISSION_TAG_EDIT,
     PERMISSION_TAG_VIEW)
@@ -181,7 +182,7 @@ def tag_delete(request, tag_id=None, tag_id_list=None):
         'delete_view': True,
         'previous': previous,
         'next': next,
-        'form_icon': u'tag_blue_delete.png',
+        'form_icon': icon_tag_delete,
     }
     if len(tags) == 1:
         context['object'] = tags[0]
@@ -287,7 +288,7 @@ def tag_remove(request, document_id=None, document_id_list=None, tag_id=None, ta
     context = {
         'previous': previous,
         'next': next,
-        'form_icon': u'tag_blue_delete.png',
+        'form_icon': icon_tag_document_remove,
     }
 
     template = 'generic_confirm.html'

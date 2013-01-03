@@ -18,6 +18,7 @@ from permissions.models import Permission
 from common.utils import encapsulate
 from common.widgets import two_state_template
 
+from .icons import icon_acl_grant, icon_acl_revoke
 from .permissions import (ACLS_EDIT_ACL, ACLS_VIEW_ACL,
     ACLS_CLASS_EDIT_ACL, ACLS_CLASS_VIEW_ACL)
 from .models import AccessEntry, DefaultAccessEntry
@@ -213,7 +214,7 @@ def acl_grant(request):
         'delete_view': True,
         'previous': previous,
         'next': next,
-        'form_icon': u'key_add.png',
+        'form_icon': icon_acl_grant,
     }
 
     context['title'] = title_prefix % {
@@ -306,7 +307,7 @@ def acl_revoke(request):
         'delete_view': True,
         'previous': previous,
         'next': next,
-        'form_icon': u'key_delete.png',
+        'form_icon': icon_acl_revoke,
     }
 
     context['title'] = title_prefix % {
@@ -554,7 +555,7 @@ def acl_class_multiple_grant(request):
         'delete_view': True,
         'previous': previous,
         'next': next,
-        'form_icon': u'key_add.png',
+        'form_icon': icon_acl_grant,
     }
 
     context['title'] = title_prefix % {
@@ -633,7 +634,7 @@ def acl_class_multiple_revoke(request):
         'delete_view': True,
         'previous': previous,
         'next': next,
-        'form_icon': u'key_delete.png',
+        'form_icon': icon_acl_revoke,
     }
 
     context['title'] = title_prefix % {

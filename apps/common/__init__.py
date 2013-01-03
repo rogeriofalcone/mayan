@@ -11,20 +11,25 @@ from django.contrib.auth.management import create_superuser
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.db import transaction, DatabaseError
+from django.conf import settings
 
-from navigation.api import register_links, register_top_menu
+from navigation.api import bind_links, register_top_menu
+from project_setup.api import register_setup
+from project_tools.api import register_tool
 
 from .conf.settings import (AUTO_CREATE_ADMIN, AUTO_ADMIN_USERNAME,
     AUTO_ADMIN_PASSWORD, TEMPORARY_DIRECTORY)
 from .conf import settings as common_settings
 from .utils import validate_path
 from .models import AutoAdminSingleton
-from .links import (password_change_view, current_user_details, current_user_edit,
-    about_view, license_view)
+from .links import (link_password_change, link_current_user_details,
+    link_current_user_edit, link_about, link_license, link_admin_site,
+    link_sentry)
 
-register_links(['current_user_details', 'current_user_edit', 'password_change_view'], [current_user_details, current_user_edit, password_change_view], menu_name='secondary_menu')
-register_links(['about_view', 'license_view'], [about_view, license_view], menu_name='secondary_menu')
-register_top_menu('about', link={'text': _(u'about'), 'view': 'about_view', 'famfam': 'information'}, position=-1)
+bind_links(['current_user_details', 'current_user_edit', 'password_change_view'], [link_current_user_details, link_current_user_edit, link_password_change], menu_name='secondary_menu')
+bind_links(['about_view', 'license_view'], [link_about, link_license], menu_name='secondary_menu')
+
+register_top_menu('about', link=link_about, position=-1)
 
 
 @receiver(post_migrate, dispatch_uid='create_superuser')
@@ -73,3 +78,10 @@ def auto_admin_account_passwd_change(sender, instance, **kwargs):
 
 if (validate_path(TEMPORARY_DIRECTORY) == False) or (not TEMPORARY_DIRECTORY):
     setattr(common_settings, 'TEMPORARY_DIRECTORY', tempfile.mkdtemp())
+
+if 'django.contrib.admin' in settings.INSTALLED_APPS:
+    register_setup(link_admin_site)
+
+
+if 'sentry' in settings.INSTALLED_APPS:
+    register_tool(link_sentry)

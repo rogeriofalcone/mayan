@@ -4,6 +4,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from navigation.api import register_top_menu
 
-from .links import setup_menu_link
+from .links import link_setup_menu
 
-setup_link = register_top_menu('setup_menu', link=setup_menu_link, position=-2)
+setup_menu = register_top_menu('setup_menu', link=link_setup_menu, position=-2)

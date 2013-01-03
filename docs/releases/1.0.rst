@@ -1,0 +1,56 @@
+================================
+Mayan EDMS v1.0 release notes
+================================
+
+* 2013*
+
+Welcome to Mayan EDMS v1.0!
+
+Overview
+========
+
+
+What's new in Mayan EDMS v1.0
+================================
+
+
+Upgrading from a previous version
+=================================
+If you installed **Mayan EDMS** by cloning the Git repository issue the commands::
+
+    $ git reset --hard HEAD
+    $ git pull
+
+otherwise download the compressed archived and uncompress it overriding the existing installation.
+    
+Next add the new requirements::
+
+    $ pip install -r requirements/production.txt
+
+Remove unused requirements::
+
+    $ pip uninstall pbs
+
+Migrate existing database schema with::
+
+    $ ./manage.py migrate document_indexing
+    $ ./manage.py migrate metadata 0001 --fake
+    $ ./manage.py migrate metadata
+
+Add new static media::
+
+    $ ./manage.py collectstatic --noinput
+
+The upgrade procedure is now complete.
+
+
+Backward incompatible changes
+=============================
+* None
+
+Bugs fixed or issues closed
+===========================
+* `issue #39`_ Feature request "Bulk move folders"
+
+
+.. _issue #39: https://github.com/rosarior/mayan/issues/39

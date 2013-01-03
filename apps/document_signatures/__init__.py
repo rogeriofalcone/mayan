@@ -12,7 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 #from django.dispatch import receiver
 
 from documents.models import Document, DocumentVersion
-from navigation.api import register_links
+from navigation.api import bind_links
 from django_gpg.runtime import gpg
 from django_gpg.exceptions import GPGDecryptionError
 from acls.api import class_permissions
@@ -74,8 +74,8 @@ def document_post_save_hook(instance):
 #        DocumentVersionSignature.objects.signature_state(instance.document)
 
 
-register_links(Document, [document_verify], menu_name='form_header')
-register_links(['document_verify', 'document_signature_upload', 'document_signature_download'], [document_signature_upload, document_signature_download], menu_name='sidebar')
+bind_links([Document], [document_verify], menu_name='form_header')
+bind_links(['document_verify', 'document_signature_upload', 'document_signature_download'], [document_signature_upload, document_signature_download], menu_name='sidebar')
 
 DocumentVersion.register_pre_open_hook(1, document_pre_open_hook)
 DocumentVersion.register_post_save_hook(1, document_post_save_hook)

@@ -2,6 +2,9 @@ from __future__ import absolute_import
 
 from django.utils.translation import ugettext_lazy as _
 
-from acls.permissions import ACLS_VIEW_ACL
+from .icons import icon_document_acls
 
-acl_list = {'text': _(u'ACLs'), 'view': 'document_acl_list', 'args': 'object.pk', 'famfam': 'lock', 'permissions': [ACLS_VIEW_ACL]}
+from acls.permissions import ACLS_VIEW_ACL
+from navigation.classes import Link
+
+acl_list = Link(text=_(u'ACLs'), view='document_acl_list', args='object.pk', permissions=[ACLS_VIEW_ACL], icon=icon_document_acls)

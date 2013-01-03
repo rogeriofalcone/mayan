@@ -12,6 +12,7 @@ from permissions.models import Permission
 from common.utils import encapsulate
 
 from .api import Key
+from .icons import icon_key_receive, icon_key_delete
 from .runtime import gpg
 from .exceptions import KeyFetchingError, KeyImportError
 from .forms import KeySearchForm
@@ -50,7 +51,7 @@ def key_receive(request, key_id):
     return render_to_response('generic_confirm.html', {
         'title': _(u'Import key'),
         'message': _(u'Are you sure you wish to import key id: %s?') % key_id,
-        'form_icon': 'key_add.png',
+        'form_icon': icon_key_receive,
         'next': next,
         'previous': previous,
         'submit_method': 'GET',
@@ -108,7 +109,7 @@ def key_delete(request, fingerprint, key_type):
         'title': _(u'Delete key'),
         'delete_view': True,
         'message': _(u'Are you sure you wish to delete key: %s?  If you try to delete a public key that is part of a public/private pair the private key will be deleted as well.') % key,
-        'form_icon': 'key_delete.png',
+        'form_icon': icon_key_delete,
         'next': next,
         'previous': previous,
     }, context_instance=RequestContext(request))

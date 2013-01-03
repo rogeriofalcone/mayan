@@ -21,7 +21,8 @@ from .permissions import (PERMISSION_DOCUMENT_CHECKOUT, PERMISSION_DOCUMENT_CHEC
     PERMISSION_DOCUMENT_CHECKIN_OVERRIDE)
 from .forms import DocumentCheckoutForm
 from .exceptions import DocumentAlreadyCheckedOut, DocumentNotCheckedOut
-from .literals import STATE_CHECKED_OUT, STATE_CHECKED_IN, STATE_ICONS, STATE_LABELS
+from .icons import icon_check_in_document
+from .literals import STATE_CHECKED_OUT, STATE_CHECKED_IN, STATE_LABELS
 from .widgets import checkout_widget
 
 
@@ -134,7 +135,7 @@ def checkin_document(request, document_pk):
         'delete_view': False,
         'previous': previous,
         'next': next,
-        'form_icon': u'basket_remove.png',
+        'form_icon': icon_check_in_document,
         'object': document,
     }
 

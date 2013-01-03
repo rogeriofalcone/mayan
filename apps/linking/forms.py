@@ -26,18 +26,17 @@ class SmartLinkConditionForm(forms.ModelForm):
 class SmartLinkImageWidget(forms.widgets.Widget):
     def render(self, name, value, attrs=None):
         output = []
-        # TODO: convert to navigation app
         if value['links']:
             output.append(u'<div class="group navform wat-cf">')
             for link in value['links']:
                 output.append(u'''
                     <button class="button" type="submit" name="action" value="%(action)s">
-                        <span class="famfam active famfam-%(famfam)s"></span>%(text)s
+                        %(icon)s%(text)s
                     </button>
                 ''' % {
-                    'famfam': link.get('famfam', u'link'),
-                    'text': capfirst(link['text']),
-                    'action': reverse(link.get('view'), args=[value['current_document'].pk, value['smart_link_instance'].pk])
+                    'icon': link.icon.display_big(),
+                    'text': capfirst(link.text),
+                    'action': reverse(link.view, args=[value['current_document'].pk, value['smart_link_instance'].pk])
                 })
             output.append(u'</div>')
 

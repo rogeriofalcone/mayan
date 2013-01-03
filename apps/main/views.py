@@ -7,8 +7,9 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
-from documents.statistics import get_statistics as documents_statistics
-from ocr.statistics import get_statistics as ocr_statistics
+# TODO: update so that each app register it's own statistics
+#from documents.statistics import get_statistics as documents_statistics
+#from ocr.statistics import get_statistics as ocr_statistics
 from permissions.models import Permission
 
 from .api import diagnostics, tools

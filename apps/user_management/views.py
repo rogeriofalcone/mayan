@@ -18,6 +18,7 @@ from .permissions import (PERMISSION_USER_CREATE, PERMISSION_USER_EDIT,
     PERMISSION_USER_VIEW, PERMISSION_USER_DELETE, PERMISSION_GROUP_CREATE,
     PERMISSION_GROUP_EDIT, PERMISSION_GROUP_VIEW, PERMISSION_GROUP_DELETE)
 from .forms import UserForm, PasswordForm, GroupForm
+from .icons import icon_user_delete, icon_group_delete
 
 
 def user_list(request):
@@ -136,7 +137,7 @@ def user_delete(request, user_id=None, user_id_list=None):
         'delete_view': True,
         'previous': previous,
         'next': next,
-        'form_icon': u'user_delete.png',
+        'form_icon': icon_user_delete,
     }
     if len(users) == 1:
         context['object'] = users[0]
@@ -341,7 +342,7 @@ def group_delete(request, group_id=None, group_id_list=None):
         'delete_view': True,
         'previous': previous,
         'next': next,
-        'form_icon': u'group_delete.png',
+        'form_icon': icon_group_delete,
     }
     if len(groups) == 1:
         context['object'] = groups[0]

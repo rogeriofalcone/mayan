@@ -32,6 +32,7 @@ from .api import save_metadata_list
 from .models import (DocumentMetadata, MetadataType, MetadataSet,
     MetadataSetItem, DocumentTypeDefaults)
 from .classes import MetadataObjectWrapper
+from .icons import icon_metadata_type_delete, icon_metadata_set_delete
 
 
 def metadata_edit(request, document_id=None, document_id_list=None):
@@ -401,7 +402,7 @@ def setup_metadata_type_delete(request, metadatatype_id):
         'previous': previous,
         'object': metadata_type,
         'title': _(u'Are you sure you wish to delete the metadata type: %s?') % metadata_type,
-        'form_icon': u'xhtml_delete.png',
+        'form_icon': icon_metadata_type_delete,
     }
 
     return render_to_response('generic_confirm.html', context,
@@ -544,7 +545,7 @@ def setup_metadata_set_delete(request, metadata_set_id):
         'previous': previous,
         'object': metadata_set,
         'title': _(u'Are you sure you wish to delete the metadata set: %s?') % metadata_set,
-        'form_icon': u'application_form_delete.png',
+        'form_icon': icon_metadata_set_delete,
     }
 
     return render_to_response('generic_confirm.html', context,
