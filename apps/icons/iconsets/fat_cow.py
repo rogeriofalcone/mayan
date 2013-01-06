@@ -134,6 +134,7 @@ class IconSet(IconSetBase):
         PAGE_WHITE_COPY: 'page_white_copy.png',
         PAGE_WHITE_CSHARP: 'page_white_csharp.png',
         PAGE_WHITE_EDIT: 'page_white_edit.png',
+        PAGE_WHITE_GO: 'page_white_go.png',
         PAGE_WHITE_PICTURE: 'page_white_picture.png',
         PAGE_WHITE_TEXT: 'page_white_text.png',
         PAGE_WORLD: 'page_world.png',

@@ -13,6 +13,7 @@ from common.literals import PAGE_SIZE_CHOICES, PAGE_ORIENTATION_CHOICES
 from common.conf.settings import DEFAULT_PAPER_SIZE, DEFAULT_PAGE_ORIENTATION
 from common.widgets import TextAreaDiv
 
+from .icons import icon_page_details
 from .models import (Document, DocumentType,
     DocumentPage, DocumentPageTransformation, DocumentTypeFilename,
     DocumentVersion)
@@ -120,7 +121,7 @@ class DocumentPagesCarouselWidget(forms.widgets.Widget):
                 )
             )
             output.append(u'<div class="tc">')
-            output.append(u'<a class="fancybox-iframe" href="%s"><span class="famfam active famfam-page_white_go"></span>%s</a>' % (reverse('document_page_view', args=[page.pk]), ugettext(u'Details')))
+            output.append(u'<a class="fancybox-iframe" href="%s">%s%s</a>' % (reverse('document_page_view', args=[page.pk]), icon_page_details.display_small(), ugettext(u'Details')))
             output.append(u'</div>')
             output.append(u'</div>')
 
