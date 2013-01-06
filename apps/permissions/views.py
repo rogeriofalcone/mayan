@@ -27,7 +27,6 @@ from .icons import icon_permission_revoke, icon_role_delete, icon_permission_gra
 from .permissions import (PERMISSION_ROLE_VIEW, PERMISSION_ROLE_EDIT,
     PERMISSION_ROLE_CREATE, PERMISSION_ROLE_DELETE,
     PERMISSION_PERMISSION_GRANT, PERMISSION_PERMISSION_REVOKE)
-from .widgets import role_permission_link
 
 
 def role_list(request):
