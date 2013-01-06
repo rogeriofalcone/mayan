@@ -62,7 +62,7 @@ bind_links(['setup_document_type_metadata', 'document_type_filename_delete', 'do
 bind_links([DocumentTypeFilename, 'document_type_filename_list', 'document_type_filename_create'], [document_type_filename_create], menu_name='sidebar')
 
 # Register document links
-bind_links([Document], [document_view_simple, document_edit, document_print, document_delete, document_download, document_find_duplicates, document_clear_transformations])
+bind_links([Document], [document_view_simple, document_view_advanced, document_edit, document_print, document_delete, document_download, document_find_duplicates, document_clear_transformations])
 register_multi_item_links(['document_find_duplicates', 'folder_view', 'index_instance_node_view', 'document_type_document_list', 'search', 'results', 'document_group_view', 'document_list', 'document_list_recent', 'tag_tagged_item_list'], [document_multiple_clear_transformations, document_multiple_delete, document_multiple_download])
 
 # Document Version links
