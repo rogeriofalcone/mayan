@@ -7,7 +7,7 @@ from icons.literals import (LAYOUT, MAGNIFIER, PAGE, PAGE_COPY, PAGE_GEAR, PAGE_
     RESULTSET_FIRST, RESULTSET_LAST, ZOOM_IN, ZOOM_OUT, ARROW_TURN_RIGHT,
     ARROW_TURN_LEFT, PAGE_WHITE, LAYOUT_EDIT, LAYOUT_ADD, LAYOUT_DELETE,
     DATABASE, DATABASE_ADD, DATABASE_EDIT, DATABASE_DELETE, PAGE_FIND, DELETE,
-    PAGE_WHITE_GO, ARROW_RIGHT)
+    PAGE_WHITE_GO)
 from icons import Icon
 
 icon_documents = Icon(PAGE)
@@ -54,4 +54,3 @@ icon_transformation_delete = Icon(DELETE)
 icon_transformation_clear = Icon(DELETE)
 
 icon_page_details = Icon(PAGE_WHITE_GO)
-icon_wizard_next_step = Icon(ARROW_RIGHT)
