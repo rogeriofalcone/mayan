@@ -84,6 +84,7 @@ class IconSet(IconSetBase):
         GROUP_KEY: 'group_key.png',
         GROUP_LINK: 'group_link.png',
         GROUP_MEMBERS: ['group.png', 'arrow_refresh.png'],
+        HELP: 'help.png',
         HOURGLASS: 'hourglass.png',
         HOUSE: 'house.png',
         IMAGE: 'image.png',
