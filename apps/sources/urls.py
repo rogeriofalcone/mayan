@@ -7,6 +7,7 @@ from .literals import (SOURCE_CHOICE_WEB_FORM, SOURCE_CHOICE_STAGING,
 
 urlpatterns = patterns('sources.views',
     url(r'^document/create/wizard/$', 'document_create', (), 'document_create_multiple'),
+    url(r'^(?P<document_id>\d+)/create/siblings/$', 'document_create_siblings', (), 'document_create_siblings'),
 
     url(r'^staging_file/type/(?P<source_type>\w+)/(?P<source_id>\d+)/(?P<staging_file_id>\w+)/preview/$', 'staging_file_preview', (), 'staging_file_preview'),
     url(r'^staging_file/type/(?P<source_type>\w+)/(?P<source_id>\d+)/(?P<staging_file_id>\w+)/delete/$', 'staging_file_delete', (), 'staging_file_delete'),

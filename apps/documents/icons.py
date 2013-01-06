@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 
-from icons.literals import (LAYOUT, MAGNIFIER, PAGE, PAGE_COPY, PAGE_GEAR, PAGE_DELETE,
+from icons.literals import (LAYOUT, MAGNIFIER, PAGE, PAGE_GEAR, PAGE_DELETE,
     PAGE_EDIT, PAGE_REFRESH, PAGE_SAVE, PAGE_WHITE_COPY, PAGE_WORLD, PRINTER,
     TABLE_RELATIONSHIP, PAGE_GO, PAGE_WHITE_CSHARP, CAMERA_DELETE, PAGE_WHITE_PICTURE,
     PAGE_WHITE_TEXT, PAGE_WHITE_EDIT, RESULTSET_NEXT, RESULTSET_PREVIOUS,
@@ -11,7 +11,6 @@ from icons.literals import (LAYOUT, MAGNIFIER, PAGE, PAGE_COPY, PAGE_GEAR, PAGE_
 from icons import Icon
 
 icon_documents = Icon(PAGE)
-icon_create_siblings = Icon(PAGE_COPY)
 icon_document_properties = Icon(PAGE_GEAR)
 icon_document_delete = Icon(PAGE_DELETE)
 icon_document_edit = Icon(PAGE_EDIT)

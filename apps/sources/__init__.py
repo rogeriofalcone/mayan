@@ -19,8 +19,7 @@ from .links import (staging_file_preview, staging_file_delete, setup_sources,
     setup_source_edit, setup_source_delete, setup_source_create,
     setup_source_transformation_list, setup_source_transformation_create,
     setup_source_transformation_edit, setup_source_transformation_delete,
-    source_list, upload_version, document_create_multiple)
-
+    source_list, upload_version, document_create_multiple, document_create_siblings)
 
 bind_links([StagingFile], [staging_file_delete])
 
@@ -50,6 +49,7 @@ bind_links(['setup_source_transformation_create', 'setup_source_transformation_e
 bind_links(['document_list_recent', 'document_list', 'document_create', 'upload_interactive', 'staging_file_delete', 'document_create_multiple'], [document_create_multiple], menu_name='secondary_menu')
 
 bind_links([Document], document_create_multiple, menu_name='secondary_menu')
+bind_links([Document], document_create_siblings)
 
 source_views = ['setup_web_form_list', 'setup_staging_folder_list', 'setup_watch_folder_list', 'setup_source_edit', 'setup_source_delete', 'setup_source_create', 'setup_source_transformation_list', 'setup_source_transformation_edit', 'setup_source_transformation_delete', 'setup_source_transformation_create']
 

@@ -89,22 +89,6 @@ def document_list(request, object_list=None, title=None, extra_context=None):
         context_instance=RequestContext(request))
 
 
-def document_create_siblings(request, document_id):
-    Permission.objects.check_permissions(request.user, [PERMISSION_DOCUMENT_CREATE])
-
-    document = get_object_or_404(Document, pk=document_id)
-    query_dict = {}
-    for pk, metadata in enumerate(document.documentmetadata_set.all()):
-        query_dict['metadata%s_id' % pk] = metadata.metadata_type_id
-        query_dict['metadata%s_value' % pk] = metadata.value
-
-    if document.document_type_id:
-        query_dict['document_type_id'] = document.document_type_id
-
-    url = reverse('upload_interactive')
-    return HttpResponseRedirect('%s?%s' % (url, urlencode(query_dict)))
-
-
 def document_view(request, document_id, advanced=False):
     document = get_object_or_404(Document, pk=document_id)
 

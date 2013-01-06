@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from icons.literals import (APPLICATION_FORM, APPLICATION_FORM_DELETE, APPLICATION_FORM_EDIT,
     APPLICATION_FORM_ADD, BOOK, DELETE, EMAIL, IMAGE, FOLDER_MAGNIFY, FOLDER_CAMERA,
     PAGE_ADD, ZOOM, CROSS, DISK, DATABASE, DRIVE, DRIVE_NETWORK, DRIVE_USER,
-    EMAIL, FOLDER, WORLD, PRINTER, PRINTER_EMPTY, ARROW_RIGHT)
+    EMAIL, FOLDER, WORLD, PRINTER, PRINTER_EMPTY, ARROW_RIGHT, PAGE_COPY)
 from icons import Icon
 
 icon_staging_file_preview = Icon(ZOOM)
@@ -41,3 +41,4 @@ icon_source_icon_printer = Icon(PRINTER)
 icon_source_icon_printer_empty = Icon(PRINTER_EMPTY)
 
 icon_wizard_next_step = Icon(ARROW_RIGHT)
+icon_create_siblings = Icon(PAGE_COPY)
