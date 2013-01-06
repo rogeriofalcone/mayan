@@ -57,7 +57,7 @@ from .models import (Document, DocumentType, DocumentPage,
 from .icons import (icon_document_delete, icon_transformation_delete,
     icon_find_duplicates, icon_document_update_page_count, icon_transformation_clear,
     icon_document_type_delete, icon_document_type_filename_delete,
-    icon_document_clear_image_cache, icon_version_revert)
+    icon_document_clear_image_cache, icon_version_revert, icon_document_missing_list)
 
 logger = logging.getLogger(__name__)
 
@@ -662,6 +662,7 @@ def document_missing_list(request):
         return render_to_response('generic_confirm.html', {
             'previous': previous,
             'message': _(u'On large databases this operation may take some time to execute.'),
+            'form_icon': icon_document_missing_list,
         }, context_instance=RequestContext(request))
     else:
         missing_id_list = []

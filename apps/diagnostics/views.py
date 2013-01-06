@@ -23,7 +23,7 @@ def diagnostic_list(request):
             pass
         else:
             tool_list.append(tool)
-    
+
     return render_to_response('generic_list.html', {
         'title': _(u'diagnostic tools'),
         'object_list': tool_list,

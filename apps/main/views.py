@@ -59,11 +59,3 @@ def statistics(request):
         context_instance=RequestContext(request))
     else:
         raise PermissionDenied
-
-
-def diagnostics_view(request):
-    return render_to_response('diagnostics.html', {
-        'blocks': diagnostics,
-        'title': _(u'Diagnostics')
-    },
-    context_instance=RequestContext(request))

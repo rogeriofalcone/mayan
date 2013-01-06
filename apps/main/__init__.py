@@ -8,7 +8,7 @@ from project_setup.api import register_setup
 from project_tools.api import register_tool
 
 from .conf.settings import SIDE_BAR_SEARCH, DISABLE_HOME_VIEW
-from .links import (statistics, diagnostics, home_link)
+from .links import home_link
 
 __author__ = 'Roberto Rosario'
 __copyright__ = 'Copyright 2011, 2012, 2013 Roberto Rosario'
@@ -47,5 +47,4 @@ __version__ = get_version()
 
 
 #register_tool(statistics)
-#register_tool(diagnostics)
 
