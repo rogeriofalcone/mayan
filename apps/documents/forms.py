@@ -13,7 +13,7 @@ from common.literals import PAGE_SIZE_CHOICES, PAGE_ORIENTATION_CHOICES
 from common.conf.settings import DEFAULT_PAPER_SIZE, DEFAULT_PAGE_ORIENTATION
 from common.widgets import TextAreaDiv
 
-from .icons import icon_page_details
+from .icons import icon_page_details, icon_document_preview
 from .models import (Document, DocumentType,
     DocumentPage, DocumentPageTransformation, DocumentTypeFilename,
     DocumentVersion)
@@ -126,7 +126,7 @@ class DocumentPagesCarouselWidget(forms.widgets.Widget):
             output.append(u'</div>')
 
         output.append(u'</div>')
-        output.append(u'<br /><span class="famfam active famfam-magnifier"></span>%s' % ugettext(u'Click on the image for full size preview'))
+        output.append(u'<br />%s%s' % (icon_document_preview.display_small(), ugettext(u'Click on the image for full size preview')))
 
         return mark_safe(u''.join(output))
 

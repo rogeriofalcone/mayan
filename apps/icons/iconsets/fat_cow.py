@@ -17,6 +17,7 @@ class IconSet(IconSetBase):
         APPLICATION_FORM_ADD: 'application_form_add.png',
         APPLICATION_VIEW_ICONS: 'application_view_icons.png',
         APPLICATION_VIEW_ICONS: 'application_view_icons.png',
+        ARROW_RIGHT: 'arrow_right.png',
         ARROW_TURN_RIGHT: 'arrow_turn_right.png',
         ARROW_TURN_LEFT: 'arrow_turn_left.png',
         ARROW_UP: 'arrow_up.png',

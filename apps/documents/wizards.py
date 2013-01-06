@@ -9,6 +9,7 @@ from common.wizard import BoundFormWizard
 
 from metadata.forms import MetadataSelectionForm, MetadataFormSet
 
+from .icons import icon_wizard_next_step
 from .forms import DocumentTypeSelectForm
 
 
@@ -44,7 +45,7 @@ class DocumentCreateWizard(BoundFormWizard):
         context = {
             'step_title': self.extra_context['step_titles'][step],
             'submit_label': _(u'Next step'),
-            'submit_icon_famfam': 'arrow_right',
+            'submit_icon': icon_wizard_next_step,
         }
         return super(DocumentCreateWizard, self).render_template(
             request, form, previous_fields, step, context
