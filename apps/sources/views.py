@@ -28,22 +28,22 @@ from acls.models import AccessEntry
 from navigation.classes import Link
 from icons.classes import Icon
 
-from sources.models import (WebForm, StagingFolder, SourceTransformation,
-    WatchFolder)
-from sources.literals import (SOURCE_CHOICE_WEB_FORM, SOURCE_CHOICE_STAGING,
-    SOURCE_CHOICE_WATCH)
-from sources.literals import (SOURCE_UNCOMPRESS_CHOICE_Y,
-    SOURCE_UNCOMPRESS_CHOICE_ASK)
-from sources.staging import create_staging_file_class
-from sources.forms import (StagingDocumentForm, WebFormForm,
+from .forms import (StagingDocumentForm, WebFormForm,
     WatchFolderSetupForm)
-from sources.forms import WebFormSetupForm, StagingFolderSetupForm
-from sources.forms import SourceTransformationForm, SourceTransformationForm_create
+from .forms import WebFormSetupForm, StagingFolderSetupForm
+from .forms import SourceTransformationForm, SourceTransformationForm_create
 from .icons import (icon_staging_file_delete, icon_transformation_delete,
     icon_setup_web_form_delete, icon_setup_staging_folder_delete)
+from .literals import (SOURCE_CHOICE_WEB_FORM, SOURCE_CHOICE_STAGING,
+    SOURCE_CHOICE_WATCH)
+from .literals import (SOURCE_UNCOMPRESS_CHOICE_Y,
+    SOURCE_UNCOMPRESS_CHOICE_ASK)
+from .models import (WebForm, StagingFolder, SourceTransformation,
+    WatchFolder)
 from .permissions import (PERMISSION_SOURCES_SETUP_VIEW,
     PERMISSION_SOURCES_SETUP_EDIT, PERMISSION_SOURCES_SETUP_DELETE,
     PERMISSION_SOURCES_SETUP_CREATE)
+from .staging import create_staging_file_class
 from .wizards import DocumentCreateWizard
 
 
