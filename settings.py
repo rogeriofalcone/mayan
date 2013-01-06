@@ -141,7 +141,7 @@ INSTALLED_APPS = (
     'taggit',
     'mptt',
     'compressor',
-    'djangorestframework',
+    'rest_framework',
 # Base generic
     'icons',
     'permissions',
@@ -172,7 +172,7 @@ INSTALLED_APPS = (
     'maintenance',
     'app_registry',
     'documents',
-    'rest_api',
+    'api',
     'folders',
     'tags',
     'document_comments',
@@ -219,6 +219,7 @@ LOGIN_EXEMPT_URLS = (
     r'^about\.html$',
     r'^legal/',  # allow the entire /legal/* subsection
     r'^%s-static/' % PROJECT_NAME,
+    r'^api',
 
     r'^accounts/register/$',
     r'^accounts/register/complete/$',

@@ -1,11 +1,35 @@
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User, Group
 
-from djangorestframework.resources import ModelResource
+from rest_framework import serializers
 
-from documents.models import Document
-from converter.exceptions import UnknownFileFormat, UnkownConvertError
+from documents.models import Document, DocumentType
 
 
+class DocumentSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Document
+        fields = ('url', 'document_type', 'uuid', 'date_added', 'description')
+        
+
+class DocumentTypeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = DocumentType
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ('url', 'username', 'groups')
+
+
+class GroupSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Group
+        fields = ('url', 'name')
+
+        
+"""
 class DocumentResourceSimple(ModelResource):
     model = Document
     fields = ('url', 'pk', 'document_type', 'uuid', 'date_added', 'description', 'tags', 'comments', 'expensive_methods', 'versions')
@@ -43,3 +67,4 @@ class DocumentResourceSimple(ModelResource):
 
     def expensive_methods(self, instance):
         return []
+"""
