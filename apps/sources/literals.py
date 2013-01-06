@@ -1,4 +1,11 @@
+from __future__ import absolute_import
+
 from django.utils.translation import ugettext_lazy as _
+
+from .icons import (icon_source_icon_disk, icon_source_icon_database,
+    icon_source_icon_drive, icon_source_icon_drive_network, icon_source_icon_drive_user,
+    icon_source_icon_email, icon_source_icon_folder, icon_source_icon_world,
+    icon_source_icon_printer, icon_source_icon_printer_empty)
 
 SOURCE_UNCOMPRESS_CHOICE_Y = 'y'
 SOURCE_UNCOMPRESS_CHOICE_N = 'n'
@@ -38,6 +45,19 @@ SOURCE_ICON_CHOICES = (
     (SOURCE_ICON_PRINTER, _(u'Printer')),
     (SOURCE_ICON_PRINTER_EMPTY, _(u'Empty printer')),
 )
+    
+SOURCE_ICON_ICON = {
+    SOURCE_ICON_DISK: icon_source_icon_disk,
+    SOURCE_ICON_DATABASE: icon_source_icon_database,
+    SOURCE_ICON_DRIVE: icon_source_icon_drive,
+    SOURCE_ICON_DRIVE_NETWORK: icon_source_icon_drive_network,
+    SOURCE_ICON_DRIVE_USER: icon_source_icon_drive_user,
+    SOURCE_ICON_EMAIL: icon_source_icon_email,
+    SOURCE_ICON_FOLDER: icon_source_icon_folder,
+    SOURCE_ICON_WORLD: icon_source_icon_world,
+    SOURCE_ICON_PRINTER: icon_source_icon_printer,
+    SOURCE_ICON_PRINTER_EMPTY: icon_source_icon_printer_empty,
+}
 
 SOURCE_CHOICE_WEB_FORM = 'webform'
 SOURCE_CHOICE_STAGING = 'staging'
