@@ -190,6 +190,7 @@ class IconSet(IconSetBase):
         TICK: 'tick.png',
         TIME: 'time.png',
         TIMELINE_MARKER: 'timeline_marker.png',
+        TO_DO_LIST_CHEKED_1: 'to_do_list_cheked_1.png',
         TRAFFIC_LIGHTS_GREEN: 'traffic_lights_green.png',
         USER: 'user.png',
         USER_ADD:'user_add.png',
