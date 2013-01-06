@@ -12,7 +12,6 @@ from django.core.urlresolvers import reverse
 #from ocr.statistics import get_statistics as ocr_statistics
 from permissions.models import Permission
 
-from .api import diagnostics, tools
 from .conf.settings import DISABLE_HOME_VIEW
 
 
@@ -22,28 +21,6 @@ def home(request):
     else:
         return render_to_response('home.html', {},
         context_instance=RequestContext(request))
-
-
-def maintenance_menu(request):
-    user_tools = {}
-    for namespace, values in tools.items():
-        user_tools[namespace] = {
-            'title': values['title']
-            }
-        user_tools[namespace].setdefault('links', [])
-        for link in values['links']:
-            try:
-                permissions = link.get('permissions', [])
-                Permission.objects.check_permissions(request.user, permissions)
-                user_tools[namespace]['links'].append(link)
-            except PermissionDenied:
-                pass
-
-    return render_to_response('tools.html', {
-        'blocks': user_tools,
-        'title': _(u'maintenance menu')
-    },
-    context_instance=RequestContext(request))
 
 
 def statistics(request):
