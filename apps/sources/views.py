@@ -1,15 +1,16 @@
 from __future__ import absolute_import
 
+from django.conf import settings
+from django.contrib import messages
+from django.core.exceptions import PermissionDenied
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
-from django.contrib import messages
-from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext
 from django.utils.safestring import mark_safe
-from django.conf import settings
-from django.core.exceptions import PermissionDenied
+from django.utils.http import urlencode
 
 import sendfile
 
@@ -18,7 +19,9 @@ from documents.permissions import (PERMISSION_DOCUMENT_CREATE,
 from documents.models import DocumentType, Document
 from documents.conf.settings import THUMBNAIL_SIZE
 from documents.exceptions import NewDocumentVersionNotAllowed
+from documents.forms import DocumentTypeSelectForm
 from metadata.api import decode_metadata_from_url, metadata_repr_as_list
+from metadata.forms import MetadataFormSet, MetadataSelectionForm
 from permissions.models import Permission
 from common.utils import encapsulate
 from acls.models import AccessEntry
@@ -41,6 +44,32 @@ from .icons import (icon_staging_file_delete, icon_transformation_delete,
 from .permissions import (PERMISSION_SOURCES_SETUP_VIEW,
     PERMISSION_SOURCES_SETUP_EDIT, PERMISSION_SOURCES_SETUP_DELETE,
     PERMISSION_SOURCES_SETUP_CREATE)
+from .wizards import DocumentCreateWizard
+
+
+def document_create(request):
+    Permission.objects.check_permissions(request.user, [PERMISSION_DOCUMENT_CREATE])
+
+    wizard = DocumentCreateWizard(form_list=[DocumentTypeSelectForm, MetadataSelectionForm, MetadataFormSet])
+
+    return wizard(request)    
+
+
+def document_create_siblings(request, document_id):
+    Permission.objects.check_permissions(request.user, [PERMISSION_DOCUMENT_CREATE])
+
+    document = get_object_or_404(Document, pk=document_id)
+    query_dict = {}
+    for pk, metadata in enumerate(document.documentmetadata_set.all()):
+        query_dict['metadata%s_id' % pk] = metadata.metadata_type_id
+        query_dict['metadata%s_value' % pk] = metadata.value
+
+    if document.document_type_id:
+        query_dict['document_type_id'] = document.document_type_id
+
+    url = reverse('upload_interactive')
+    return HttpResponseRedirect('%s?%s' % (url, urlencode(query_dict)))   
+
 
 def return_function(obj):
     return lambda context: context['source'].source_type == obj.source_type and context['source'].pk == obj.pk

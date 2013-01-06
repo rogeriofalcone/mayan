@@ -2,7 +2,8 @@ from __future__ import absolute_import
 
 from icons.literals import (APPLICATION_FORM, APPLICATION_FORM_DELETE, APPLICATION_FORM_EDIT,
     APPLICATION_FORM_ADD, BOOK, DELETE, EMAIL, IMAGE, FOLDER_MAGNIFY, FOLDER_CAMERA,
-    PAGE_ADD, ZOOM, CROSS)
+    PAGE_ADD, ZOOM, CROSS, DISK, DATABASE, DRIVE, DRIVE_NETWORK, DRIVE_USER,
+    EMAIL, FOLDER, WORLD, PRINTER, PRINTER_EMPTY, ARROW_RIGHT, PAGE_COPY)
 from icons import Icon
 
 icon_staging_file_preview = Icon(ZOOM)
@@ -27,3 +28,17 @@ icon_document_create_multiple = Icon(PAGE_ADD)
 
 icon_cross = Icon(CROSS)
 icon_transformation_delete = Icon(DELETE)
+
+icon_source_icon_disk = Icon(DISK)
+icon_source_icon_database = Icon(DATABASE)
+icon_source_icon_drive = Icon(DRIVE)
+icon_source_icon_drive_network = Icon(DRIVE_NETWORK)
+icon_source_icon_drive_user = Icon(DRIVE_USER)
+icon_source_icon_email = Icon(EMAIL)
+icon_source_icon_folder = Icon(FOLDER)
+icon_source_icon_world = Icon(WORLD)
+icon_source_icon_printer = Icon(PRINTER)
+icon_source_icon_printer_empty = Icon(PRINTER_EMPTY)
+
+icon_wizard_next_step = Icon(ARROW_RIGHT)
+icon_create_siblings = Icon(PAGE_COPY)

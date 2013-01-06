@@ -6,10 +6,10 @@ from django.http import HttpResponseRedirect
 from django.utils.http import urlencode
 
 from common.wizard import BoundFormWizard
-
+from documents.forms import DocumentTypeSelectForm
 from metadata.forms import MetadataSelectionForm, MetadataFormSet
 
-from .forms import DocumentTypeSelectForm
+from .icons import icon_wizard_next_step
 
 
 class DocumentCreateWizard(BoundFormWizard):
@@ -44,7 +44,7 @@ class DocumentCreateWizard(BoundFormWizard):
         context = {
             'step_title': self.extra_context['step_titles'][step],
             'submit_label': _(u'Next step'),
-            'submit_icon_famfam': 'arrow_right',
+            'submit_icon': icon_wizard_next_step,
         }
         return super(DocumentCreateWizard, self).render_template(
             request, form, previous_fields, step, context

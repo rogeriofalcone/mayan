@@ -15,6 +15,7 @@ from django.contrib.auth.views import password_change
 from django.contrib.auth.models import User
 from django.conf import settings
 
+from .icons import icon_add, icon_delete
 from .forms import (ChoiceForm, UserForm, UserForm_view, LicenseForm,
     EmailAuthenticationForm)
 from .conf.settings import LOGIN_METHOD
@@ -134,7 +135,7 @@ def assign_remove(request, left_list, right_list, add_method, remove_method, lef
                     'form': unselected_list,
                     'title': left_list_title,
                     'submit_label': _(u'Add'),
-                    'submit_icon_famfam': 'add'
+                    'submit_icon': icon_add
                 }
             },
             {
@@ -145,7 +146,7 @@ def assign_remove(request, left_list, right_list, add_method, remove_method, lef
                     'form': selected_list,
                     'title': right_list_title,
                     'submit_label': _(u'Remove'),
-                    'submit_icon_famfam': 'delete'
+                    'submit_icon': icon_delete
                 }
             },
 

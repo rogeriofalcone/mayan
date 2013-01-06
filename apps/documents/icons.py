@@ -1,16 +1,16 @@
 from __future__ import absolute_import
 
-from icons.literals import (LAYOUT, MAGNIFIER, PAGE, PAGE_COPY, PAGE_GEAR, PAGE_DELETE,
+from icons.literals import (LAYOUT, MAGNIFIER, PAGE, PAGE_GEAR, PAGE_DELETE,
     PAGE_EDIT, PAGE_REFRESH, PAGE_SAVE, PAGE_WHITE_COPY, PAGE_WORLD, PRINTER,
     TABLE_RELATIONSHIP, PAGE_GO, PAGE_WHITE_CSHARP, CAMERA_DELETE, PAGE_WHITE_PICTURE,
     PAGE_WHITE_TEXT, PAGE_WHITE_EDIT, RESULTSET_NEXT, RESULTSET_PREVIOUS,
     RESULTSET_FIRST, RESULTSET_LAST, ZOOM_IN, ZOOM_OUT, ARROW_TURN_RIGHT,
     ARROW_TURN_LEFT, PAGE_WHITE, LAYOUT_EDIT, LAYOUT_ADD, LAYOUT_DELETE,
-    DATABASE, DATABASE_ADD, DATABASE_EDIT, DATABASE_DELETE, PAGE_FIND, DELETE)
+    DATABASE, DATABASE_ADD, DATABASE_EDIT, DATABASE_DELETE, PAGE_FIND, DELETE,
+    PAGE_WHITE_GO)
 from icons import Icon
 
 icon_documents = Icon(PAGE)
-icon_create_siblings = Icon(PAGE_COPY)
 icon_document_properties = Icon(PAGE_GEAR)
 icon_document_delete = Icon(PAGE_DELETE)
 icon_document_edit = Icon(PAGE_EDIT)
@@ -51,3 +51,5 @@ icon_document_type_filename_delete = Icon(DATABASE_DELETE)
 
 icon_transformation_delete = Icon(DELETE)
 icon_transformation_clear = Icon(DELETE)
+
+icon_page_details = Icon(PAGE_WHITE_GO)

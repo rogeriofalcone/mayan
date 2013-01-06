@@ -63,7 +63,7 @@ class DetailSelectMultiple(forms.widgets.SelectMultiple):
         return mark_safe(output + u'</ul>\n')
 
 
-def exists_with_famfam(path):
+def exists_with_icon(path):
     try:
         return two_state_template(os.path.exists(path))
     except Exception, exc:

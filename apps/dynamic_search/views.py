@@ -15,6 +15,7 @@ from django.utils.http import urlencode
 from .conf.settings import SHOW_OBJECT_TYPE
 from .conf.settings import LIMIT
 from .forms import SearchForm, AdvancedSearchForm
+from .icons import icon_advanced_search, icon_search
 from .models import RecentSearch
 from .classes import SearchModel
 
@@ -85,7 +86,7 @@ def search(request, advanced=False):
                 'submit_method': 'GET',
                 'search_results_limit': LIMIT,
                 'submit_label': _(u'Search'),
-                'submit_icon_famfam': 'zoom',
+                'submit_icon': icon_advanced_search,
             },
             context_instance=RequestContext(request)
         )
@@ -95,7 +96,7 @@ def search(request, advanced=False):
             # was originated from the sidebar search form
             extra_context = {
                 'submit_label': _(u'Search'),
-                'submit_icon_famfam': 'zoom',
+                'submit_icon': icon_search,
                 'form_title': _(u'Search'),
                 'form_hide_required_text': True,
             }

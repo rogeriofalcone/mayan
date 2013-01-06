@@ -1,21 +1,23 @@
 {% load i18n %}
+{% load main_icons_tags %}
+{% get_main_icons %}
+
 <link rel="stylesheet" href="{{ STATIC_URL }}css/override.css" type="text/css" media="screen" />
-<link rel="stylesheet" href="{{ STATIC_URL }}css/famfamfam-silk-sprite.css" type="text/css" media="screen" />
     
 <p class="tc">
     {% trans "Open source, Django based electronic document manager with custom metadata, indexing, tagging, file serving integration, digital signature support and OCR capabilities" %}
 </p>
 <p class="tc">
-    <span class="famfam active famfam-world_go"></span><a href="http://www.mayan-edms.com">http://www.mayan-edms.com</a>
+    {{ icon_home_page.display_small }}<a href="http://www.mayan-edms.com">http://www.mayan-edms.com</a>
 </p>
 <p class="tc">
-    <span class="famfam active famfam-book_open"></span><a href="http://readthedocs.org/docs/mayan/en/latest/">http://mayan.readthedocs.org/</a>
+    {{ icon_documentation.display_small }}<a href="http://readthedocs.org/docs/mayan/en/latest/">http://mayan.readthedocs.org/</a>
 </p>
 <p class="tc">
-    <span class="famfam active famfam-wrench"></span><a href="http://www.github.com/rosarior/mayan/">http://www.github.com/rosarior/mayan/</a>
+    {{ icon_source_code.display_small }}<a href="http://www.github.com/rosarior/mayan/">http://www.github.com/rosarior/mayan/</a>
 </p>
 <p class="tc">
-    <span class="famfam active famfam-bug"></span><a href="https://github.com/rosarior/mayan/issues">https://github.com/rosarior/mayan/issues</a>
+    {{ icon_issue_tracker.display_small }}<a href="https://github.com/rosarior/mayan/issues">https://github.com/rosarior/mayan/issues</a>
 </p>
 <p class="tc">
     {% trans "Released under the GPL V3 License" %}

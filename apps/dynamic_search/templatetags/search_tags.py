@@ -1,14 +1,17 @@
+from __future__ import absolute_import
+
 from django.core.urlresolvers import reverse
 from django.template import Library
 from django.utils.translation import ugettext as _
 
-from dynamic_search.forms import SearchForm
-from dynamic_search.models import RecentSearch
-from dynamic_search.conf.settings import RECENT_COUNT
+from ..forms import SearchForm
+from ..icons import icon_search, icon_advanced_search
+from ..models import RecentSearch
+from ..conf.settings import RECENT_COUNT
 
 register = Library()
 
-
+# TODO: remove
 @register.inclusion_tag('search_results_subtemplate.html', takes_context=True)
 def search_form(context):
     context.update({
@@ -32,10 +35,10 @@ def recent_searches_template(context):
         'side_bar': True,
         'title': _(u'recent searches (maximum of %d)') % RECENT_COUNT,
         'paragraphs': [
-            u'<a href="%(url)s"><span class="famfam active famfam-%(icon)s"></span>%(text)s</a>' % {
+            u'<a href="%(url)s">%(icon)s%(text)s</a>' % {
                 'text': rs,
                 'url': rs.url(),
-                'icon': 'zoom_in' if rs.is_advanced() else 'zoom',
+                'icon': icon_advanced_search.display_small() if rs.is_advanced() else icon_search.display_small(),
             } for rs in recent_searches
         ]
     })

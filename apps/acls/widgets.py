@@ -5,11 +5,12 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models.base import ModelBase
 from django.template.defaultfilters import capfirst
 
+from .icons import icon_content_type_unknown
 from .literals import CONTENT_TYPE_ICON_MAP
 
 
 def content_type_icon(content_type):
-    return mark_safe(u'<span class="famfam active famfam-%s"></span>' % CONTENT_TYPE_ICON_MAP.get('%s.%s' % (content_type.app_label, content_type.model), 'help'))
+    return CONTENT_TYPE_ICON_MAP.get('%s.%s' % (content_type.app_label, content_type.model), icon_content_type_unknown).display_small()
 
 
 def object_w_content_type_icon(obj):
