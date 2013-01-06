@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
 from icons.literals import (PAGE_LINK, LINK, LINK_ADD, LINK_EDIT, LINK_DELETE,
-    COG, COG_ADD, COG_EDIT, COG_DELETE, LOCK)
+    COG, COG_ADD, COG_EDIT, COG_DELETE, LOCK, PAGE_GO, MAGNIFIER)
 from icons import Icon
 
 icon_smart_link_instance_view = Icon(PAGE_LINK)
@@ -18,3 +18,6 @@ icon_smart_link_condition_edit = Icon(COG_EDIT)
 icon_smart_link_condition_delete = Icon(COG_DELETE)
 
 icon_smart_link_acl_list = Icon(LOCK)
+
+icon_select_document = Icon(PAGE_GO)
+icon_document_preview = Icon(MAGNIFIER)

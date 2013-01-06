@@ -9,6 +9,7 @@ from django.template.defaultfilters import capfirst
 from documents.widgets import document_html_widget
 from tags.widgets import get_tags_inline_widget
 
+from .icons import icon_select_document, icon_document_preview
 from .models import SmartLink, SmartLinkCondition
 
 
@@ -50,14 +51,17 @@ class SmartLinkImageWidget(forms.widgets.Widget):
             output.append(document_html_widget(document, click_view='document_display', view='document_preview_multipage', fancybox_class='fancybox-noscaling', gallery_name=u'smart_link_%d_documents_gallery' % value['smart_link_instance'].pk))
             output.append(u'</div>')
             output.append(u'<div class="tc">')
-            output.append(u'<a href="%s"><span class="famfam active famfam-page_go"></span>%s</a>' % (reverse('document_view_simple', args=[document.pk]), ugettext(u'Select')))
+            output.append(u'<a href="%s">%s%s</a>' % (reverse('document_view_simple', args=[document.pk]), icon_select_document.display_small(), ugettext(u'Select')))
             output.append(u'</div>')
             output.append(u'</div>')
 
         output.append(u'</div>')
         output.append(
-            u'<br /><span class="famfam active famfam-magnifier"></span>%s' %
-             ugettext(u'Click on the image for full size view of the first page.'))
+            u'<br />%s%s' % (
+                icon_document_preview.display_small(),
+                ugettext(u'Click on the image for full size view of the first page.')
+            )
+        )
 
         return mark_safe(u''.join(output))
 
