@@ -41,14 +41,14 @@ class SmartLinkImageWidget(forms.widgets.Widget):
                 })
             output.append(u'</div>')
 
-        output.append(u'<div style="white-space:nowrap; overflow: auto;">')
+        output.append(u'<div class="carousel-container" style="white-space:nowrap; overflow: auto;">')
         for document in value['documents']:
             output.append(u'<div style="display: inline-block; margin: 0px 10px 10px 10px; %s">' % (u'border: 5px solid black; padding: 3px;' if value['current_document'] == document else u''))
             output.append(u'<div class="tc">%s</div>' % document)
             output.append(u'<div class="tc">%s: %d</div>' % (ugettext(u'Pages'), document.pages.count()))
             output.append(get_tags_inline_widget(document))
             output.append(u'<div style="padding: 5px;">' % document)
-            output.append(document_html_widget(document, click_view='document_display', view='document_preview_multipage', fancybox_class='fancybox-noscaling', gallery_name=u'smart_link_%d_documents_gallery' % value['smart_link_instance'].pk))
+            output.append(document_html_widget(document, click_view='document_display', view='document_preview_multipage', fancybox_class='fancybox-noscaling', gallery_name=u'smart_link_%d_documents_gallery' % value['smart_link_instance'].pk, image_class='lazy-load-carousel'))
             output.append(u'</div>')
             output.append(u'<div class="tc">')
             output.append(u'<a href="%s">%s%s</a>' % (reverse('document_view_simple', args=[document.pk]), icon_select_document.display_small(), ugettext(u'Select')))
