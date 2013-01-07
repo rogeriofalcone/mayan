@@ -2,15 +2,9 @@ from __future__ import absolute_import
 
 from django.conf.urls import patterns, url, include
 
-from .views import DocumentList, DocumentDetail, DocumentTypeList, DocumentTypeDetail, UserList, UserDetail, GroupList, GroupDetail
+from .views import (DocumentList, DocumentDetail, DocumentTypeList,
+    DocumentTypeDetail, UserList, UserDetail, GroupList, GroupDetail)
 
-#    url(r'^$', APIBase.as_view(), name='api-root'),
-#    url(r'^v0/$', Version_0.as_view(), name='api-version-0'),
-#    
-#    # Version 0 alpha API calls    
-#    url(r'^v0/document/(?P<pk>[0-9]+)/$', ReadOnlyInstanceModelView.as_view(resource=DocumentResourceSimple), name='documents-simple'),
-#    url(r'^v0/document/(?P<pk>[0-9]+)/version/(?P<version_pk>[0-9]+)/page/(?P<page_number>[0-9]+)/expensive/is_zoomable/$', IsZoomable.as_view(), name='documents-expensive-is_zoomable'),
-#)
 
 urlpatterns = patterns('api.views',
     url(r'^$', 'api_root'),

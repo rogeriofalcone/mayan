@@ -26,20 +26,6 @@ def api_root(request, format=None):
     })
 
 
-#class APIBase(View):
-#     def get(self, request):
-#        return [
-#            {'name': 'Version 0 Alpha', 'url': reverse('api-version-0')}
-#        ]
-
-
-#class Version_0(View):
-#    def get(self, request):
-#        return [
-#            {'name': 'Resources', 'resources': ['document/<pk>']}
-#        ]
-
-
 @api_view(('GET',))
 def version_0(request, format=None):
     return Response('This version has been deprecated and removed.')
