@@ -104,7 +104,7 @@ class DocumentPagesCarouselWidget(forms.widgets.Widget):
     """
     def render(self, name, value, attrs=None):
         output = []
-        output.append(u'<div style="white-space:nowrap; overflow: auto;">')
+        output.append(u'<div class="carousel-container" style="white-space:nowrap; overflow: auto;">')
 
         for page in value.pages.all():
 
@@ -118,6 +118,7 @@ class DocumentPagesCarouselWidget(forms.widgets.Widget):
                     page=page.page_number,
                     gallery_name='document_pages',
                     fancybox_class='fancybox-noscaling',
+                    image_class='lazy-load-carousel',
                 )
             )
             output.append(u'<div class="tc">')

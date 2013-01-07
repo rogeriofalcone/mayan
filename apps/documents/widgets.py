@@ -19,7 +19,7 @@ def document_link(document):
     return mark_safe(u'<a href="%s">%s</a>' % (reverse('document_view_simple', args=[document.pk]), document))
 
 
-def document_html_widget(document, view='document_thumbnail', click_view=None, page=DEFAULT_PAGE_NUMBER, zoom=DEFAULT_ZOOM_LEVEL, rotation=DEFAULT_ROTATION, gallery_name=None, fancybox_class='fancybox', version=None):
+def document_html_widget(document, view='document_thumbnail', click_view=None, page=DEFAULT_PAGE_NUMBER, zoom=DEFAULT_ZOOM_LEVEL, rotation=DEFAULT_ROTATION, gallery_name=None, fancybox_class='fancybox', version=None, image_class='lazy-load'):
     result = []
 
     alt_text = _(u'document page image')
@@ -49,13 +49,13 @@ def document_html_widget(document, view='document_thumbnail', click_view=None, p
 
     if click_view:
         result.append(u'<a %s class="%s" href="%s">' % (gallery_template, fancybox_class, u'%s?%s' % (reverse(click_view, args=[document.pk]), query_string)))
-    result.append(u'<img class="thin_border lazy-load" data-href="%s" src="%simages/ajax-loader.gif" alt="%s" />' % (preview_view, settings.STATIC_URL, alt_text))
+    result.append(u'<img class="thin_border %s" data-src="%s" src="%simages/ajax-loader.gif" alt="%s" />' % (image_class, preview_view, settings.STATIC_URL, alt_text))
     result.append(u'<noscript><img style="border: 1px solid black;" src="%s" alt="%s" /></noscript>' % (preview_view, alt_text))
 
     if click_view:
         result.append(u'</a>')
     result.append(u'</div>')
-
+    """
     result.append(u'''
         <script type="text/javascript">
         $(document).ready(function() {
@@ -71,12 +71,12 @@ def document_html_widget(document, view='document_thumbnail', click_view=None, p
         });
         </script>
     ''' % {
-            'url': reverse('documents-expensive-is_zoomable', args=[document.pk, version, page]),
+            'url': '#',#reverse('documents-expensive-is_zoomable', args=[document.pk, version, page]),
             'pk': document.pk,
             'page': page if page else 1,
             'plain_template': mark_safe(u''.join(plain_template)),
             'error_image': u''.join([settings.STATIC_URL, get_error_icon_url()]),
         }
     )
-
+    """
     return mark_safe(u''.join(result))
