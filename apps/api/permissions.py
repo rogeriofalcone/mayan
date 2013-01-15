@@ -24,4 +24,4 @@ class HasAPIPermission(BasePermission):
 
 namespace = PermissionNamespace('api', _(u'API'))
 
-PERMISSION_API_ACCESS = Permission.objects.register(namespace, 'api_accress', _(u'Access the API'))
+PERMISSION_API_ACCESS = Permission.objects.register(namespace, 'api_access', _(u'Access the API'))
