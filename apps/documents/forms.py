@@ -40,7 +40,7 @@ class DocumentPageImageWidget(forms.widgets.Widget):
             output = []
             output.append('<div class="full-height scrollable" style="overflow: auto;">')
 
-            output.append(document_html_widget(value.document, view='document_display', page=value.page_number, zoom=zoom, rotation=rotation))
+            output.append(document_html_widget(value.document, view='document_display', page=value.page_number, zoom=zoom, rotation=rotation, image_class='lazy-load-interactive'))
             output.append('</div>')
             return mark_safe(u''.join(output))
         else:
