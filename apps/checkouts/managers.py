@@ -7,7 +7,6 @@ from django.db import models
 from django.core.exceptions import PermissionDenied
 
 from documents.models import Document
-from history.api import create_history
 from permissions.models import Permission
 from acls.models import AccessEntry
 
@@ -17,7 +16,6 @@ from .events import (history_document_checked_in, history_document_auto_check_in
     history_document_forceful_check_in)
 from .permissions import PERMISSION_DOCUMENT_RESTRICTIONS_OVERRIDE
 
-from history.api import create_history
 logger = logging.getLogger(__name__)
 
 
