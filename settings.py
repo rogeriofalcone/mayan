@@ -2,6 +2,8 @@
 import os
 import sys
 
+from django.core.urlresolvers import reverse_lazy
+
 ugettext = lambda s: s
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), './'))
@@ -212,8 +214,8 @@ SENDFILE_BACKEND = 'sendfile.backends.simple'
 #--------- Web theme ---------------
 WEB_THEME_ENABLE_SCROLL_JS = False
 #--------- Django -------------------
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = reverse_lazy('login_view')
+LOGIN_REDIRECT_URL = reverse_lazy('home')
 #-------- LoginRequiredMiddleware ----------
 LOGIN_EXEMPT_URLS = (
     r'^favicon\.ico$',
