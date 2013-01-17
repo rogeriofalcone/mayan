@@ -14,7 +14,7 @@ from .staging import StagingFile
 from .models import (WebForm, StagingFolder, SourceTransformation,
     WatchFolder)
 from .widgets import staging_file_thumbnail
-from .links import (staging_file_preview, staging_file_delete, setup_sources,
+from .links import (staging_file_delete, setup_sources,
     setup_web_form_list, setup_staging_folder_list, setup_watch_folder_list,
     setup_source_edit, setup_source_delete, setup_source_create,
     setup_source_transformation_list, setup_source_transformation_create,

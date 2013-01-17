@@ -6,21 +6,13 @@ from documents.permissions import (PERMISSION_DOCUMENT_NEW_VERSION,
     PERMISSION_DOCUMENT_CREATE)
 from navigation.classes import Link
 
-from .icons import (icon_staging_file_preview, icon_staging_file_delete,
+from .icons import (icon_staging_file_delete,
     icon_setup_sources, icon_setup_web_form_list, icon_setup_staging_folder_list,
-    icon_setup_watch_folder_list, icon_setup_pop3_email_list,
-    icon_setup_imap_email_list, icon_setup_local_scanner_list,
-    icon_setup_local_scanners_refresh, icon_setup_source_edit,
+    icon_setup_watch_folder_list, icon_setup_source_edit,
     icon_setup_source_delete, icon_setup_source_create,
     icon_setup_source_log_list, icon_source_list, icon_upload_version,
-    icon_document_create_multiple, icon_staging_file_preview,
-    icon_staging_file_delete, icon_setup_sources, icon_setup_web_form_list,
-    icon_setup_staging_folder_list, icon_setup_watch_folder_list,
-    icon_setup_pop3_email_list, icon_setup_imap_email_list,
-    icon_setup_local_scanner_list, icon_setup_local_scanners_refresh,
-    icon_setup_source_edit, icon_setup_source_delete, icon_setup_source_create,
-    icon_setup_source_log_list, icon_source_list, icon_upload_version,
-    icon_document_create_multiple, icon_document_create_multiple, icon_create_siblings)
+    icon_document_create_multiple, icon_create_siblings)
+
 from .models import (WebForm, StagingFolder, SourceTransformation,
     WatchFolder)
 from .permissions import (PERMISSION_SOURCES_SETUP_VIEW,
@@ -32,7 +24,6 @@ setup_source_transformation_create = Link(text=_(u'add transformation'), view='s
 setup_source_transformation_edit = Link(text=_(u'edit'), view='setup_source_transformation_edit', args='transformation.pk', permissions=[PERMISSION_SOURCES_SETUP_EDIT])# 'famfam': 'shape_square_edit', 
 setup_source_transformation_delete = Link(text=_(u'delete'), view='setup_source_transformation_delete', args='transformation.pk', permissions=[PERMISSION_SOURCES_SETUP_EDIT]) #'famfam': 'shape_square_delete', 
 
-staging_file_preview = Link(text=_(u'preview'), klass='fancybox-noscaling', view='staging_file_preview', args=['source.source_type', 'source.pk', 'object.pk'], icon=icon_staging_file_preview, permissions=[PERMISSION_DOCUMENT_NEW_VERSION, PERMISSION_DOCUMENT_CREATE])
 staging_file_delete = Link(text=_(u'delete'), view='staging_file_delete', args=['source.source_type', 'source.pk', 'object.pk'], icon=icon_staging_file_delete, keep_query=True, permissions=[PERMISSION_DOCUMENT_NEW_VERSION, PERMISSION_DOCUMENT_CREATE])
 
 setup_sources = Link(text=_(u'sources'), view='setup_web_form_list', icon=icon_setup_sources, permissions=[PERMISSION_SOURCES_SETUP_VIEW])

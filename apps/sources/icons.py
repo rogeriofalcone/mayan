@@ -6,7 +6,6 @@ from icons.literals import (APPLICATION_FORM, APPLICATION_FORM_DELETE, APPLICATI
     EMAIL, FOLDER, WORLD, PRINTER, PRINTER_EMPTY, ARROW_RIGHT, PAGE_COPY)
 from icons import Icon
 
-icon_staging_file_preview = Icon(ZOOM)
 icon_staging_file_delete = Icon(DELETE)
 icon_setup_sources = Icon(APPLICATION_FORM)
 icon_setup_web_form_list = Icon(APPLICATION_FORM)

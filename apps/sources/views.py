@@ -320,6 +320,7 @@ def upload_interactive(request, source_type=None, source_id=None, document_pk=No
                             'title': _(u'files in staging path'),
                             'object_list': staging_filelist,
                             'hide_link': True,
+                            'source': staging_folder,
                         }
                     },
                 ]
