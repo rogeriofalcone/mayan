@@ -179,40 +179,46 @@
                 location.replace(this.href);
                 return false;
             });
+            function imageIsZoomable(image) {
+                // If the image is 32x32 we assume is a MIME type icon and
+                // hence not a real preview so we return that the image
+                // being examined is not zoomable
+                return !(image.width() == 32 && image.height() == 32);
+            }
             $('img.lazy-load').jail({
                 effect : "fadeIn",
                 event: "scroll",
                 callbackAfterEachImage: function(img) {
-                    if (img.width() == 32 && img.height() == 32) {
-                            // Remove border to indicate non interactive image
-                            img.removeClass('thin_border');
-                            container = img.parent().parent();
-                            // Save img HTML
-                            html = img.parent().html();
-                            // Remove anchor
-                            img.parent().remove();
-                            // Place again img
-                            container.html(html);
-                        }
+                    if (!imageIsZoomable(img)) {
+                        // Remove border to indicate non interactive image
+                        img.removeClass('thin_border');
+                        container = img.parent().parent();
+                        // Save img HTML
+                        html = img.parent().html();
+                        // Remove anchor
+                        img.parent().remove();
+                        // Place again img
+                        container.html(html);
                     }
+                }
             });
             $('img.lazy-load-carousel').jail({
                 effect : "fadeIn",
                 event: "scroll",
                 triggerElement: $(".carousel-container"),
                 callbackAfterEachImage: function(img) {
-                    if (img.width() == 32 && img.height() == 32) {
-                            // Remove border to indicate non interactive image
-                            img.removeClass('thin_border');
-                            container = img.parent().parent();
-                            // Save img HTML
-                            html = img.parent().html();
-                            // Remove anchor
-                            img.parent().remove();
-                            // Place again img
-                            container.html(html);
-                        }
+                    if (!imageIsZoomable(img)) {
+                        // Remove border to indicate non interactive image
+                        img.removeClass('thin_border');
+                        container = img.parent().parent();
+                        // Save img HTML
+                        html = img.parent().html();
+                        // Remove anchor
+                        img.parent().remove();
+                        // Place again img
+                        container.html(html);
                     }
+                }
             });
         });
     </script>
