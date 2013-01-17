@@ -55,28 +55,5 @@ def document_html_widget(document, view='document_thumbnail', click_view=None, p
     if click_view:
         result.append(u'</a>')
     result.append(u'</div>')
-    """
-    result.append(u'''
-        <script type="text/javascript">
-        $(document).ready(function() {
-            $.get('%(url)s', function(data) {})
-                .success(function(data) {
-                    if (!data.result) {
-                        $('#document-%(pk)d-%(page)d').html('%(plain_template)s');
-                    }
-                })
-                .error(function(data) {
-                    $('#document-%(pk)d-%(page)d').html('<img src="%(error_image)s" />');
-                });
-        });
-        </script>
-    ''' % {
-            'url': '#',#reverse('documents-expensive-is_zoomable', args=[document.pk, version, page]),
-            'pk': document.pk,
-            'page': page if page else 1,
-            'plain_template': mark_safe(u''.join(plain_template)),
-            'error_image': u''.join([settings.STATIC_URL, get_error_icon_url()]),
-        }
-    )
-    """
+
     return mark_safe(u''.join(result))
