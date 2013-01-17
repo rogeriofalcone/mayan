@@ -13,8 +13,8 @@ from acls.models import AccessEntry
 
 from .exceptions import DocumentNotCheckedOut
 from .literals import STATE_CHECKED_OUT, STATE_CHECKED_IN
-from .events import (HISTORY_DOCUMENT_CHECKED_IN, HISTORY_DOCUMENT_AUTO_CHECKED_IN,
-    HISTORY_DOCUMENT_FORCEFUL_CHECK_IN)
+from .events import (history_document_checked_in, history_document_auto_check_in,
+    history_document_forceful_check_in)
 from .permissions import PERMISSION_DOCUMENT_RESTRICTIONS_OVERRIDE
 
 from history.api import create_history
@@ -48,12 +48,12 @@ class DocumentCheckoutManager(models.Manager):
         else:
             if user:
                 if self.document_checkout_info(document).user_object != user:
-                    create_history(HISTORY_DOCUMENT_FORCEFUL_CHECK_IN, source_object=document, data={'user': user, 'document': document})
+                    history_document_forceful_check_in.commit(source_object=document, data={'user': user, 'document': document})
                 else:
-                    create_history(HISTORY_DOCUMENT_CHECKED_IN, source_object=document, data={'user': user, 'document': document})
+                    history_document_checked_in.commit(source_object=document, data={'user': user, 'document': document})
             else:
-                create_history(HISTORY_DOCUMENT_AUTO_CHECKED_IN, source_object=document, data={'document': document})
-                
+                history_document_auto_check_in.commit(source_object=document, data={'document': document})
+
             document_checkout.delete()
             
     def document_checkout_info(self, document):

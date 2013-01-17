@@ -10,7 +10,6 @@ from navigation.api import (bind_links, register_top_menu,
     register_sidebar_template)
 from maintenance.api import MaintenanceNamespace
 from diagnostics.api import DiagnosticNamespace
-from history.api import register_history_type
 from history.permissions import PERMISSION_HISTORY_VIEW
 from project_setup.api import register_setup
 from acls.api import class_permissions
@@ -27,8 +26,6 @@ from .permissions import (PERMISSION_DOCUMENT_CREATE,
     PERMISSION_DOCUMENT_TYPE_EDIT, PERMISSION_DOCUMENT_TYPE_DELETE,
     PERMISSION_DOCUMENT_TYPE_CREATE, PERMISSION_DOCUMENT_TYPE_VIEW,
     PERMISSION_DOCUMENT_NEW_VERSION)
-from .events import (HISTORY_DOCUMENT_CREATED,
-    HISTORY_DOCUMENT_EDITED, HISTORY_DOCUMENT_DELETED)
 from .conf import settings as document_settings
 from .widgets import document_thumbnail
 from .links import (document_list, document_list_recent,
@@ -48,11 +45,6 @@ from .links import (document_list, document_list_recent,
     document_type_edit, document_type_delete, document_type_create, 
     document_type_filename_list, document_type_filename_create, document_type_filename_edit,
     document_type_filename_delete, link_documents_menu)
-
-# History setup
-register_history_type(HISTORY_DOCUMENT_CREATED)
-register_history_type(HISTORY_DOCUMENT_EDITED)
-register_history_type(HISTORY_DOCUMENT_DELETED)
 
 # Register document type links
 bind_links([DocumentType], [document_type_edit, document_type_delete, document_type_document_list, document_type_filename_list])

@@ -28,7 +28,6 @@ from converter.office_converter import OfficeConverter
 from filetransfers.api import serve_file
 from navigation.utils import resolve_to_name
 from permissions.models import Permission
-from history.api import create_history
 from acls.models import AccessEntry
 from common.compressed_files import CompressedFile
 
@@ -42,8 +41,8 @@ from .permissions import (PERMISSION_DOCUMENT_CREATE,
     PERMISSION_DOCUMENT_EDIT, PERMISSION_DOCUMENT_VERSION_REVERT,
     PERMISSION_DOCUMENT_TYPE_EDIT, PERMISSION_DOCUMENT_TYPE_DELETE,
     PERMISSION_DOCUMENT_TYPE_CREATE, PERMISSION_DOCUMENT_TYPE_VIEW)
-from .events import (HISTORY_DOCUMENT_CREATED,
-    HISTORY_DOCUMENT_EDITED, HISTORY_DOCUMENT_DELETED)
+from .events import (history_document_created, history_document_edited,
+    history_document_deleted)
 from .forms import (DocumentTypeSelectForm,
         DocumentForm_edit, DocumentPropertiesForm,
         DocumentPreviewForm, DocumentPageForm,
@@ -186,6 +185,7 @@ def document_delete(request, document_id=None, document_id_list=None):
         for document in documents:
             try:
                 document.delete()
+                # TODO: record document deletion event
                 #create_history(HISTORY_DOCUMENT_DELETED, data={'user': request.user, 'document': document})
                 messages.success(request, _(u'Document deleted successfully.'))
             except Exception, e:
@@ -237,7 +237,7 @@ def document_edit(request, document_id):
                     document.filename = form.cleaned_data['document_type_available_filenames'].filename
 
             document.save()
-            create_history(HISTORY_DOCUMENT_EDITED, document, {'user': request.user, 'diff': return_diff(old_document, document, ['filename', 'description'])})
+            history_document_edited.commit(source_object=document, data={'user': request.user, 'diff': return_diff(old_document, document, ['filename', 'description'])})
             RecentDocument.objects.add_document_for_user(request.user, document)
 
             messages.success(request, _(u'Document "%s" edited successfully.') % document)
