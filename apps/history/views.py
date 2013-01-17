@@ -86,7 +86,7 @@ def history_view(request, object_id):
         {'label': _(u'Date'), 'field': lambda x: x.datetime.date()},
         {'label': _(u'Time'), 'field': lambda x: unicode(x.datetime.time()).split('.')[0]},
         {'label': _(u'Object'), 'field': 'content_object'},
-        {'label': _(u'Event type'), 'field': lambda x: x.get_label()},
+        {'label': _(u'Event type'), 'field': lambda x: x.history_type.label},
         {'label': _(u'Additional details'), 'field': lambda x: x.get_processed_details() or _(u'None')},
     ])
 

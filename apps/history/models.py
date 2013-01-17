@@ -10,18 +10,19 @@ from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext_lazy as _
 from django.core import serializers
 
-#from history.managers import HistoryManager
-from .runtime_data import history_types_dict
+from common.models import LocMemPropertiesMixin
 
 
-class HistoryType(models.Model):
+class HistoryType(LocMemPropertiesMixin, models.Model):
+    local_memory_properties = ['label', 'summary', 'details', 'expressions']
+
     namespace = models.CharField(max_length=64, verbose_name=_(u'namespace'))
     name = models.CharField(max_length=64, verbose_name=_(u'name'))
 
     def __unicode__(self):
-        try:
-            return unicode(history_types_dict[self.namespace][self.name]['label'])
-        except KeyError:
+        if self.label:
+            return unicode(self.label)
+        else:
             return u'obsolete history type: %s - %s' % (self.namespace, self.name)
 
     @models.permalink
@@ -36,7 +37,7 @@ class HistoryType(models.Model):
 
 
 class History(models.Model):
-    datetime = models.DateTimeField(verbose_name=_(u'date time'))
+    datetime = models.DateTimeField(verbose_name=_(u'date time'), default=lambda: datetime.now())
     content_type = models.ForeignKey(ContentType, blank=True, null=True)
     object_id = models.PositiveIntegerField(blank=True, null=True)
     content_object = generic.GenericForeignKey('content_type', 'object_id')
@@ -46,28 +47,11 @@ class History(models.Model):
     def __unicode__(self):
         return u'%s - %s - %s' % (self.datetime, self.content_object, self.history_type)
 
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.datetime = datetime.now()
-        super(History, self).save(*args, **kwargs)
-
-    def get_label(self):
-        return history_types_dict[self.history_type.namespace][self.history_type.name]['label']
-
-    def get_summary(self):
-        return history_types_dict[self.history_type.namespace][self.history_type.name].get('summary', u'')
-
-    def get_details(self):
-        return history_types_dict[self.history_type.namespace][self.history_type.name].get('details', u'')
-
-    def get_expressions(self):
-        return history_types_dict[self.history_type.namespace][self.history_type.name].get('expressions', {})
-
     def get_processed_summary(self):
-        return _process_history_text(self, self.get_summary())
+        return _process_history_text(self, self.history_type.summary)
 
     def get_processed_details(self):
-        return _process_history_text(self, self.get_details())
+        return _process_history_text(self, self.history_type.details)
 
     @models.permalink
     def get_absolute_url(self):
@@ -104,7 +88,7 @@ def _process_history_text(history, text):
     key_values.update(new_dict)
     expressions_dict = {}
 
-    for key, value in history.get_expressions().items():
+    for key, value in history.history_type.expressions.items():
         try:
             expressions_dict[key] = eval(value, key_values.copy())
         except Exception, e:
