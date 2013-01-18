@@ -50,28 +50,28 @@ def is_max_zoom(context):
 
 
 def is_current_version(context):
-    return context['object'].document.latest_version.timestamp == context['object'].timestamp
+    return context['resolved_object'].document.latest_version.timestamp == context['resolved_object'].timestamp
 
 document_list = Link(text=_(u'all documents'), view='document_list', icon=icon_documents)
 document_list_recent = Link(text=_(u'recent documents'), view='document_list_recent', icon=icon_documents)
-document_view_simple = Link(text=_(u'details'), view='document_view_simple', args='object.id', icon=icon_documents, permissions=[PERMISSION_DOCUMENT_VIEW])
+document_view_simple = Link(text=_(u'details'), view='document_view_simple', args='resolved_object.id', icon=icon_documents, permissions=[PERMISSION_DOCUMENT_VIEW])
 # TODO rename document_view_advanced to document_info
-document_view_advanced = Link(text=_(u'info'), view='document_view_advanced', args='object.id', icon=icon_document_properties, permissions=[PERMISSION_DOCUMENT_VIEW])
-document_delete = Link(text=_(u'delete'), view='document_delete', args='object.id', icon=icon_document_delete, permissions=[PERMISSION_DOCUMENT_DELETE])
+document_view_advanced = Link(text=_(u'info'), view='document_view_advanced', args='resolved_object.id', icon=icon_document_properties, permissions=[PERMISSION_DOCUMENT_VIEW])
+document_delete = Link(text=_(u'delete'), view='document_delete', args='resolved_object.id', icon=icon_document_delete, permissions=[PERMISSION_DOCUMENT_DELETE])
 document_multiple_delete = Link(text=_(u'delete'), view='document_multiple_delete', icon=icon_document_delete, permissions=[PERMISSION_DOCUMENT_DELETE])
-document_edit = Link(text=_(u'edit'), view='document_edit', args='object.id', icon=icon_document_edit, permissions=[PERMISSION_DOCUMENT_PROPERTIES_EDIT])
-document_preview = Link(text=_(u'preview'), klass='fancybox', view='document_preview', args='object.id', icon=icon_document_preview, permissions=[PERMISSION_DOCUMENT_VIEW])
+document_edit = Link(text=_(u'edit'), view='document_edit', args='resolved_object.id', icon=icon_document_edit, permissions=[PERMISSION_DOCUMENT_PROPERTIES_EDIT])
+document_preview = Link(text=_(u'preview'), klass='fancybox', view='document_preview', args='resolved_object.id', icon=icon_document_preview, permissions=[PERMISSION_DOCUMENT_VIEW])
 
-document_download = Link(text=_(u'download'), view='document_download', args='object.id', icon=icon_document_download, permissions=[PERMISSION_DOCUMENT_DOWNLOAD])
+document_download = Link(text=_(u'download'), view='document_download', args='resolved_object.id', icon=icon_document_download, permissions=[PERMISSION_DOCUMENT_DOWNLOAD])
 document_multiple_download = Link(text=_(u'download'), view='document_multiple_download', icon=icon_document_download, permissions=[PERMISSION_DOCUMENT_DOWNLOAD])
-document_version_download = Link(text=_(u'download'), view='document_version_download', args='object.pk', icon=icon_document_download, permissions=[PERMISSION_DOCUMENT_DOWNLOAD])
-document_find_duplicates = Link(text=_(u'find duplicates'), view='document_find_duplicates', args='object.id', icon=icon_find_duplicates, permissions=[PERMISSION_DOCUMENT_VIEW])
+document_version_download = Link(text=_(u'download'), view='document_version_download', args='resolved_object.pk', icon=icon_document_download, permissions=[PERMISSION_DOCUMENT_DOWNLOAD])
+document_find_duplicates = Link(text=_(u'find duplicates'), view='document_find_duplicates', args='resolved_object.id', icon=icon_find_duplicates, permissions=[PERMISSION_DOCUMENT_VIEW])
 document_find_all_duplicates = Link(text=_(u'find all duplicates'), view='document_find_all_duplicates', icon=icon_find_duplicates, permissions=[PERMISSION_DOCUMENT_VIEW], description=_(u'Search all the documents\' checksums and return a list of the exact matches.'))
 document_update_page_count = Link(text=_(u'update office documents\' page count'), view='document_update_page_count', icon=icon_document_update_page_count, permissions=[PERMISSION_DOCUMENT_TOOLS], description=_(u'Update the page count of the office type documents.  This is useful when enabling office document support after there were already office type documents in the database.'))
-document_clear_transformations = Link(text=_(u'clear transformations'), view='document_clear_transformations', args='object.id', permissions=[PERMISSION_DOCUMENT_TRANSFORM], icon=icon_transformation_clear)
+document_clear_transformations = Link(text=_(u'clear transformations'), view='document_clear_transformations', args='resolved_object.id', permissions=[PERMISSION_DOCUMENT_TRANSFORM], icon=icon_transformation_clear)
 document_multiple_clear_transformations = Link(text=_(u'clear transformations'), view='document_multiple_clear_transformations', permissions=[PERMISSION_DOCUMENT_TRANSFORM])
-document_print = Link(text=_(u'print'), view='document_print', args='object.id', icon=icon_print, permissions=[PERMISSION_DOCUMENT_VIEW])
-document_history_view = Link(text=_(u'history'), view='history_for_object', args=['"documents"', '"document"', 'object.pk'], icon=icon_history_link, permissions=[PERMISSION_HISTORY_VIEW])
+document_print = Link(text=_(u'print'), view='document_print', args='resolved_object.id', icon=icon_print, permissions=[PERMISSION_DOCUMENT_VIEW])
+document_history_view = Link(text=_(u'history'), view='history_for_object', args=['"documents"', '"document"', 'resolved_object.pk'], icon=icon_history_link, permissions=[PERMISSION_HISTORY_VIEW])
 document_missing_list = Link(text=_(u'Find missing document files'), view='document_missing_list', icon=icon_document_missing_list, description=_(u'Return a list of documents found on the database but that don\'t physically exist in the document storage.'), permissions=[PERMISSION_DOCUMENT_VIEW])
 
 # Tools
@@ -97,8 +97,8 @@ document_page_rotate_left = Link(text=_(u'rotate left'), klass='no-parent-histor
 document_page_view_reset = Link(text=_(u'reset view'), klass='no-parent-history', view='document_page_view_reset', args='page.pk', icon=icon_document_page_view_reset, permissions=[PERMISSION_DOCUMENT_VIEW])
 
 # Document versions
-document_version_list = Link(text=_(u'versions'), view='document_version_list', args='object.pk', icon=icon_versions, permissions=[PERMISSION_DOCUMENT_VIEW])
-document_version_revert = Link(text=_(u'revert'), view='document_version_revert', args='object.pk', icon=icon_version_revert, permissions=[PERMISSION_DOCUMENT_VERSION_REVERT], conditional_disable=is_current_version)
+document_version_list = Link(text=_(u'versions'), view='document_version_list', args='resolved_object.pk', icon=icon_versions, permissions=[PERMISSION_DOCUMENT_VIEW])
+document_version_revert = Link(text=_(u'revert'), view='document_version_revert', args='resolved_object.pk', icon=icon_version_revert, permissions=[PERMISSION_DOCUMENT_VERSION_REVERT], conditional_disable=is_current_version)
 
 # Document type related links
 document_type_list = Link(text=_(u'document type list'), view='document_type_list', icon=icon_document_types, permissions=[PERMISSION_DOCUMENT_TYPE_VIEW])
@@ -119,6 +119,6 @@ document_type_filename_edit = Link(text=_(u'edit'), view='document_type_filename
 document_type_filename_delete = Link(text=_(u'delete'), view='document_type_filename_delete', args='filename.id', icon=icon_document_type_filename_delete, permissions=[PERMISSION_DOCUMENT_TYPE_EDIT])
 
 link_documents_menu = Link(icon=icon_documents, text=_(u'documents'), view='document_list_recent',
-    children_url_regex=[r'^documents/[^t]', r'^metadata/[^s]', r'comments', r'tags/document', r'grouping/[^s]', r'history/list/for_object/documents'],
+    children_url_regex=[r'^documents/[^t]', r'^metadata/[^s]', r'comments', r'tags/document', r'grouping/[^s]', r'history/list/for_resolved_object/documents'],
     children_view_regex=[r'document_acl', r'smart_link_instance'],
     children_views=['document_folder_list', 'folder_add_document', 'document_index_list', 'upload_version', ])
