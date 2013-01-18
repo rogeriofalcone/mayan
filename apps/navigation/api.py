@@ -110,13 +110,12 @@ def get_context_navigation_links(context, menu_name=None, links_dict=bound_links
 
     for resolved_object, object_properties in get_navigation_objects(context).items():
         try:
-            resolved_object_reference = resolved_object
-            object_links = links_dict[menu_name][type(resolved_object_reference)]['links']
+            object_links = links_dict[menu_name][type(resolved_object)]['links']
             if object_links:
-                context_links.setdefault(resolved_object_reference, [])
+                context_links.setdefault(resolved_object, [])
 
             for link in object_links:
-                context_links[resolved_object_reference].append(link.resolve(context, request=request, current_path=current_path, current_view=current_view))
+                context_links[resolved_object].append(link.resolve(context, request=request, current_path=current_path, current_view=current_view, resolved_object=resolved_object))
         except KeyError:
             pass
 
