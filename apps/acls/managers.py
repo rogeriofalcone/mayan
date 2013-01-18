@@ -10,10 +10,11 @@ from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 
+from common.classes import EncapsulatedObject
 from common.models import AnonymousUserSingleton
 from permissions.models import Permission, RoleMember
 
-from .classes import AccessHolder, ClassAccessHolder, get_source_object
+from .classes import AccessHolder, ClassAccessHolder
 
 logger = logging.getLogger(__name__)
 
@@ -27,8 +28,8 @@ class AccessEntryManager(models.Manager):
         """
         Grant a permission (what), (to) an actor, (on) a specific object
         """
-        obj = get_source_object(obj)
-        actor = get_source_object(actor)
+        obj = EncapsulatedObject.get_source_object(obj)
+        actor = EncapsulatedObject.get_source_object(actor)
 
         access_entry, created = self.model.objects.get_or_create(
             permission=permission,
@@ -43,8 +44,8 @@ class AccessEntryManager(models.Manager):
         """
         Revoke a permission (what), (from) an actor, (on) a specific object
         """
-        obj = get_source_object(obj)
-        actor = get_source_object(actor)
+        obj = EncapsulatedObject.get_source_object(obj)
+        actor = EncapsulatedObject.get_source_object(actor)
 
         try:
             access_entry = self.model.objects.get(
@@ -64,8 +65,8 @@ class AccessEntryManager(models.Manager):
         """
         Returns whether an actor has a specific permission for an object
         """
-        obj = get_source_object(obj)
-        actor = get_source_object(actor)
+        obj = EncapsulatedObject.get_source_object(obj)
+        actor = EncapsulatedObject.get_source_object(actor)
 
         if isinstance(actor, User) and db_only == False:
             # db_only causes the return of only the stored permissions
@@ -109,8 +110,8 @@ class AccessEntryManager(models.Manager):
 
     def check_access(self, permission, actor, obj):
         # TODO: Merge with has_access
-        obj = get_source_object(obj)
-        actor = get_source_object(actor)
+        obj = EncapsulatedObject.get_source_object(obj)
+        actor = EncapsulatedObject.get_source_object(actor)
 
         if self.has_access(permission, actor, obj):
             return True
@@ -121,8 +122,8 @@ class AccessEntryManager(models.Manager):
         """
         Returns whether an actor has at least one of a list of permissions for an object
         """
-        obj = get_source_object(obj)
-        actor = get_source_object(actor)
+        obj = EncapsulatedObject.get_source_object(obj)
+        actor = EncapsulatedObject.get_source_object(actor)
         for permission in permission_list:
             if self.has_access(permission, actor, obj):
                 return True
@@ -262,7 +263,7 @@ class DefaultAccessEntryManager(models.Manager):
     content type is created.
     """
     def get_holders_for(self, cls):
-        cls = get_source_object(cls)
+        cls = EncapsulatedObject.get_source_object(cls)
         content_type = ContentType.objects.get_for_model(cls)
         holder_list = []
         for access_entry in self.model.objects.filter(content_type=content_type):

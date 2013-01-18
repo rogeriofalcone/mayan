@@ -4,17 +4,17 @@ import logging
 
 from django.contrib.contenttypes.models import ContentType
 
+from common.classes import EncapsulatedObject
 from common.models import AnonymousUserSingleton
 
 from .models import AccessEntry, DefaultAccessEntry, CreatorSingleton
-from .classes import get_source_object
 
 logger = logging.getLogger(__name__)
 
 
 def apply_default_acls(obj, actor=None):
     logger.debug('actor, init: %s' % actor)
-    obj = get_source_object(obj)
+    obj = EncapsulatedObject.get_source_object(obj)
 
     if actor:
         actor = AnonymousUserSingleton.objects.passthru_check(actor)
