@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 from django.contrib import messages
+from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -46,7 +47,10 @@ def formats_list(request):
         raise PermissionDenied
 
 
-def transformation_list_for(request, obj, extra_context=None):
+def transformation_list(request, app_label, module_name, object_pk):
+    content_type = get_object_or_404(ContentType, app_label=app_label, model=module_name)
+    obj = get_object_or_404(content_type.model_class(), pk=object_pk)
+    
     try:
         Permission.objects.check_permissions(request.user, [PERMISSION_TRANSFORMATION_VIEW])
     except PermissionDenied:
@@ -54,29 +58,24 @@ def transformation_list_for(request, obj, extra_context=None):
 
     context = {
         'object_list': Transformation.objects.for_model(obj),
-        'title': _(u'transformations for: %s' % obj),
+        'title': _(u'transformatioeens for: %s' % obj),
         'extra_columns': [
             {'name': _(u'order'), 'attribute': 'order'},
             {'name': _(u'transformation'), 'attribute': encapsulate(lambda x: x.get_transformation_display())},
             {'name': _(u'arguments'), 'attribute': 'arguments'}
         ],
         'hide_object': True,
-        'source_object': TransformationSourceObject.encapsulate(obj),
         'object': obj,
-        'navigation_object_list': [
-            {'object': 'object'},
-            {'object': 'source_object'}
-        ],
     }
-
-    if extra_context:
-        context.update(extra_context)
 
     return render_to_response('generic_list.html', context,
         context_instance=RequestContext(request))
 
 
-def transformation_create_for(request, obj, extra_context=None, navigation_object=None):
+def transformation_create(request, app_label, module_name, object_pk):
+    content_type = get_object_or_404(ContentType, app_label=app_label, model=module_name)
+    obj = get_object_or_404(content_type.model_class(), pk=object_pk)
+
     try:
         Permission.objects.check_permissions(request.user, [PERMISSION_TRANSFORMATION_CREATE])
     except PermissionDenied:
@@ -101,29 +100,11 @@ def transformation_create_for(request, obj, extra_context=None, navigation_objec
     context = {
         'form': form,
         'title': _(u'add transformation for: %s') % obj,
-        'submit_label': _(u'Select'),
         'object': obj,
-        'source_object': TransformationSourceObject.encapsulate(obj),
-        'navigation_object_list': [
-            {'object': 'object'},
-            {'object': 'source_object'},
-        ],
     }
-
-    if extra_context:
-        context.update(extra_context)
 
     return render_to_response('generic_form.html', context,
         context_instance=RequestContext(request))
-        
-
-def transformation_create(request, source_gid):
-    try:
-        source = TransformationSourceObject.get(gid=source_gid)
-    except ObjectDoesNotExist:
-        raise Http404
-
-    return transformation_create_for(request, source.source_object)
 
 
 def transformation_edit(request, transformation_pk):
@@ -178,11 +159,11 @@ def transformation_delete(request, transformation_pk):
 
     return render_to_response('generic_confirm.html', {
         'delete_view': True,
-        'transformation': source_transformation,
-        'source': source_transformation.content_object,
+        'source_object': source_transformation.content_object,
+        'object': source_transformation,
         'navigation_object_list': [
-            {'object': 'source', 'name': _(u'source')},
-            {'object': 'transformation', 'name': _(u'transformation')}
+            {'object': 'source_object'},
+            {'object': 'object'},
         ],
         'title': _(u'Are you sure you wish to delete source transformation "%(transformation)s"') % {
             'transformation': source_transformation.get_transformation_display(),

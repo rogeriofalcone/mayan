@@ -13,7 +13,7 @@ from .classes import TransformationSourceObject
 
 register_sidebar_template(['formats_list'], 'converter_file_formats_help.html')
 
-bind_links([TransformationSourceObject], [link_transformation_create], menu_name='sidebar')
+bind_links(['transformation_create', 'transformation_list', 'transformation_edit', 'transformation_delete'], [link_transformation_create], menu_name='sidebar')
 bind_links([Transformation], [link_transformation_edit, link_transformation_delete])
 
 register_tool(link_formats_list)

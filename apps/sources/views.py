@@ -16,7 +16,7 @@ import sendfile
 
 from acls.models import AccessEntry
 from common.utils import encapsulate
-from converter.views import transformation_list_for
+#from converter.views import transformation_list_for
 from documents.permissions import (PERMISSION_DOCUMENT_CREATE,
     PERMISSION_DOCUMENT_NEW_VERSION)
 from documents.models import DocumentType, Document
@@ -609,12 +609,17 @@ def source_transformation_list(request, source_type, source_id):
 
     source = get_object_or_404(cls, pk=source_id)
 
-    return transformation_list_for(
-        request,
-        source,
-        extra_context={
-            'object': source,
-            'object_name': _(u'source'),
-            'source_type': source_type,            
-        }
-    )
+    return render_to_response('generic_form.html', {
+        'title': _(u'Create new source of type: %s') % cls.class_fullname(),
+    },
+    context_instance=RequestContext(request))
+    
+    #return transformation_list_for(
+    #    request,
+    #    source,
+    #    extra_context={
+    #        'object': source,
+    #        'object_name': _(u'source'),
+    #        'source_type': source_type,
+    #    }
+    #)
