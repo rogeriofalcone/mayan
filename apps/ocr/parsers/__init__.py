@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 import os
 import slate
 import logging
@@ -6,15 +8,15 @@ import subprocess
 
 from django.utils.translation import ugettext as _
 
-from converter import office_converter
-from converter.office_converter import OfficeConverter
-from converter.exceptions import OfficeConversionError
-from documents.utils import document_save_to_temp_dir
 from common.utils import copyfile
 from common.conf.settings import TEMPORARY_DIRECTORY
+from converter.exceptions import OfficeConversionError
+from converter.office_converter import CONVERTER_OFFICE_FILE_MIMETYPES
+from converter.runtime import office_converter
+from documents.utils import document_save_to_temp_dir
 
-from ocr.parsers.exceptions import ParserError, ParserUnknownFile
-from ocr.conf.settings import PDFTOTEXT_PATH
+from .exceptions import ParserError, ParserUnknownFile
+from ..conf.settings import PDFTOTEXT_PATH
 
 
 mimetype_registry = {}
@@ -95,7 +97,7 @@ class OfficeParser(Parser):
     def parse(self, document_page, descriptor=None):
         logger.debug('executing')
         try:
-            office_converter = OfficeConverter()
+            #office_converter = OfficeConverter()
             document_file = document_save_to_temp_dir(document_page.document, document_page.document.checksum)
             logger.debug('document_file: %s', document_file)
 
@@ -166,4 +168,4 @@ class PopplerParser(Parser):
 
 
 register_parser(mimetypes=[u'application/pdf'], parsers=[PopplerParser, SlateParser])
-register_parser(mimetypes=office_converter.CONVERTER_OFFICE_FILE_MIMETYPES, parsers=[OfficeParser])
+register_parser(mimetypes=CONVERTER_OFFICE_FILE_MIMETYPES, parsers=[OfficeParser])

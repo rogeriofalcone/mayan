@@ -10,12 +10,12 @@ from common.conf.settings import TEMPORARY_DIRECTORY
 
 from .literals import (DEFAULT_PAGE_NUMBER,
     DEFAULT_ZOOM_LEVEL, DEFAULT_ROTATION, DEFAULT_FILE_FORMAT)
-from . import backend
 from .literals import (TRANSFORMATION_CHOICES, TRANSFORMATION_RESIZE,
     TRANSFORMATION_ROTATE, TRANSFORMATION_ZOOM, DIMENSION_SEPARATOR,
     FILE_FORMATS)
 from .utils import cleanup
-from .runtime import office_converter
+from .runtime import backend, office_converter
+
 from .exceptions import OfficeConversionError, UnknownFileFormat
 
 HASH_FUNCTION = lambda x: hashlib.sha256(x).hexdigest()
@@ -39,6 +39,7 @@ def create_image_cache_filename(input_filepath, *args, **kwargs):
 
 
 def convert(input_filepath, output_filepath=None, cleanup_files=False, mimetype=None, *args, **kwargs):
+    
     size = kwargs.get('size')
     file_format = kwargs.get('file_format', DEFAULT_FILE_FORMAT)
     zoom = kwargs.get('zoom', DEFAULT_ZOOM_LEVEL)

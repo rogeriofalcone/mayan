@@ -7,26 +7,27 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
+from django.utils.http import urlencode
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext
-from django.utils.safestring import mark_safe
-from django.utils.http import urlencode
 
 import sendfile
 
+from acls.models import AccessEntry
+from common.utils import encapsulate
+from converter.views import transformation_list_for
 from documents.permissions import (PERMISSION_DOCUMENT_CREATE,
     PERMISSION_DOCUMENT_NEW_VERSION)
 from documents.models import DocumentType, Document
 from documents.conf.settings import THUMBNAIL_SIZE
 from documents.exceptions import NewDocumentVersionNotAllowed
 from documents.forms import DocumentTypeSelectForm
+from icons.classes import Icon
 from metadata.api import decode_metadata_from_url, metadata_repr_as_list
 from metadata.forms import MetadataFormSet, MetadataSelectionForm
-from permissions.models import Permission
-from common.utils import encapsulate
-from acls.models import AccessEntry
 from navigation.classes import Link
-from icons.classes import Icon
+from permissions.models import Permission
 
 from .forms import (StagingDocumentForm, WebFormForm,
     WatchFolderSetupForm)
@@ -510,8 +511,7 @@ def setup_source_edit(request, source_type, source_id):
     return render_to_response('generic_form.html', {
         'title': _(u'edit source: %s') % source.fullname(),
         'form': form,
-        'source': source,
-        'navigation_object_name': 'source',
+        'object': source,
         'next': next,
         'object_name': _(u'source'),
         'source_type': source_type,
@@ -553,9 +553,8 @@ def setup_source_delete(request, source_type, source_id):
 
     context = {
         'title': _(u'Are you sure you wish to delete the source: %s?') % source.fullname(),
-        'source': source,
+        'object': source,
         'object_name': _(u'source'),
-        'navigation_object_name': 'source',
         'delete_view': True,
         'previous': previous,
         'form_icon': form_icon,
@@ -600,9 +599,7 @@ def setup_source_create(request, source_type):
     context_instance=RequestContext(request))
 
 
-def setup_source_transformation_list(request, source_type, source_id):
-    Permission.objects.check_permissions(request.user, [PERMISSION_SOURCES_SETUP_EDIT])
-
+def source_transformation_list(request, source_type, source_id):
     if source_type == SOURCE_CHOICE_WEB_FORM:
         cls = WebForm
     elif source_type == SOURCE_CHOICE_STAGING:
@@ -612,125 +609,12 @@ def setup_source_transformation_list(request, source_type, source_id):
 
     source = get_object_or_404(cls, pk=source_id)
 
-    context = {
-        'object_list': SourceTransformation.transformations.get_for_object(source),
-        'title': _(u'transformations for: %s') % source.fullname(),
-        'source': source,
-        'object_name': _(u'source'),
-        'navigation_object_name': 'source',
-        'list_object_variable_name': 'transformation',
-        'extra_columns': [
-            {'name': _(u'order'), 'attribute': 'order'},
-            {'name': _(u'transformation'), 'attribute': encapsulate(lambda x: x.get_transformation_display())},
-            {'name': _(u'arguments'), 'attribute': 'arguments'}
-            ],
-        'hide_link': True,
-        'hide_object': True,
-    }
-
-    return render_to_response('generic_list.html', context,
-        context_instance=RequestContext(request))
-
-
-def setup_source_transformation_edit(request, transformation_id):
-    Permission.objects.check_permissions(request.user, [PERMISSION_SOURCES_SETUP_EDIT])
-
-    source_transformation = get_object_or_404(SourceTransformation, pk=transformation_id)
-    redirect_view = reverse('setup_source_transformation_list', args=[source_transformation.content_object.source_type, source_transformation.content_object.pk])
-    next = request.POST.get('next', request.GET.get('next', request.META.get('HTTP_REFERER', redirect_view)))
-
-    if request.method == 'POST':
-        form = SourceTransformationForm(instance=source_transformation, data=request.POST)
-        if form.is_valid():
-            try:
-                form.save()
-                messages.success(request, _(u'Source transformation edited successfully'))
-                return HttpResponseRedirect(next)
-            except Exception, e:
-                messages.error(request, _(u'Error editing source transformation; %s') % e)
-    else:
-        form = SourceTransformationForm(instance=source_transformation)
-
-    return render_to_response('generic_form.html', {
-        'title': _(u'Edit transformation: %s') % source_transformation,
-        'form': form,
-        'source': source_transformation.content_object,
-        'transformation': source_transformation,
-        'navigation_object_list': [
-            {'object': 'source', 'name': _(u'source')},
-            {'object': 'transformation', 'name': _(u'transformation')}
-        ],
-        'next': next,
-    },
-    context_instance=RequestContext(request))
-
-
-def setup_source_transformation_delete(request, transformation_id):
-    Permission.objects.check_permissions(request.user, [PERMISSION_SOURCES_SETUP_EDIT])
-
-    source_transformation = get_object_or_404(SourceTransformation, pk=transformation_id)
-    redirect_view = reverse('setup_source_transformation_list', args=[source_transformation.content_object.source_type, source_transformation.content_object.pk])
-    previous = request.POST.get('previous', request.GET.get('previous', request.META.get('HTTP_REFERER', redirect_view)))
-
-    if request.method == 'POST':
-        try:
-            source_transformation.delete()
-            messages.success(request, _(u'Source transformation deleted successfully.'))
-        except Exception, e:
-            messages.error(request, _(u'Error deleting source transformation; %(error)s') % {
-                'error': e}
-            )
-        return HttpResponseRedirect(redirect_view)
-
-    return render_to_response('generic_confirm.html', {
-        'delete_view': True,
-        'transformation': source_transformation,
-        'source': source_transformation.content_object,
-        'navigation_object_list': [
-            {'object': 'source', 'name': _(u'source')},
-            {'object': 'transformation', 'name': _(u'transformation')}
-        ],
-        'title': _(u'Are you sure you wish to delete source transformation "%(transformation)s"') % {
-            'transformation': source_transformation.get_transformation_display(),
-        },
-        'previous': previous,
-        'form_icon': icon_transformation_delete,
-    },
-    context_instance=RequestContext(request))
-
-
-def setup_source_transformation_create(request, source_type, source_id):
-    Permission.objects.check_permissions(request.user, [PERMISSION_SOURCES_SETUP_EDIT])
-
-    if source_type == SOURCE_CHOICE_WEB_FORM:
-        cls = WebForm
-    elif source_type == SOURCE_CHOICE_STAGING:
-        cls = StagingFolder
-    elif source_type == SOURCE_CHOICE_WATCH:
-        cls = WatchFolder
-
-    source = get_object_or_404(cls, pk=source_id)
-
-    redirect_view = reverse('setup_source_transformation_list', args=[source.source_type, source.pk])
-
-    if request.method == 'POST':
-        form = SourceTransformationForm_create(request.POST)
-        if form.is_valid():
-            try:
-                source_tranformation = form.save(commit=False)
-                source_tranformation.content_object = source
-                source_tranformation.save()
-                messages.success(request, _(u'Source transformation created successfully'))
-                return HttpResponseRedirect(redirect_view)
-            except Exception, e:
-                messages.error(request, _(u'Error creating source transformation; %s') % e)
-    else:
-        form = SourceTransformationForm_create()
-
-    return render_to_response('generic_form.html', {
-        'form': form,
-        'source': source,
-        'object_name': _(u'source'),
-        'navigation_object_name': 'source',
-        'title': _(u'Create new transformation for source: %s') % source,
-    }, context_instance=RequestContext(request))
+    return transformation_list_for(
+        request,
+        source,
+        extra_context={
+            'object': source,
+            'object_name': _(u'source'),
+            'source_type': source_type,            
+        }
+    )
