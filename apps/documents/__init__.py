@@ -4,30 +4,17 @@ import tempfile
 
 from django.utils.translation import ugettext_lazy as _
 
+from acls.api import class_permissions
 from common.utils import validate_path, encapsulate
+from diagnostics.api import DiagnosticNamespace
+from dynamic_search.classes import SearchModel
+from history.permissions import PERMISSION_HISTORY_VIEW
+from maintenance.api import MaintenanceNamespace
 from navigation.api import (bind_links, register_top_menu,
     register_model_list_columns, register_multi_item_links,
     register_sidebar_template)
-from maintenance.api import MaintenanceNamespace
-from diagnostics.api import DiagnosticNamespace
-from history.permissions import PERMISSION_HISTORY_VIEW
 from project_setup.api import register_setup
-from acls.api import class_permissions
-from dynamic_search.classes import SearchModel
 
-from .models import (Document, DocumentPage,
-    DocumentPageTransformation, DocumentType, DocumentTypeFilename,
-    DocumentVersion)
-from .permissions import (PERMISSION_DOCUMENT_CREATE,
-    PERMISSION_DOCUMENT_PROPERTIES_EDIT, PERMISSION_DOCUMENT_VIEW,
-    PERMISSION_DOCUMENT_DELETE, PERMISSION_DOCUMENT_DOWNLOAD,
-    PERMISSION_DOCUMENT_TRANSFORM, PERMISSION_DOCUMENT_TOOLS,
-    PERMISSION_DOCUMENT_EDIT, PERMISSION_DOCUMENT_VERSION_REVERT,
-    PERMISSION_DOCUMENT_TYPE_EDIT, PERMISSION_DOCUMENT_TYPE_DELETE,
-    PERMISSION_DOCUMENT_TYPE_CREATE, PERMISSION_DOCUMENT_TYPE_VIEW,
-    PERMISSION_DOCUMENT_NEW_VERSION)
-from .conf import settings as document_settings
-from .widgets import document_thumbnail
 from .links import (document_list, document_list_recent,
     document_view_simple, document_view_advanced,
     document_delete, document_multiple_delete, document_edit, document_preview,
@@ -45,6 +32,19 @@ from .links import (document_list, document_list_recent,
     document_type_edit, document_type_delete, document_type_create, 
     document_type_filename_list, document_type_filename_create, document_type_filename_edit,
     document_type_filename_delete, link_documents_menu)
+from .models import (Document, DocumentPage,
+    DocumentPageTransformation, DocumentType, DocumentTypeFilename,
+    DocumentVersion)
+from .permissions import (PERMISSION_DOCUMENT_CREATE,
+    PERMISSION_DOCUMENT_PROPERTIES_EDIT, PERMISSION_DOCUMENT_VIEW,
+    PERMISSION_DOCUMENT_DELETE, PERMISSION_DOCUMENT_DOWNLOAD,
+    PERMISSION_DOCUMENT_TRANSFORM, PERMISSION_DOCUMENT_TOOLS,
+    PERMISSION_DOCUMENT_EDIT, PERMISSION_DOCUMENT_VERSION_REVERT,
+    PERMISSION_DOCUMENT_TYPE_EDIT, PERMISSION_DOCUMENT_TYPE_DELETE,
+    PERMISSION_DOCUMENT_TYPE_CREATE, PERMISSION_DOCUMENT_TYPE_VIEW,
+    PERMISSION_DOCUMENT_NEW_VERSION)
+from .conf import settings as document_settings
+from .widgets import document_thumbnail
 
 # Register document type links
 bind_links([DocumentType], [document_type_edit, document_type_delete, document_type_document_list, document_type_filename_list])
@@ -77,7 +77,11 @@ bind_links([DocumentPage], [
     document_page_navigation_next, document_page_navigation_last
 ], menu_name='sidebar')
 
-bind_links(['document_page_view'], [document_page_rotate_left, document_page_rotate_right, document_page_zoom_in, document_page_zoom_out, document_page_view_reset], menu_name='form_header')
+# Document page rotation and zoom links
+bind_links(['document_page_view'], [
+    document_page_rotate_left, document_page_rotate_right, document_page_zoom_in,
+    document_page_zoom_out, document_page_view_reset
+], menu_name='form_header')
 
 bind_links([DocumentPageTransformation], [document_page_transformation_edit, document_page_transformation_delete])
 bind_links(['document_page_transformation_list'], [document_page_transformation_create], menu_name='sidebar')
