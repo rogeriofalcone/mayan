@@ -6,13 +6,15 @@ from django.utils.translation import ugettext_lazy as _
 
 from acls.api import class_permissions
 from common.utils import validate_path, encapsulate
+from converter.classes import MenuLessObject
+from converter.links import link_transformation_list
 from diagnostics.api import DiagnosticNamespace
 from dynamic_search.classes import SearchModel
 from history.permissions import PERMISSION_HISTORY_VIEW
 from maintenance.api import MaintenanceNamespace
 from navigation.api import (bind_links, register_top_menu,
     register_model_list_columns, register_multi_item_links,
-    register_sidebar_template)
+    register_sidebar_template, Combined)
 from project_setup.api import register_setup
 
 from .links import (document_list, document_list_recent,
@@ -67,7 +69,7 @@ bind_links([Document], secondary_menu_links, menu_name='secondary_menu')
 
 # Document page links
 bind_links([DocumentPage], [
-    document_page_transformation_list, document_page_view,
+    link_transformation_list, document_page_view,
     document_page_text, document_page_edit,
 ])
 
@@ -75,13 +77,16 @@ bind_links([DocumentPage], [
 bind_links([DocumentPage], [
     document_page_navigation_first, document_page_navigation_previous,
     document_page_navigation_next, document_page_navigation_last
-], menu_name='sidebar')
+], menu_name='secondary_menu')
 
 # Document page rotation and zoom links
-bind_links(['document_page_view'], [
+bind_links([Combined(DocumentPage, 'document_page_view')], [
     document_page_rotate_left, document_page_rotate_right, document_page_zoom_in,
     document_page_zoom_out, document_page_view_reset
 ], menu_name='form_header')
+
+# Don't show menus when showing this objects' tranformaton views
+MenuLessObject(DocumentPage)
 
 bind_links([DocumentPageTransformation], [document_page_transformation_edit, document_page_transformation_delete])
 bind_links(['document_page_transformation_list'], [document_page_transformation_create], menu_name='sidebar')
