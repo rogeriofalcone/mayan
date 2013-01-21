@@ -26,7 +26,6 @@ icon_upload_version = Icon(PAGE_ADD)
 icon_document_create_multiple = Icon(PAGE_ADD)
 
 icon_cross = Icon(CROSS)
-icon_transformation_delete = Icon(DELETE)
 
 icon_source_icon_disk = Icon(DISK)
 icon_source_icon_database = Icon(DATABASE)

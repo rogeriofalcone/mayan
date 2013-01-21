@@ -16,7 +16,6 @@ import sendfile
 
 from acls.models import AccessEntry
 from common.utils import encapsulate
-#from converter.views import transformation_list_for
 from documents.permissions import (PERMISSION_DOCUMENT_CREATE,
     PERMISSION_DOCUMENT_NEW_VERSION)
 from documents.models import DocumentType, Document
@@ -33,8 +32,8 @@ from .forms import (StagingDocumentForm, WebFormForm,
     WatchFolderSetupForm)
 from .forms import WebFormSetupForm, StagingFolderSetupForm
 from .forms import SourceTransformationForm, SourceTransformationForm_create
-from .icons import (icon_staging_file_delete, icon_transformation_delete,
-    icon_setup_web_form_delete, icon_setup_staging_folder_delete)
+from .icons import (icon_staging_file_delete, icon_setup_web_form_delete,
+    icon_setup_staging_folder_delete)
 from .literals import (SOURCE_CHOICE_WEB_FORM, SOURCE_CHOICE_STAGING,
     SOURCE_CHOICE_WATCH)
 from .literals import (SOURCE_UNCOMPRESS_CHOICE_Y,
@@ -597,29 +596,3 @@ def setup_source_create(request, source_type):
         'navigation_object_name': 'source',
     },
     context_instance=RequestContext(request))
-
-
-def source_transformation_list(request, source_type, source_id):
-    if source_type == SOURCE_CHOICE_WEB_FORM:
-        cls = WebForm
-    elif source_type == SOURCE_CHOICE_STAGING:
-        cls = StagingFolder
-    elif source_type == SOURCE_CHOICE_WATCH:
-        cls = WatchFolder
-
-    source = get_object_or_404(cls, pk=source_id)
-
-    return render_to_response('generic_form.html', {
-        'title': _(u'Create new source of type: %s') % cls.class_fullname(),
-    },
-    context_instance=RequestContext(request))
-    
-    #return transformation_list_for(
-    #    request,
-    #    source,
-    #    extra_context={
-    #        'object': source,
-    #        'object_name': _(u'source'),
-    #        'source_type': source_type,
-    #    }
-    #)

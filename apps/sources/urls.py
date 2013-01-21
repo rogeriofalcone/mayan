@@ -31,6 +31,4 @@ urlpatterns = patterns('sources.views',
 
     url(r'^setup/interactive/web_form/create/$', 'setup_source_create', {'source_type': SOURCE_CHOICE_WEB_FORM}, 'setup_source_create_web_form'),
     url(r'^setup/interactive/staging_folder/create/$', 'setup_source_create', {'source_type': SOURCE_CHOICE_STAGING}, 'setup_source_create_staging_folder'),
-
-    url(r'^setup/interactive/(?P<source_type>\w+)/(?P<source_id>\d+)/transformation/list/$', 'source_transformation_list', (), 'source_transformation_list'),
 )
