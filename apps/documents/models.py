@@ -600,27 +600,6 @@ class DocumentPage(models.Model):
         return self.page_number >= self.document_version.pages.count()
 
 
-class ArgumentsValidator(object):
-    message = _(u'Enter a valid value.')
-    code = 'invalid'
-
-    def __init__(self, message=None, code=None):
-        if message is not None:
-            self.message = message
-        if code is not None:
-            self.code = code
-
-    def __call__(self, value):
-        """
-        Validates that the input evaluates correctly.
-        """
-        value = value.strip()
-        try:
-            literal_eval(value)
-        except (ValueError, SyntaxError):
-            raise ValidationError(self.message, code=self.code)
-
-
 class RecentDocument(models.Model):
     """
     Keeps a list of the n most recent accessed or created document for
