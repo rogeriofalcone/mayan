@@ -20,11 +20,6 @@ document_queue_enable = Link(text=_(u'activate queue'), view='document_queue_ena
 queue_document_list = Link(text=_(u'queue document list'), view='queue_document_list', permissions=[PERMISSION_OCR_DOCUMENT])
 ocr_tool_link = Link(text=_(u'OCR'), view='queue_document_list', icon=icon_submit_document, permissions=[PERMISSION_OCR_DOCUMENT], children_view_regex=[r'queue_', r'document_queue'])
 
-setup_queue_transformation_list = Link(text=_(u'transformations'), view='setup_queue_transformation_list', args='queue.pk')
-setup_queue_transformation_create = Link(text=_(u'add transformation'), view='setup_queue_transformation_create', args='queue.pk')
-setup_queue_transformation_edit = Link(text=_(u'edit'), view='setup_queue_transformation_edit', args='transformation.pk')
-setup_queue_transformation_delete = Link(text=_(u'delete'), view='setup_queue_transformation_delete', args='transformation.pk')
-
 submit_document = Link(text=_('submit to OCR queue'), view='submit_document', args='object.id', icon=icon_submit_document, permissions=[PERMISSION_OCR_DOCUMENT])
 submit_document_multiple = Link(text=_('submit to OCR queue'), view='submit_document_multiple', icon=icon_submit_document, permissions=[PERMISSION_OCR_DOCUMENT])
 
