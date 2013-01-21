@@ -6,10 +6,6 @@ from south.db import db
 from south.v2 import DataMigration
 from django.db import models
 
-from documents.models import DocumentPageTransformation, DocumentPage
-from sources.models import SourceTransformation
-from ocr.models import QueueTransformation
-
 from ..models import Transformation
 
 
@@ -20,7 +16,7 @@ class Migration(DataMigration):
         # Note: Remember to use orm['appname.ModelName'] rather than "from appname.models..."
         
         # Get document pages' tranformations
-        for document_page_transformation in DocumentPageTransformation.objects.all():
+        for document_page_transformation in orm['documents.DocumentPageTransformation'].objects.all():
             try:
                 transformation = Transformation.objects.create(
                     content_object=document_page_transformation.document_page,
@@ -28,11 +24,11 @@ class Migration(DataMigration):
                     arguments=document_page_transformation.arguments,
                     order=document_page_transformation.order,
                 )
-            except DocumentPage.DoesNotExist:
+            except orm['documents.DocumentPage'].DoesNotExist:
                 pass
 
         # Get sources' tranformations
-        for source_transformation in SourceTransformation.objects.all():
+        for source_transformation in orm['sources.SourceTransformation'].objects.all():
             transformation = Transformation.objects.create(
                 content_object=source_transformation.content_object,
                 transformation=source_transformation.transformation,
@@ -41,7 +37,7 @@ class Migration(DataMigration):
             )
 
         # Get queues' tranformations
-        for queue_transformation in QueueTransformation.objects.all():
+        for queue_transformation in orm['ocr.QueueTransformation'].objects.all():
             transformation = Transformation.objects.create(
                 content_object=queue_transformation.content_object,
                 transformation=queue_transformation.transformation,
