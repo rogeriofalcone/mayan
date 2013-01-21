@@ -13,7 +13,6 @@ from django.core.exceptions import ValidationError
 
 from documents.models import Document
 from converter.api import get_available_transformations_choices
-from sources.managers import SourceTransformationManager
 
 from .literals import (DOCUMENTQUEUE_STATE_STOPPED,
     DOCUMENTQUEUE_STATE_CHOICES, QUEUEDOCUMENT_STATE_PENDING,
