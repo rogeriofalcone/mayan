@@ -1,19 +1,17 @@
 from __future__ import absolute_import
 
-from common.classes import EncapsulatedObject
 
+class MenuLessObject(object):
+    """
+    A simple class to hold the list of object for which a top menu
+    navigation will be supressed
+    """
+    _objects = []
 
-#class AccessHolder(EncapsulatedObject):
-#    source_object_name = u'holder_object'
+    @classmethod
+    def get_all_objects(cls):
+        return tuple(cls._objects)
 
-
-class TransformationSourceObject(EncapsulatedObject):
-    source_object_name = u'obj'
-
-
-#class AccessObjectClass(EncapsulatedObject):
-#    source_object_name = u'cls'
-
-
-#class ClassAccessHolder(EncapsulatedObject):
-#    source_object_name = u'class_holder'
+    def __init__(self, obj):
+        self.obj = obj
+        self.__class__._objects.append(obj)

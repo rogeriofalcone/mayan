@@ -14,7 +14,7 @@ from common.utils import encapsulate
 from permissions.models import Permission
 
 from .api import get_format_list
-from .classes import TransformationSourceObject
+from .classes import MenuLessObject
 from .conf.settings import GRAPHICS_BACKEND
 from .forms import TransformationForm_create, TransformationForm
 from .models import Transformation
@@ -70,6 +70,9 @@ def transformation_list(request, app_label, module_name, object_pk):
             {'object': 'source_object'},
         ],            
     }
+    
+    if isinstance(content_object, MenuLessObject.get_all_objects()):
+        context['web_theme_hide_menus'] = True
 
     return render_to_response('generic_list.html', context,
         context_instance=RequestContext(request))
@@ -110,6 +113,9 @@ def transformation_create(request, app_label, module_name, object_pk):
         ],  
         'previous': previous,
     }
+    
+    if isinstance(content_object, MenuLessObject.get_all_objects()):
+        context['web_theme_hide_menus'] = True
 
     return render_to_response('generic_form.html', context,
         context_instance=RequestContext(request))
@@ -135,7 +141,7 @@ def transformation_edit(request, transformation_pk):
     else:
         form = TransformationForm(instance=transformation)
 
-    return render_to_response('generic_form.html', {
+    context = {
         'title': _(u'Edit transformation: %s') % transformation,
         'form': form,
         'source_object': transformation.content_object,
@@ -146,8 +152,13 @@ def transformation_edit(request, transformation_pk):
         ],        
         'next': next,
         'previous': previous,
-    },
-    context_instance=RequestContext(request))
+    }
+
+    if isinstance(transformation.content_object, MenuLessObject.get_all_objects()):
+        context['web_theme_hide_menus'] = True
+
+    return render_to_response('generic_form.html', context,
+        context_instance=RequestContext(request))
 
 
 def transformation_delete(request, transformation_pk):
@@ -167,18 +178,23 @@ def transformation_delete(request, transformation_pk):
             )
         return HttpResponseRedirect(redirect_view)
 
-    return render_to_response('generic_confirm.html', {
-        'delete_view': True,
-        'source_object': transformation.content_object,
-        'object': transformation,
-        'navigation_object_list': [
-            {'object': 'source_object'},
-            {'object': 'object'},
-        ],        
-        'title': _(u'Are you sure you wish to delete source transformation "%(transformation)s"') % {
-            'transformation': transformation.get_transformation_display(),
-        },
+    context = {
+            'delete_view': True,
+            'source_object': transformation.content_object,
+            'object': transformation,
+            'navigation_object_list': [
+                {'object': 'source_object'},
+                {'object': 'object'},
+            ],        
+            'title': _(u'Are you sure you wish to delete source transformation "%(transformation)s"') % {
+                'transformation': transformation.get_transformation_display(),
+            },
         'previous': previous,
         'form_icon': u'shape_square_delete.png',
-    },
-    context_instance=RequestContext(request))
+    }
+
+    if isinstance(transformation.content_object, MenuLessObject.get_all_objects()):
+        context['web_theme_hide_menus'] = True
+
+    return render_to_response('generic_confirm.html', context,
+        context_instance=RequestContext(request))
