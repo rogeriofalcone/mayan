@@ -15,22 +15,12 @@ from common.widgets import TextAreaDiv
 
 from .icons import icon_page_details, icon_document_preview
 from .models import (Document, DocumentType,
-    DocumentPage, DocumentPageTransformation, DocumentTypeFilename,
-    DocumentVersion)
+    DocumentPage, DocumentTypeFilename, DocumentVersion)
 from .widgets import document_html_widget
 from .literals import (RELEASE_LEVEL_FINAL, RELEASE_LEVEL_CHOICES, DEFAULT_ZIP_FILENAME)
 
 
 # Document page forms
-class DocumentPageTransformationForm(forms.ModelForm):
-    class Meta:
-        model = DocumentPageTransformation
-
-    def __init__(self, *args, **kwargs):
-        super(DocumentPageTransformationForm, self).__init__(*args, **kwargs)
-        self.fields['document_page'].widget = forms.HiddenInput()
-
-
 class DocumentPageImageWidget(forms.widgets.Widget):
     def render(self, name, value, attrs=None):
         final_attrs = self.build_attrs(attrs)

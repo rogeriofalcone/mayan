@@ -47,13 +47,11 @@ from .events import (history_document_created, history_document_edited,
 from .forms import (DocumentTypeSelectForm,
         DocumentForm_edit, DocumentPropertiesForm,
         DocumentPreviewForm, DocumentPageForm,
-        DocumentPageTransformationForm, DocumentContentForm,
-        DocumentPageForm_edit, DocumentPageForm_text, PrintForm,
-        DocumentTypeForm, DocumentTypeFilenameForm,
+        DocumentContentForm, DocumentPageForm_edit, DocumentPageForm_text,
+        PrintForm, DocumentTypeForm, DocumentTypeFilenameForm,
         DocumentTypeFilenameForm_create, DocumentDownloadForm)
 from .models import (Document, DocumentType, DocumentPage,
-    DocumentPageTransformation, RecentDocument, DocumentTypeFilename,
-    DocumentVersion)
+    RecentDocument, DocumentTypeFilename, DocumentVersion)
 from .icons import (icon_document_delete, icon_find_duplicates,
     icon_document_update_page_count, icon_document_type_delete,
     icon_document_type_filename_delete, icon_document_clear_image_cache,

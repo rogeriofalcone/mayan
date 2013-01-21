@@ -31,8 +31,7 @@ from converter.literals import (DEFAULT_ZOOM_LEVEL, DEFAULT_ROTATION,
 from .conf.settings import (CHECKSUM_FUNCTION, UUID_FUNCTION,
     STORAGE_BACKEND, DISPLAY_SIZE, CACHE_PATH,
     ZOOM_MAX_LEVEL, ZOOM_MIN_LEVEL)
-from .managers import (DocumentPageTransformationManager, RecentDocumentManager,
-    DocumentTypeManager)
+from .managers import RecentDocumentManager, DocumentTypeManager
 from .utils import document_save_to_temp_dir
 from .literals import (RELEASE_LEVEL_FINAL, RELEASE_LEVEL_CHOICES,
     VERSION_UPDATE_MAJOR, VERSION_UPDATE_MINOR, VERSION_UPDATE_MICRO)
@@ -620,26 +619,6 @@ class ArgumentsValidator(object):
             literal_eval(value)
         except (ValueError, SyntaxError):
             raise ValidationError(self.message, code=self.code)
-
-
-class DocumentPageTransformation(models.Model):
-    """
-    Model that stores the transformation and transformation arguments
-    for a given document page
-    """
-    document_page = models.ForeignKey(DocumentPage, verbose_name=_(u'document page'))
-    order = models.PositiveIntegerField(default=0, blank=True, null=True, verbose_name=_(u'order'), db_index=True)
-    transformation = models.CharField(choices=get_available_transformations_choices(), max_length=128, verbose_name=_(u'transformation'))
-    arguments = models.TextField(blank=True, null=True, verbose_name=_(u'arguments'), help_text=_(u'Use dictionaries to indentify arguments, example: %s') % u'{\'degrees\':90}', validators=[ArgumentsValidator()])
-    objects = DocumentPageTransformationManager()
-
-    def __unicode__(self):
-        return self.get_transformation_display()
-
-    class Meta:
-        ordering = ('order',)
-        verbose_name = _(u'document page transformation')
-        verbose_name_plural = _(u'document page transformations')
 
 
 class RecentDocument(models.Model):

@@ -33,8 +33,7 @@ from .links import (document_list, document_list_recent,
     document_type_edit, document_type_delete, document_type_create, 
     document_type_filename_list, document_type_filename_create, document_type_filename_edit,
     document_type_filename_delete, link_documents_menu)
-from .models import (Document, DocumentPage,
-    DocumentPageTransformation, DocumentType, DocumentTypeFilename,
+from .models import (Document, DocumentPage, DocumentType, DocumentTypeFilename,
     DocumentVersion)
 from .permissions import (PERMISSION_DOCUMENT_CREATE,
     PERMISSION_DOCUMENT_PROPERTIES_EDIT, PERMISSION_DOCUMENT_VIEW,

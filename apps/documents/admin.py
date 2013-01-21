@@ -2,10 +2,8 @@ from __future__ import absolute_import
 
 from django.contrib import admin
 
-from .models import (DocumentType, Document,
-    DocumentTypeFilename, DocumentPage,
-    DocumentPageTransformation, RecentDocument,
-    DocumentVersion)
+from .models import (DocumentType, Document, DocumentTypeFilename,
+    DocumentPage, RecentDocument, DocumentVersion)
 
 
 class DocumentPageInline(admin.StackedInline):
@@ -38,10 +36,6 @@ class DocumentTypeAdmin(admin.ModelAdmin):
     ]
 
 
-class DocumentPageTransformationAdmin(admin.ModelAdmin):
-    model = DocumentPageTransformation
-
-
 class DocumentAdmin(admin.ModelAdmin):
     inlines = [
         DocumentVersionInline
@@ -59,6 +53,4 @@ class RecentDocumentAdmin(admin.ModelAdmin):
 
 admin.site.register(DocumentType, DocumentTypeAdmin)
 admin.site.register(Document, DocumentAdmin)
-admin.site.register(DocumentPageTransformation,
-    DocumentPageTransformationAdmin)
 admin.site.register(RecentDocument, RecentDocumentAdmin)
