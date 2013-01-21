@@ -2,6 +2,7 @@ from __future__ import absolute_import
 
 from django.utils.translation import ugettext_lazy as _
 
+from converter.icons import icon_transformation_clear
 from history.icons import icon_history_link
 from history.permissions import PERMISSION_HISTORY_VIEW
 from navigation.classes import Link
@@ -21,7 +22,7 @@ from .icons import (icon_documents, icon_document_delete,
     icon_document_type_delete, icon_document_type_create,
     icon_document_type_filename_list, icon_document_type_filename_create,
     icon_document_type_filename_edit, icon_document_type_filename_delete,
-    icon_document_missing_list, icon_transformation_clear)
+    icon_document_missing_list)
 from .permissions import (PERMISSION_DOCUMENT_CREATE,
     PERMISSION_DOCUMENT_PROPERTIES_EDIT, PERMISSION_DOCUMENT_VIEW,
     PERMISSION_DOCUMENT_DELETE, PERMISSION_DOCUMENT_DOWNLOAD,
@@ -79,11 +80,6 @@ document_missing_list = Link(text=_(u'Find missing document files'), view='docum
 document_clear_image_cache = Link(text=_(u'Clear the document image cache'), view='document_clear_image_cache', icon=icon_document_clear_image_cache, permissions=[PERMISSION_DOCUMENT_TOOLS], description=_(u'Clear the graphics representations used to speed up the documents\' display and interactive transformations results.'))
 
 # Document pages
-document_page_transformation_list = Link(text=_(u'page transformations'), klass='no-parent-history', view='document_page_transformation_list', args='page.pk', permissions=[PERMISSION_DOCUMENT_TRANSFORM])
-document_page_transformation_create = Link(text=_(u'create new transformation'), klass='no-parent-history', view='document_page_transformation_create', args='page.pk', permissions=[PERMISSION_DOCUMENT_TRANSFORM])
-document_page_transformation_edit = Link(text=_(u'edit'), klass='no-parent-history', view='document_page_transformation_edit', args='transformation.pk', permissions=[PERMISSION_DOCUMENT_TRANSFORM])
-document_page_transformation_delete = Link(text=_(u'delete'), klass='no-parent-history', view='document_page_transformation_delete', args='transformation.pk', permissions=[PERMISSION_DOCUMENT_TRANSFORM])
-
 document_page_view = Link(text=_(u'page image'), klass='no-parent-history', view='document_page_view', args='resolved_object.pk', icon=icon_document_page_view, permissions=[PERMISSION_DOCUMENT_VIEW])
 document_page_text = Link(text=_(u'page text'), klass='no-parent-history', view='document_page_text', args='resolved_object.pk', icon=icon_document_page_text, permissions=[PERMISSION_DOCUMENT_VIEW])
 document_page_edit = Link(text=_(u'edit page text'), klass='no-parent-history', view='document_page_edit', args='resolved_object.pk', icon=icon_document_page_edit, permissions=[PERMISSION_DOCUMENT_EDIT])

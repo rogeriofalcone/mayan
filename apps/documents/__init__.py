@@ -24,11 +24,10 @@ from .links import (document_list, document_list_recent,
     document_find_duplicates, document_find_all_duplicates, document_update_page_count,
     document_clear_transformations, document_multiple_clear_transformations,
     document_print, document_history_view, document_missing_list, document_clear_image_cache,
-    document_page_transformation_list, document_page_transformation_create, document_page_transformation_edit,
-    document_page_transformation_delete, document_page_view, document_page_text,
-    document_page_edit, document_page_navigation_next, document_page_navigation_previous,
-    document_page_navigation_first, document_page_navigation_last, document_page_zoom_in,
-    document_page_zoom_out, document_page_rotate_right, document_page_rotate_left,
+    document_page_view, document_page_text, document_page_edit, document_page_navigation_next,
+    document_page_navigation_previous, document_page_navigation_first,
+    document_page_navigation_last, document_page_zoom_in, document_page_zoom_out,
+    document_page_rotate_right, document_page_rotate_left,
     document_page_view_reset, document_version_list, document_version_revert,
     document_type_list, document_type_setup, document_type_document_list,
     document_type_edit, document_type_delete, document_type_create, 
@@ -87,11 +86,6 @@ bind_links([Combined(DocumentPage, 'document_page_view')], [
 
 # Don't show menus when showing this objects' tranformaton views
 MenuLessObject(DocumentPage)
-
-bind_links([DocumentPageTransformation], [document_page_transformation_edit, document_page_transformation_delete])
-bind_links(['document_page_transformation_list'], [document_page_transformation_create], menu_name='sidebar')
-bind_links(['document_page_transformation_create'], [document_page_transformation_create], menu_name='sidebar')
-bind_links(['document_page_transformation_edit', 'document_page_transformation_delete'], [document_page_transformation_create], menu_name='sidebar')
 
 diagnostics_namespace = DiagnosticNamespace(_(u'documents'))
 diagnostics_namespace.create_tool(document_missing_list)

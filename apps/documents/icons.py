@@ -49,7 +49,4 @@ icon_document_type_filename_create = Icon(DATABASE_ADD)
 icon_document_type_filename_edit = Icon(DATABASE_EDIT)
 icon_document_type_filename_delete = Icon(DATABASE_DELETE)
 
-icon_transformation_delete = Icon(DELETE)
-icon_transformation_clear = Icon(DELETE)
-
 icon_page_details = Icon(PAGE_WHITE_GO)
