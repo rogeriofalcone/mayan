@@ -102,7 +102,8 @@ def resolve_arguments(context, src_args):
     if type(src_args) == type([]):
         for i in src_args:
             try:
-                val = i(context)
+                # Try to execute as a function
+                val = i(context=context)
             except TypeError:
                 val = resolve_template_variable(context, i)
                 if val:
@@ -111,8 +112,14 @@ def resolve_arguments(context, src_args):
                 args.append(val)
     elif type(src_args) == type({}):
         for key, value in src_args.items():
-            val = resolve_template_variable(context, value)
-            if val:
+            try:
+                # Try to execute as a function
+                val = i(context=context)
+            except TypeError:            
+                val = resolve_template_variable(context, value)
+                if val:
+                    kwargs[key] = val
+            else:
                 kwargs[key] = val
     else:
         val = resolve_template_variable(context, src_args)
