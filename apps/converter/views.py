@@ -65,7 +65,10 @@ def transformation_list(request, app_label, module_name, object_pk):
             {'name': _(u'arguments'), 'attribute': 'arguments'}
         ],
         'hide_object': True,
-        'object': obj,
+        'source_object': obj,
+        'navigation_object_list': [
+            {'object': 'source_object'},
+        ],            
     }
 
     return render_to_response('generic_list.html', context,
@@ -100,7 +103,11 @@ def transformation_create(request, app_label, module_name, object_pk):
     context = {
         'form': form,
         'title': _(u'add transformation for: %s') % obj,
-        'object': obj,
+        'source_object': obj,
+        'navigation_object_list': [
+            {'object': 'source_object'},
+        ],  
+        
     }
 
     return render_to_response('generic_form.html', context,
@@ -164,7 +171,7 @@ def transformation_delete(request, transformation_pk):
         'navigation_object_list': [
             {'object': 'source_object'},
             {'object': 'object'},
-        ],
+        ],        
         'title': _(u'Are you sure you wish to delete source transformation "%(transformation)s"') % {
             'transformation': source_transformation.get_transformation_display(),
         },
