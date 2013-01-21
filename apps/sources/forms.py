@@ -6,8 +6,7 @@ from django.utils.translation import ugettext
 
 from documents.forms import DocumentForm
 
-from .models import (WebForm, StagingFolder, SourceTransformation,
-    WatchFolder)
+from .models import WebForm, StagingFolder, WatchFolder
 from .widgets import IconRadioSelect
 from .utils import validate_whitelist_blacklist
 
@@ -98,19 +97,3 @@ class StagingFolderSetupForm(forms.ModelForm):
 class WatchFolderSetupForm(forms.ModelForm):
     class Meta:
         model = WatchFolder
-
-
-class SourceTransformationForm(forms.ModelForm):
-    class Meta:
-        model = SourceTransformation
-
-    def __init__(self, *args, **kwargs):
-        super(SourceTransformationForm, self).__init__(*args, **kwargs)
-        self.fields['content_type'].widget = forms.HiddenInput()
-        self.fields['object_id'].widget = forms.HiddenInput()
-
-
-class SourceTransformationForm_create(forms.ModelForm):
-    class Meta:
-        model = SourceTransformation
-        exclude = ('content_type', 'object_id')

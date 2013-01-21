@@ -6,4 +6,3 @@ def cleanup():
 
     StagingFolder.objects.all().delete()
     WebForm.objects.all().delete()
-    SourceTransformation.objects.all().delete()

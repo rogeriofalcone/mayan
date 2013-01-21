@@ -13,8 +13,7 @@ from .icons import (icon_staging_file_delete,
     icon_setup_source_log_list, icon_source_list, icon_upload_version,
     icon_document_create_multiple, icon_create_siblings)
 
-from .models import (WebForm, StagingFolder, SourceTransformation,
-    WatchFolder)
+from .models import WebForm, StagingFolder, WatchFolder
 from .permissions import (PERMISSION_SOURCES_SETUP_VIEW,
     PERMISSION_SOURCES_SETUP_EDIT, PERMISSION_SOURCES_SETUP_DELETE,
     PERMISSION_SOURCES_SETUP_CREATE)

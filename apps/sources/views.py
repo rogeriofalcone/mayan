@@ -31,15 +31,13 @@ from permissions.models import Permission
 from .forms import (StagingDocumentForm, WebFormForm,
     WatchFolderSetupForm)
 from .forms import WebFormSetupForm, StagingFolderSetupForm
-from .forms import SourceTransformationForm, SourceTransformationForm_create
 from .icons import (icon_staging_file_delete, icon_setup_web_form_delete,
     icon_setup_staging_folder_delete)
 from .literals import (SOURCE_CHOICE_WEB_FORM, SOURCE_CHOICE_STAGING,
     SOURCE_CHOICE_WATCH)
 from .literals import (SOURCE_UNCOMPRESS_CHOICE_Y,
     SOURCE_UNCOMPRESS_CHOICE_ASK)
-from .models import (WebForm, StagingFolder, SourceTransformation,
-    WatchFolder)
+from .models import WebForm, StagingFolder, WatchFolder
 from .permissions import (PERMISSION_SOURCES_SETUP_VIEW,
     PERMISSION_SOURCES_SETUP_EDIT, PERMISSION_SOURCES_SETUP_DELETE,
     PERMISSION_SOURCES_SETUP_CREATE)

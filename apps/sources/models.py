@@ -19,7 +19,6 @@ from metadata.api import save_metadata_list
 from scheduler.api import register_interval_job, remove_job
 from acls.utils import apply_default_acls
 
-from .managers import SourceTransformationManager
 from .literals import (SOURCE_CHOICES, SOURCE_CHOICES_PLURAL,
     SOURCE_INTERACTIVE_UNCOMPRESS_CHOICES, SOURCE_CHOICE_WEB_FORM,
     SOURCE_CHOICE_STAGING, SOURCE_ICON_DISK, SOURCE_ICON_DRIVE,
@@ -234,52 +233,6 @@ class WatchFolder(BaseModel):
     class Meta(BaseModel.Meta):
         verbose_name = _(u'watch folder')
         verbose_name_plural = _(u'watch folders')
-
-
-class ArgumentsValidator(object):
-    message = _(u'Enter a valid value.')
-    code = 'invalid'
-
-    def __init__(self, message=None, code=None):
-        if message is not None:
-            self.message = message
-        if code is not None:
-            self.code = code
-
-    def __call__(self, value):
-        """
-        Validates that the input evaluates correctly.
-        """
-        value = value.strip()
-        try:
-            literal_eval(value)
-        except (ValueError, SyntaxError):
-            raise ValidationError(self.message, code=self.code)
-
-
-class SourceTransformation(models.Model):
-    """
-    Model that stores the transformation and transformation arguments
-    for a given document source
-    """
-    content_type = models.ForeignKey(ContentType)
-    object_id = models.PositiveIntegerField()
-    content_object = generic.GenericForeignKey('content_type', 'object_id')
-    order = models.PositiveIntegerField(default=0, blank=True, null=True, verbose_name=_(u'order'), db_index=True)
-    transformation = models.CharField(choices=get_available_transformations_choices(), max_length=128, verbose_name=_(u'transformation'))
-    arguments = models.TextField(blank=True, null=True, verbose_name=_(u'arguments'), help_text=_(u'Use dictionaries to indentify arguments, example: %s') % u'{\'degrees\':90}', validators=[ArgumentsValidator()])
-
-    objects = models.Manager()
-    transformations = SourceTransformationManager()
-
-    def __unicode__(self):
-        #return u'"%s" for %s' % (self.get_transformation_display(), unicode(self.content_object))
-        return self.get_transformation_display()
-
-    class Meta:
-        ordering = ('order',)
-        verbose_name = _(u'document source transformation')
-        verbose_name_plural = _(u'document source transformations')
 
 
 class OutOfProcess(BaseModel):
