@@ -594,6 +594,12 @@ class DocumentPage(models.Model):
     def document(self):
         return self.document_version.document
 
+    def is_first_page(self):
+        return self.page_number <= 1
+
+    def is_last_page(self):
+        return self.page_number >= self.document_version.pages.count()
+
 
 class ArgumentsValidator(object):
     message = _(u'Enter a valid value.')
