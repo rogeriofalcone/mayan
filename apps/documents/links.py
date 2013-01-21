@@ -34,11 +34,11 @@ from .conf.settings import ZOOM_MAX_LEVEL
 from .conf.settings import ZOOM_MIN_LEVEL
 
 def is_first_page(context):
-    return context['page'].is_first_page()
+    return context['resolved_object'].is_first_page()
 
 
 def is_last_page(context):
-    return context['page'].is_last_page()
+    return context['resolved_object'].is_last_page()
 
 
 def is_min_zoom(context):
@@ -51,6 +51,7 @@ def is_max_zoom(context):
 
 def is_current_version(context):
     return context['resolved_object'].document.latest_version.timestamp == context['resolved_object'].timestamp
+
 
 document_list = Link(text=_(u'all documents'), view='document_list', icon=icon_documents)
 document_list_recent = Link(text=_(u'recent documents'), view='document_list_recent', icon=icon_documents)
@@ -83,18 +84,18 @@ document_page_transformation_create = Link(text=_(u'create new transformation'),
 document_page_transformation_edit = Link(text=_(u'edit'), klass='no-parent-history', view='document_page_transformation_edit', args='transformation.pk', permissions=[PERMISSION_DOCUMENT_TRANSFORM])
 document_page_transformation_delete = Link(text=_(u'delete'), klass='no-parent-history', view='document_page_transformation_delete', args='transformation.pk', permissions=[PERMISSION_DOCUMENT_TRANSFORM])
 
-document_page_view = Link(text=_(u'page image'), klass='no-parent-history', view='document_page_view', args='page.pk', icon=icon_document_page_view, permissions=[PERMISSION_DOCUMENT_VIEW])
-document_page_text = Link(text=_(u'page text'), klass='no-parent-history', view='document_page_text', args='page.pk', icon=icon_document_page_text, permissions=[PERMISSION_DOCUMENT_VIEW])
-document_page_edit = Link(text=_(u'edit page text'), klass='no-parent-history', view='document_page_edit', args='page.pk', icon=icon_document_page_edit, permissions=[PERMISSION_DOCUMENT_EDIT])
-document_page_navigation_next = Link(text=_(u'next page'), klass='no-parent-history', view='document_page_navigation_next', args='page.pk', icon=icon_document_page_navigation_next, permissions=[PERMISSION_DOCUMENT_VIEW], conditional_disable=is_last_page)
-document_page_navigation_previous = Link(text=_(u'previous page'), klass='no-parent-history', view='document_page_navigation_previous', args='page.pk', icon=icon_document_page_navigation_previous, permissions=[PERMISSION_DOCUMENT_VIEW], conditional_disable=is_first_page)
-document_page_navigation_first = Link(text=_(u'first page'), klass='no-parent-history', view='document_page_navigation_first', args='page.pk', icon=icon_document_page_navigation_first, permissions=[PERMISSION_DOCUMENT_VIEW], conditional_disable=is_first_page)
-document_page_navigation_last = Link(text=_(u'last page'), klass='no-parent-history', view='document_page_navigation_last', args='page.pk', icon=icon_document_page_navigation_last, permissions=[PERMISSION_DOCUMENT_VIEW], conditional_disable=is_last_page)
-document_page_zoom_in = Link(text=_(u'zoom in'), klass='no-parent-history', view='document_page_zoom_in', args='page.pk', icon=icon_document_page_zoom_in, permissions=[PERMISSION_DOCUMENT_VIEW], conditional_disable=is_max_zoom)
-document_page_zoom_out = Link(text=_(u'zoom out'), klass='no-parent-history', view='document_page_zoom_out', args='page.pk', icon=icon_document_page_zoom_out, permissions=[PERMISSION_DOCUMENT_VIEW], conditional_disable=is_min_zoom)
-document_page_rotate_right = Link(text=_(u'rotate right'), klass='no-parent-history', view='document_page_rotate_right', args='page.pk', icon=icon_document_page_rotate_right, permissions=[PERMISSION_DOCUMENT_VIEW])
-document_page_rotate_left = Link(text=_(u'rotate left'), klass='no-parent-history', view='document_page_rotate_left', args='page.pk', icon=icon_document_page_rotate_left, permissions=[PERMISSION_DOCUMENT_VIEW])
-document_page_view_reset = Link(text=_(u'reset view'), klass='no-parent-history', view='document_page_view_reset', args='page.pk', icon=icon_document_page_view_reset, permissions=[PERMISSION_DOCUMENT_VIEW])
+document_page_view = Link(text=_(u'page image'), klass='no-parent-history', view='document_page_view', args='resolved_object.pk', icon=icon_document_page_view, permissions=[PERMISSION_DOCUMENT_VIEW])
+document_page_text = Link(text=_(u'page text'), klass='no-parent-history', view='document_page_text', args='resolved_object.pk', icon=icon_document_page_text, permissions=[PERMISSION_DOCUMENT_VIEW])
+document_page_edit = Link(text=_(u'edit page text'), klass='no-parent-history', view='document_page_edit', args='resolved_object.pk', icon=icon_document_page_edit, permissions=[PERMISSION_DOCUMENT_EDIT])
+document_page_navigation_next = Link(text=_(u'next page'), klass='no-parent-history', view='document_page_navigation_next', args='resolved_object.pk', icon=icon_document_page_navigation_next, permissions=[PERMISSION_DOCUMENT_VIEW], conditional_disable=is_last_page)
+document_page_navigation_previous = Link(text=_(u'previous page'), klass='no-parent-history', view='document_page_navigation_previous', args='resolved_object.pk', icon=icon_document_page_navigation_previous, permissions=[PERMISSION_DOCUMENT_VIEW], conditional_disable=is_first_page)
+document_page_navigation_first = Link(text=_(u'first page'), klass='no-parent-history', view='document_page_navigation_first', args='resolved_object.pk', icon=icon_document_page_navigation_first, permissions=[PERMISSION_DOCUMENT_VIEW], conditional_disable=is_first_page)
+document_page_navigation_last = Link(text=_(u'last page'), klass='no-parent-history', view='document_page_navigation_last', args='resolved_object.pk', icon=icon_document_page_navigation_last, permissions=[PERMISSION_DOCUMENT_VIEW], conditional_disable=is_last_page)
+document_page_zoom_in = Link(text=_(u'zoom in'), klass='no-parent-history', view='document_page_zoom_in', args='resolved_object.pk', icon=icon_document_page_zoom_in, permissions=[PERMISSION_DOCUMENT_VIEW], conditional_disable=is_max_zoom)
+document_page_zoom_out = Link(text=_(u'zoom out'), klass='no-parent-history', view='document_page_zoom_out', args='resolved_object.pk', icon=icon_document_page_zoom_out, permissions=[PERMISSION_DOCUMENT_VIEW], conditional_disable=is_min_zoom)
+document_page_rotate_right = Link(text=_(u'rotate right'), klass='no-parent-history', view='document_page_rotate_right', args='resolved_object.pk', icon=icon_document_page_rotate_right, permissions=[PERMISSION_DOCUMENT_VIEW])
+document_page_rotate_left = Link(text=_(u'rotate left'), klass='no-parent-history', view='document_page_rotate_left', args='resolved_object.pk', icon=icon_document_page_rotate_left, permissions=[PERMISSION_DOCUMENT_VIEW])
+document_page_view_reset = Link(text=_(u'reset view'), klass='no-parent-history', view='document_page_view_reset', args='resolved_object.pk', icon=icon_document_page_view_reset, permissions=[PERMISSION_DOCUMENT_VIEW])
 
 # Document versions
 document_version_list = Link(text=_(u'versions'), view='document_version_list', args='resolved_object.pk', icon=icon_versions, permissions=[PERMISSION_DOCUMENT_VIEW])
