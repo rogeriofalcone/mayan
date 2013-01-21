@@ -34,11 +34,11 @@ from .conf.settings import ZOOM_MAX_LEVEL
 from .conf.settings import ZOOM_MIN_LEVEL
 
 def is_first_page(context):
-    return context['page'].page_number <= 1
+    return context['page'].is_first_page()
 
 
 def is_last_page(context):
-    return context['page'].page_number >= context['page'].document_version.pages.count()
+    return context['page'].is_last_page()
 
 
 def is_min_zoom(context):
