@@ -9,7 +9,6 @@ from project_tools.api import register_tool
 from .links import (link_formats_list, link_transformation_list,
     link_transformation_create, link_transformation_edit, link_transformation_delete)
 from .models import Transformation
-from .classes import TransformationSourceObject
 
 register_sidebar_template(['formats_list'], 'converter_file_formats_help.html')
 
