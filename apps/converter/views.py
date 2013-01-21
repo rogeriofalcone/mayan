@@ -49,23 +49,23 @@ def formats_list(request):
 
 def transformation_list(request, app_label, module_name, object_pk):
     content_type = get_object_or_404(ContentType, app_label=app_label, model=module_name)
-    obj = get_object_or_404(content_type.model_class(), pk=object_pk)
+    content_object = get_object_or_404(content_type.model_class(), pk=object_pk)
     
     try:
         Permission.objects.check_permissions(request.user, [PERMISSION_TRANSFORMATION_VIEW])
     except PermissionDenied:
-        AccessEntry.objects.check_access(PERMISSION_TRANSFORMATION_VIEW, request.user, obj)
+        AccessEntry.objects.check_access(PERMISSION_TRANSFORMATION_VIEW, request.user, content_object)
 
     context = {
-        'object_list': Transformation.objects.for_model(obj),
-        'title': _(u'transformatioeens for: %s' % obj),
+        'object_list': Transformation.objects.for_model(content_object),
+        'title': _(u'add transformation for %s: %s') % (content_object._meta.verbose_name, content_object),
         'extra_columns': [
             {'name': _(u'order'), 'attribute': 'order'},
             {'name': _(u'transformation'), 'attribute': encapsulate(lambda x: x.get_transformation_display())},
             {'name': _(u'arguments'), 'attribute': 'arguments'}
         ],
         'hide_object': True,
-        'source_object': obj,
+        'source_object': content_object,
         'navigation_object_list': [
             {'object': 'source_object'},
         ],            
@@ -77,21 +77,22 @@ def transformation_list(request, app_label, module_name, object_pk):
 
 def transformation_create(request, app_label, module_name, object_pk):
     content_type = get_object_or_404(ContentType, app_label=app_label, model=module_name)
-    obj = get_object_or_404(content_type.model_class(), pk=object_pk)
+    content_object = get_object_or_404(content_type.model_class(), pk=object_pk)
 
     try:
         Permission.objects.check_permissions(request.user, [PERMISSION_TRANSFORMATION_CREATE])
     except PermissionDenied:
         AccessEntry.objects.check_access(PERMISSION_TRANSFORMATION_CREATE, request.user, obj)
 
-    redirect_view = '/' # FIX reverse('setup_source_transformation_list', args=[source.source_type, source.pk])
+    redirect_view = reverse('transformation_list', args=[content_object._meta.app_label, content_object._meta.module_name, content_object.pk])
+    previous = request.POST.get('previous', request.GET.get('previous', request.META.get('HTTP_REFERER', reverse('home'))))
 
     if request.method == 'POST':
         form = TransformationForm_create(request.POST)
         if form.is_valid():
             try:
                 source_tranformation = form.save(commit=False)
-                source_tranformation.content_object = obj
+                source_tranformation.content_object = content_object
                 source_tranformation.save()
                 messages.success(request, _(u'Transformation created successfully'))
                 return HttpResponseRedirect(redirect_view)
@@ -102,12 +103,12 @@ def transformation_create(request, app_label, module_name, object_pk):
 
     context = {
         'form': form,
-        'title': _(u'add transformation for: %s') % obj,
-        'source_object': obj,
+        'title': _(u'add transformation for %s: %s') % (content_object._meta.verbose_name, content_object),
+        'source_object': content_object,
         'navigation_object_list': [
             {'object': 'source_object'},
         ],  
-        
+        'previous': previous,
     }
 
     return render_to_response('generic_form.html', context,
@@ -117,12 +118,13 @@ def transformation_create(request, app_label, module_name, object_pk):
 def transformation_edit(request, transformation_pk):
     Permission.objects.check_permissions(request.user, [PERMISSION_TRANSFORMATION_EDIT])
 
-    source_transformation = get_object_or_404(Transformation, pk=transformation_pk)
-    redirect_view = '/' # FIX reverse('setup_source_transformation_list', args=[source_transformation.content_object.source_type, source_transformation.content_object.pk])
+    transformation = get_object_or_404(Transformation, pk=transformation_pk)
+    redirect_view = reverse('transformation_list', args=[transformation.content_object._meta.app_label, transformation.content_object._meta.module_name, transformation.content_object.pk])
     next = request.POST.get('next', request.GET.get('next', request.META.get('HTTP_REFERER', redirect_view)))
+    previous = request.POST.get('previous', request.GET.get('previous', request.META.get('HTTP_REFERER', reverse('home'))))
 
     if request.method == 'POST':
-        form = TransformationForm(instance=source_transformation, data=request.POST)
+        form = TransformationForm(instance=transformation, data=request.POST)
         if form.is_valid():
             try:
                 form.save()
@@ -131,18 +133,19 @@ def transformation_edit(request, transformation_pk):
             except Exception, e:
                 messages.error(request, _(u'Error editing transformation; %s') % e)
     else:
-        form = TransformationForm(instance=source_transformation)
+        form = TransformationForm(instance=transformation)
 
     return render_to_response('generic_form.html', {
-        'title': _(u'Edit transformation: %s') % source_transformation,
+        'title': _(u'Edit transformation: %s') % transformation,
         'form': form,
-        'source_object': source_transformation.content_object,
-        'object': source_transformation,
+        'source_object': transformation.content_object,
+        'object': transformation,
         'navigation_object_list': [
             {'object': 'source_object'},
             {'object': 'object'},
         ],        
         'next': next,
+        'previous': previous,
     },
     context_instance=RequestContext(request))
 
@@ -150,13 +153,13 @@ def transformation_edit(request, transformation_pk):
 def transformation_delete(request, transformation_pk):
     Permission.objects.check_permissions(request.user, [PERMISSION_TRANSFORMATION_DELETE])
 
-    source_transformation = get_object_or_404(Transformation, pk=transformation_pk)
-    redirect_view = '/'# FIX reverse('setup_source_transformation_list', args=[source_transformation.content_object.source_type, source_transformation.content_object.pk])
-    previous = request.POST.get('previous', request.GET.get('previous', request.META.get('HTTP_REFERER', redirect_view)))
+    transformation = get_object_or_404(Transformation, pk=transformation_pk)
+    redirect_view = reverse('transformation_list', args=[transformation.content_object._meta.app_label, transformation.content_object._meta.module_name, transformation.content_object.pk])
+    previous = request.POST.get('previous', request.GET.get('previous', request.META.get('HTTP_REFERER', reverse('home'))))
 
     if request.method == 'POST':
         try:
-            source_transformation.delete()
+            transformation.delete()
             messages.success(request, _(u'Transformation deleted successfully.'))
         except Exception, e:
             messages.error(request, _(u'Error deleting transformation; %(error)s') % {
@@ -166,14 +169,14 @@ def transformation_delete(request, transformation_pk):
 
     return render_to_response('generic_confirm.html', {
         'delete_view': True,
-        'source_object': source_transformation.content_object,
-        'object': source_transformation,
+        'source_object': transformation.content_object,
+        'object': transformation,
         'navigation_object_list': [
             {'object': 'source_object'},
             {'object': 'object'},
         ],        
         'title': _(u'Are you sure you wish to delete source transformation "%(transformation)s"') % {
-            'transformation': source_transformation.get_transformation_display(),
+            'transformation': transformation.get_transformation_display(),
         },
         'previous': previous,
         'form_icon': u'shape_square_delete.png',
