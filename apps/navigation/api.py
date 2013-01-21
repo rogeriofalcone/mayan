@@ -76,6 +76,25 @@ def register_multi_item_links(sources, links, menu_name=None):
         multi_object_navigation[menu_name][source]['links'].extend(links)
 
 
+class Combined(object):
+    """
+    Class that binds a link to a combination of an object and a view.
+    This is used to show links relating to a specific object type but only
+    in certain views.
+    Used by the PageDocument class to show rotatio and zoom link only on
+    certain views
+    """
+    def __init__(self, obj, view):
+        self.obj = obj
+        self.view = view
+
+    def __hash__(self):
+        return hash((self.obj, self.view))
+
+    def __eq__(self, other):
+        return hash(self) == hash(other)
+
+
 def get_context_navigation_links(context, menu_name=None, links_dict=bound_links):
     request = Variable('request').resolve(context)
     current_path = request.META['PATH_INFO']
@@ -88,6 +107,7 @@ def get_context_navigation_links(context, menu_name=None, links_dict=bound_links
 
     # Dynamic sources
     # TODO: improve name to 'injected...'
+    # TODO: remove, only used by staging files
     try:
         """
         Check for and inject a temporary navigation dictionary
@@ -98,6 +118,7 @@ def get_context_navigation_links(context, menu_name=None, links_dict=bound_links
     except VariableDoesNotExist:
         pass
 
+    # Get view only links
     try:
         view_links = links_dict[menu_name][current_view]['links']
         if view_links:
@@ -108,9 +129,22 @@ def get_context_navigation_links(context, menu_name=None, links_dict=bound_links
     except KeyError:
         pass
 
+    # Get object links
     for resolved_object, object_properties in get_navigation_objects(context).items():
+        # Get object class links
         try:
             object_links = links_dict[menu_name][type(resolved_object)]['links']
+            if object_links:
+                context_links.setdefault(resolved_object, [])
+
+            for link in object_links:
+                context_links[resolved_object].append(link.resolve(context, request=request, current_path=current_path, current_view=current_view, resolved_object=resolved_object))
+        except KeyError:
+            pass
+
+        # Get Combined() instances class links
+        try:
+            object_links = links_dict[menu_name][Combined(obj=type(resolved_object), view=current_view)]['links']
             if object_links:
                 context_links.setdefault(resolved_object, [])
 
