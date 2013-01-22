@@ -5,14 +5,14 @@ import re
 import urllib
 import urlparse
 
-from django.core.urlresolvers import reverse, NoReverseMatch
+from django.core.urlresolvers import NoReverseMatch, resolve, reverse
 from django.template import VariableDoesNotExist, Variable
 from django.template import (VariableDoesNotExist, Variable)
 from django.utils.encoding import smart_str, smart_unicode
 from django.utils.http import urlquote, urlencode
 from django.utils.translation import ugettext_lazy as _
 
-from .utils import resolve_to_name, resolve_arguments, get_navigation_objects
+from .utils import resolve_arguments, get_navigation_objects
 
 logger = logging.getLogger(__name__)
 
@@ -71,7 +71,7 @@ class Link(object):
         # Don't calculate these if passed in an argument
         request = request or Variable('request').resolve(context)
         current_path = current_path or request.META['PATH_INFO']
-        current_view = current_view or resolve_to_name(current_path)
+        current_view = current_view or resolve(current_path).url_name
 
         # Preserve unicode data in URL query
         previous_path = smart_unicode(urllib.unquote_plus(smart_str(request.get_full_path()) or smart_str(request.META.get('HTTP_REFERER', u'/'))))
@@ -155,7 +155,7 @@ class Link(object):
     def get_context_navigation_links(cls, context, menu_name=None, links_dict=None):
         request = Variable('request').resolve(context)
         current_path = request.META['PATH_INFO']
-        current_view = resolve_to_name(current_path)
+        current_view = resolve(current_path).url_name
         context_links = {}
         if not links_dict:
             links_dict = Link.bound_links

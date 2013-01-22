@@ -4,7 +4,7 @@ import copy
 import logging
 import re
 
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import resolve, reverse
 from django.template import (TemplateSyntaxError, Library,
     Node, Variable, VariableDoesNotExist)
 from django.utils.translation import ugettext as _
@@ -12,7 +12,7 @@ from django.utils.translation import ugettext as _
 from ..api import main_menu, multi_object_navigation, sidebar_templates
 from ..classes import Link
 from ..forms import MultiItemForm
-from ..utils import resolve_to_name, resolve_template_variable
+from ..utils import resolve_template_variable
 
 logger = logging.getLogger(__name__)
 register = Library()
@@ -22,7 +22,7 @@ class TopMenuNavigationNode(Node):
     def render(self, context):
         request = Variable('request').resolve(context)
         current_path = request.META['PATH_INFO']
-        current_view = resolve_to_name(current_path)
+        current_view = resolve(current_path).url_name
 
         context['menu_links'] = [menu.get('link').resolve(context, request=request, current_path=current_path, current_view=current_view) for menu in main_menu.getchildren()]
         return ''
@@ -118,7 +118,7 @@ class GetSidebarTemplatesNone(Node):
 
     def render(self, context):
         request = Variable('request').resolve(context)
-        view_name = resolve_to_name(request.META['PATH_INFO'])
+        view_name = resolve(request.META['PATH_INFO']).url_name
         context[self.var_name] = sidebar_templates.get(view_name, [])
         return ''
 

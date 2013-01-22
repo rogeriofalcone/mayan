@@ -1,39 +1,50 @@
 from __future__ import absolute_import
 
-import urlparse
 import copy
 import logging
+import urlparse
 
-from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
+from django.contrib import messages
+from django.core.exceptions import PermissionDenied
+from django.core.urlresolvers import reverse, resolve
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
-from django.contrib import messages
-from django.core.urlresolvers import reverse
 from django.utils.http import urlencode
-from django.core.exceptions import PermissionDenied
-from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 
-import sendfile
+from acls.models import AccessEntry
+from common.compressed_files import CompressedFile
+from common.conf.settings import DEFAULT_PAPER_SIZE
+from common.literals import (PAGE_SIZE_DIMENSIONS,
+    PAGE_ORIENTATION_PORTRAIT, PAGE_ORIENTATION_LANDSCAPE)
 from common.utils import (pretty_size, parse_range, urlquote,
     return_diff, encapsulate)
 from common.widgets import two_state_template
-from common.literals import (PAGE_SIZE_DIMENSIONS,
-    PAGE_ORIENTATION_PORTRAIT, PAGE_ORIENTATION_LANDSCAPE)
-from common.conf.settings import DEFAULT_PAPER_SIZE
 from converter.icons import icon_transformation_clear
 from converter.literals import (DEFAULT_ZOOM_LEVEL, DEFAULT_ROTATION,
     DEFAULT_PAGE_NUMBER, DEFAULT_FILE_FORMAT_MIMETYPE)
 from converter.office_converter import OfficeConverter
 from filetransfers.api import serve_file
-from navigation.utils import resolve_to_name
 from permissions.models import Permission
-from acls.models import AccessEntry
-from common.compressed_files import CompressedFile
+import sendfile
 
 from .conf.settings import (PREVIEW_SIZE, STORAGE_BACKEND, ZOOM_PERCENT_STEP,
     ZOOM_MAX_LEVEL, ZOOM_MIN_LEVEL, ROTATION_STEP, PRINT_SIZE,
     RECENT_COUNT)
+from .forms import (DocumentForm_edit, DocumentPropertiesForm,
+        DocumentPreviewForm, DocumentPageForm,
+        DocumentContentForm, DocumentPageForm_edit, DocumentPageForm_text,
+        PrintForm, DocumentTypeForm, DocumentTypeFilenameForm,
+        DocumentTypeFilenameForm_create, DocumentDownloadForm)
+from .events import history_document_edited
+from .icons import (icon_document_delete, icon_find_duplicates,
+    icon_document_update_page_count, icon_document_type_delete,
+    icon_document_type_filename_delete, icon_document_clear_image_cache,
+    icon_version_revert, icon_document_missing_list)
+from .models import (Document, DocumentType, DocumentPage,
+    RecentDocument, DocumentTypeFilename, DocumentVersion)
 from .permissions import (PERMISSION_DOCUMENT_CREATE,
     PERMISSION_DOCUMENT_PROPERTIES_EDIT, PERMISSION_DOCUMENT_VIEW,
     PERMISSION_DOCUMENT_DELETE, PERMISSION_DOCUMENT_DOWNLOAD,
@@ -41,18 +52,6 @@ from .permissions import (PERMISSION_DOCUMENT_CREATE,
     PERMISSION_DOCUMENT_EDIT, PERMISSION_DOCUMENT_VERSION_REVERT,
     PERMISSION_DOCUMENT_TYPE_EDIT, PERMISSION_DOCUMENT_TYPE_DELETE,
     PERMISSION_DOCUMENT_TYPE_CREATE, PERMISSION_DOCUMENT_TYPE_VIEW)
-from .events import history_document_edited
-from .forms import (DocumentForm_edit, DocumentPropertiesForm,
-        DocumentPreviewForm, DocumentPageForm,
-        DocumentContentForm, DocumentPageForm_edit, DocumentPageForm_text,
-        PrintForm, DocumentTypeForm, DocumentTypeFilenameForm,
-        DocumentTypeFilenameForm_create, DocumentDownloadForm)
-from .models import (Document, DocumentType, DocumentPage,
-    RecentDocument, DocumentTypeFilename, DocumentVersion)
-from .icons import (icon_document_delete, icon_find_duplicates,
-    icon_document_update_page_count, icon_document_type_delete,
-    icon_document_type_filename_delete, icon_document_clear_image_cache,
-    icon_version_revert, icon_document_missing_list)
 
 logger = logging.getLogger(__name__)
 
@@ -645,7 +644,7 @@ def document_page_navigation_next(request, document_page_id):
     except PermissionDenied:
         AccessEntry.objects.check_access(PERMISSION_DOCUMENT_VIEW, request.user, document_page.document)
 
-    view = resolve_to_name(urlparse.urlparse(request.META.get('HTTP_REFERER', u'/')).path)
+    view = resolve(urlparse.urlparse(request.META.get('HTTP_REFERER', u'/')).path).url_name
 
     if document_page.page_number >= document_page.siblings.count():
         messages.warning(request, _(u'There are no more pages in this document'))
@@ -672,7 +671,7 @@ def document_page_navigation_previous(request, document_page_id):
     except PermissionDenied:
         AccessEntry.objects.check_access(PERMISSION_DOCUMENT_VIEW, request.user, document_page.document)
 
-    view = resolve_to_name(urlparse.urlparse(request.META.get('HTTP_REFERER', u'/')).path)
+    view = resolve(urlparse.urlparse(request.META.get('HTTP_REFERER', u'/')).path).url_name
 
     if document_page.page_number <= 1:
         messages.warning(request, _(u'You are already at the first page of this document'))
@@ -699,7 +698,7 @@ def document_page_navigation_first(request, document_page_id):
     except PermissionDenied:
         AccessEntry.objects.check_access(PERMISSION_DOCUMENT_VIEW, request.user, document_page.document)
 
-    view = resolve_to_name(urlparse.urlparse(request.META.get('HTTP_REFERER', u'/')).path)
+    view = resolve(urlparse.urlparse(request.META.get('HTTP_REFERER', u'/')).path).url_name
 
     if 'transformation_list' in view or 'transformation_create' in view:
         args = [document_page._meta.app_label, document_page._meta.module_name, document_page.pk]
@@ -721,7 +720,7 @@ def document_page_navigation_last(request, document_page_id):
     except PermissionDenied:
         AccessEntry.objects.check_access(PERMISSION_DOCUMENT_VIEW, request.user, document_page.document)
 
-    view = resolve_to_name(urlparse.urlparse(request.META.get('HTTP_REFERER', u'/')).path)
+    view = resolve(urlparse.urlparse(request.META.get('HTTP_REFERER', u'/')).path).url_name
 
     if 'transformation_list' in view or 'transformation_create' in view:
         args = [document_page._meta.app_label, document_page._meta.module_name, document_page.pk]
@@ -753,7 +752,7 @@ def transform_page(request, document_page_id, zoom_function=None, rotation_funct
     except PermissionDenied:
         AccessEntry.objects.check_access(PERMISSION_DOCUMENT_VIEW, request.user, document_page.document)
 
-    view = resolve_to_name(urlparse.urlparse(request.META.get('HTTP_REFERER', u'/')).path)
+    view = resolve(urlparse.urlparse(request.META.get('HTTP_REFERER', u'/')).path).url_name
 
     # Get the query string from the referer url
     query = urlparse.urlparse(request.META.get('HTTP_REFERER', u'/')).query
