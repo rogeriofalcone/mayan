@@ -3,14 +3,14 @@ import re
 
 from converter.conf.settings import IM_IDENTIFY_PATH
 from converter.conf.settings import IM_CONVERT_PATH
-from converter.exceptions import ConvertError, UnknownFileFormat, \
-    IdentifyError
+from converter.exceptions import (ConvertError, UnknownFileFormat,
+    IdentifyError)
 from converter.backends import ConverterBase
-from converter.literals import TRANSFORMATION_RESIZE, \
-    TRANSFORMATION_ROTATE, TRANSFORMATION_DENSITY, \
-    TRANSFORMATION_ZOOM
-from converter.literals import DIMENSION_SEPARATOR, DEFAULT_PAGE_NUMBER, \
-    DEFAULT_FILE_FORMAT
+from converter.literals import (TRANSFORMATION_RESIZE,
+    TRANSFORMATION_ROTATE, TRANSFORMATION_DENSITY,
+    TRANSFORMATION_ZOOM)
+from converter.literals import (DIMENSION_SEPARATOR, DEFAULT_PAGE_NUMBER,
+    DEFAULT_FILE_FORMAT)
     
 CONVERTER_ERROR_STRING_NO_DECODER = u'no decode delegate for this image format'
 

@@ -15,15 +15,15 @@ from django.core.exceptions import PermissionDenied
 from django.conf import settings
 
 import sendfile
-from common.utils import pretty_size, parse_range, urlquote, \
-    return_diff, encapsulate
+from common.utils import (pretty_size, parse_range, urlquote,
+    return_diff, encapsulate)
 from common.widgets import two_state_template
-from common.literals import PAGE_SIZE_DIMENSIONS, \
-    PAGE_ORIENTATION_PORTRAIT, PAGE_ORIENTATION_LANDSCAPE
+from common.literals import (PAGE_SIZE_DIMENSIONS,
+    PAGE_ORIENTATION_PORTRAIT, PAGE_ORIENTATION_LANDSCAPE)
 from common.conf.settings import DEFAULT_PAPER_SIZE
 from converter.icons import icon_transformation_clear
-from converter.literals import DEFAULT_ZOOM_LEVEL, DEFAULT_ROTATION, \
-    DEFAULT_PAGE_NUMBER, DEFAULT_FILE_FORMAT_MIMETYPE
+from converter.literals import (DEFAULT_ZOOM_LEVEL, DEFAULT_ROTATION,
+    DEFAULT_PAGE_NUMBER, DEFAULT_FILE_FORMAT_MIMETYPE)
 from converter.office_converter import OfficeConverter
 from filetransfers.api import serve_file
 from navigation.utils import resolve_to_name

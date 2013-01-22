@@ -1,7 +1,7 @@
 import re
 
-from django.template import Node, TemplateSyntaxError, Library, \
-    Variable, Context
+from django.template import (Node, TemplateSyntaxError, Library,
+    Variable, Context)
 from django.template.loader import get_template
 
 register = Library()

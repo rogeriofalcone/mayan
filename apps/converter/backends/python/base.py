@@ -14,10 +14,10 @@ from mimetype.api import get_mimetype
 
 from converter.exceptions import UnknownFileFormat
 from converter.backends import ConverterBase
-from converter.literals import TRANSFORMATION_RESIZE, \
-    TRANSFORMATION_ROTATE, TRANSFORMATION_ZOOM
-from converter.literals import DEFAULT_PAGE_NUMBER, \
-    DEFAULT_FILE_FORMAT
+from converter.literals import (TRANSFORMATION_RESIZE,
+    TRANSFORMATION_ROTATE, TRANSFORMATION_ZOOM)
+from converter.literals import (DEFAULT_PAGE_NUMBER,
+    DEFAULT_FILE_FORMAT)
 from converter.utils import cleanup
 
 

@@ -3,13 +3,13 @@ import re
 
 from converter.conf.settings import GM_PATH
 from converter.conf.settings import GM_SETTINGS
-from converter.exceptions import ConvertError, UnknownFileFormat, \
-    IdentifyError
+from converter.exceptions import (ConvertError, UnknownFileFormat,
+    IdentifyError)
 from converter.backends import ConverterBase
-from converter.literals import TRANSFORMATION_RESIZE, \
-    TRANSFORMATION_ROTATE, TRANSFORMATION_ZOOM
-from converter.literals import DIMENSION_SEPARATOR, DEFAULT_PAGE_NUMBER, \
-    DEFAULT_FILE_FORMAT
+from converter.literals import (TRANSFORMATION_RESIZE,
+    TRANSFORMATION_ROTATE, TRANSFORMATION_ZOOM)
+from converter.literals import (DIMENSION_SEPARATOR, DEFAULT_PAGE_NUMBER,
+    DEFAULT_FILE_FORMAT)
 
 CONVERTER_ERROR_STRING_NO_DECODER = u'No decode delegate for this image format'
 CONVERTER_ERROR_STARTS_WITH = u'starts with'
