@@ -38,7 +38,6 @@ def index_setup_list(request):
     context = {
         'title': _(u'indexes'),
         'hide_object': True,
-        'list_object_variable_name': 'index',
         'extra_columns': [
             {'name': _(u'name'), 'attribute': 'name'},
             {'name': _(u'title'), 'attribute': 'title'},
@@ -101,9 +100,8 @@ def index_setup_edit(request, index_pk):
     return render_to_response('generic_form.html', {
         'title': _(u'edit index: %s') % index,
         'form': form,
-        'index': index,
+        'object': index,
         'object_name': _(u'index'),
-        'navigation_object_name': 'index',
     },
     context_instance=RequestContext(request))
 
@@ -132,9 +130,8 @@ def index_setup_delete(request, index_pk):
         return HttpResponseRedirect(next)
 
     context = {
-        'index': index,
+        'object': index,
         'object_name': _(u'index'),
-        'navigation_object_name': 'index',
         'delete_view': True,
         'previous': previous,
         'next': next,
@@ -158,10 +155,8 @@ def index_setup_view(request, index_pk):
 
     context = {
         'object_list': object_list,
-        'index': index,
+        'object': index,
         'object_name': _(u'index'),
-        'list_object_variable_name': 'node',
-        'navigation_object_name': 'index',
         'title': _(u'tree template nodes for index: %s') % index,
         'hide_object': True,
         'extra_columns': [
@@ -193,8 +188,7 @@ def index_setup_document_types(request, index_pk):
         right_list_title=_(u'document types for index: %s') % index,
         decode_content_type=True,
         extra_context={
-            'navigation_object_name': 'index',
-            'index': index,
+            'object': index,
             'object_name': _(u'index'),
         }
     )
@@ -222,8 +216,11 @@ def template_node_create(request, parent_pk):
         'title': _(u'create child node'),
         'form': form,
         'index': parent_node.index,
-        'object_name': _(u'index'),
-        'navigation_object_name': 'index',
+        'node': parent_node,
+        'navigation_object_list': [
+            {'object': 'index', 'name': _(u'index')},
+            {'object': 'node', 'name': _(u'node')}
+        ],        
     },
     context_instance=RequestContext(request))
 
@@ -250,7 +247,6 @@ def template_node_edit(request, node_pk):
         'form': form,
         'index': node.index,
         'node': node,
-
         'navigation_object_list': [
             {'object': 'index', 'name': _(u'index')},
             {'object': 'node', 'name': _(u'node')}
@@ -290,7 +286,6 @@ def template_node_delete(request, node_pk):
         'form_icon': u'textfield_delete.png',
         'index': node.index,
         'node': node,
-
         'navigation_object_list': [
             {'object': 'index', 'name': _(u'index')},
             {'object': 'node', 'name': _(u'node')}

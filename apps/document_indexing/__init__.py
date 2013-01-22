@@ -33,7 +33,7 @@ register_setup(index_setup)
 
 Link.bind_links([IndexInstanceNode], [index_parent])
 Link.bind_links([Document], [document_index_list], menu_name='form_header')
-Link.bind_links([Index, 'index_setup_list', 'index_setup_create', 'template_node_edit', 'template_node_delete'], [index_setup_list, index_setup_create], menu_name='secondary_menu')
+Link.bind_links([Index, 'index_setup_list', 'index_setup_create'], [index_setup_list, index_setup_create], menu_name='secondary_menu')
 Link.bind_links([Index], [index_setup_edit, index_setup_delete, index_setup_view, index_setup_document_types])
 Link.bind_links([IndexTemplateNode], [template_node_create, template_node_edit, template_node_delete])
 
