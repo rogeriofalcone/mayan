@@ -12,7 +12,6 @@ from django.utils.translation import ugettext as _
 from ..api import main_menu, multi_object_navigation, sidebar_templates
 from ..classes import Link
 from ..forms import MultiItemForm
-from ..utils import resolve_template_variable
 
 logger = logging.getLogger(__name__)
 register = Library()
@@ -41,7 +40,7 @@ class GetNavigationLinks(Node):
         logger.debug('menu_name: %s' % menu_name)
 
     def render(self, context):
-        menu_name = resolve_template_variable(context, self.menu_name)
+        menu_name = Link.resolve_template_variable(context, self.menu_name)
         context[self.var_name] = Link.get_context_navigation_links(context, menu_name, links_dict=self.links_dict)
         return ''
 
