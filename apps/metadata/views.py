@@ -595,8 +595,7 @@ def setup_document_type_metadata(request, document_type_id):
         left_list_title=_(u'non members of document type: %s') % document_type,
         right_list_title=_(u'members of document type: %s') % document_type,
         extra_context={
-            'document_type': document_type,
-            'navigation_object_name': 'document_type',
+            'object': document_type,
             'object_name': _(u'document type'),
         },
         grouped=True,
