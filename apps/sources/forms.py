@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext
 
 from documents.forms import DocumentForm
+from documents.models import DocumentType
 
 from .models import WebForm, StagingFolder, WatchFolder
 from .widgets import IconRadioSelect
@@ -97,3 +98,11 @@ class StagingFolderSetupForm(forms.ModelForm):
 class WatchFolderSetupForm(forms.ModelForm):
     class Meta:
         model = WatchFolder
+
+
+class DocumentTypeSelectForm(forms.Form):
+    """
+    Form to select the document type of a document to be created, used
+    as form #1 in the document creation wizard
+    """
+    document_type = forms.ModelChoiceField(queryset=DocumentType.objects.all(), label=(u'Document type'), required=False)

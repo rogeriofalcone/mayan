@@ -21,7 +21,6 @@ from documents.permissions import (PERMISSION_DOCUMENT_CREATE,
 from documents.models import DocumentType, Document
 from documents.conf.settings import THUMBNAIL_SIZE
 from documents.exceptions import NewDocumentVersionNotAllowed
-from documents.forms import DocumentTypeSelectForm
 from icons.classes import Icon
 from metadata.api import decode_metadata_from_url, metadata_repr_as_list
 from metadata.forms import MetadataFormSet, MetadataSelectionForm
@@ -29,7 +28,7 @@ from navigation.classes import Link
 from permissions.models import Permission
 
 from .forms import (StagingDocumentForm, WebFormForm,
-    WatchFolderSetupForm)
+    WatchFolderSetupForm, DocumentTypeSelectForm)
 from .forms import WebFormSetupForm, StagingFolderSetupForm
 from .icons import (icon_staging_file_delete, icon_setup_web_form_delete,
     icon_setup_staging_folder_delete)

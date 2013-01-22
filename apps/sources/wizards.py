@@ -6,9 +6,9 @@ from django.http import HttpResponseRedirect
 from django.utils.http import urlencode
 
 from common.wizard import BoundFormWizard
-from documents.forms import DocumentTypeSelectForm
 from metadata.forms import MetadataSelectionForm, MetadataFormSet
 
+from .forms import DocumentTypeSelectForm
 from .icons import icon_wizard_next_step
 
 

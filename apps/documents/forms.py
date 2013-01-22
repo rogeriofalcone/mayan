@@ -268,14 +268,6 @@ class DocumentContentForm(forms.Form):
     )
 
 
-class DocumentTypeSelectForm(forms.Form):
-    """
-    Form to select the document type of a document to be created, used
-    as form #1 in the document creation wizard
-    """
-    document_type = forms.ModelChoiceField(queryset=DocumentType.objects.all(), label=(u'Document type'), required=False)
-
-
 class PrintForm(forms.Form):
     #page_size = forms.ChoiceField(choices=PAGE_SIZE_CHOICES, initial=DEFAULT_PAPER_SIZE, label=_(u'Page size'), required=False)
     #custom_page_width = forms.CharField(label=_(u'Custom page width'), required=False)
