@@ -9,8 +9,8 @@ from django.utils.translation import ugettext_lazy as _
 from documents.models import Document
 from maintenance.api import MaintenanceNamespace
 from metadata.models import DocumentMetadata
-from navigation.api import (register_top_menu, register_sidebar_template,
-    bind_links)
+from navigation.api import register_top_menu, register_sidebar_template
+from navigation.classes import Link
 from project_setup.api import register_setup
 
 from .api import update_indexes, delete_indexes
@@ -31,11 +31,11 @@ register_sidebar_template(['index_instance_list'], 'indexing_help.html')
 
 register_setup(index_setup)
 
-bind_links([IndexInstanceNode], [index_parent])
-bind_links([Document], [document_index_list], menu_name='form_header')
-bind_links([Index, 'index_setup_list', 'index_setup_create', 'template_node_edit', 'template_node_delete'], [index_setup_list, index_setup_create], menu_name='secondary_menu')
-bind_links([Index], [index_setup_edit, index_setup_delete, index_setup_view, index_setup_document_types])
-bind_links([IndexTemplateNode], [template_node_create, template_node_edit, template_node_delete])
+Link.bind_links([IndexInstanceNode], [index_parent])
+Link.bind_links([Document], [document_index_list], menu_name='form_header')
+Link.bind_links([Index, 'index_setup_list', 'index_setup_create', 'template_node_edit', 'template_node_delete'], [index_setup_list, index_setup_create], menu_name='secondary_menu')
+Link.bind_links([Index], [index_setup_edit, index_setup_delete, index_setup_view, index_setup_document_types])
+Link.bind_links([IndexTemplateNode], [template_node_create, template_node_edit, template_node_delete])
 
 @receiver(post_save, dispatch_uid='document_index_update', sender=Document)
 def document_index_update(sender, **kwargs):

@@ -1,9 +1,9 @@
 from __future__ import absolute_import
 
-from navigation.api import bind_links
+from navigation.classes import Link
 
-from .links import maintenance_menu, maintenance_execute
 from .api import MaintenanceTool
+from .links import maintenance_menu, maintenance_execute
 
-bind_links(['maintenance_menu'], maintenance_menu, menu_name='secondary_menu')
-bind_links([MaintenanceTool], maintenance_execute)
+Link.bind_links(['maintenance_menu'], maintenance_menu, menu_name='secondary_menu')
+Link.bind_links([MaintenanceTool], maintenance_execute)

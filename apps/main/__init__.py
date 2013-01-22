@@ -44,7 +44,3 @@ def get_version():
 
 
 __version__ = get_version()
-
-
-#register_tool(statistics)
-

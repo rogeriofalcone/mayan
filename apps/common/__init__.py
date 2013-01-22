@@ -2,32 +2,33 @@ from __future__ import absolute_import
 
 import tempfile
 
-from south.signals import post_migrate
-
-from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 from django.contrib.auth import models as auth_models
 from django.contrib.auth.models import User
 from django.contrib.auth.management import create_superuser
-from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.db import transaction, DatabaseError
-from django.conf import settings
+from django.dispatch import receiver
+from django.utils.translation import ugettext_lazy as _
 
-from navigation.api import bind_links, register_top_menu
+from south.signals import post_migrate
+
+from navigation.classes import Link
+from navigation.api import register_top_menu
 from project_setup.api import register_setup
 from project_tools.api import register_tool
 
 from .conf.settings import (AUTO_CREATE_ADMIN, AUTO_ADMIN_USERNAME,
     AUTO_ADMIN_PASSWORD, TEMPORARY_DIRECTORY)
 from .conf import settings as common_settings
-from .utils import validate_path
-from .models import AutoAdminSingleton
 from .links import (link_password_change, link_current_user_details,
     link_current_user_edit, link_about, link_license, link_admin_site,
     link_sentry)
+from .models import AutoAdminSingleton
+from .utils import validate_path
 
-bind_links(['current_user_details', 'current_user_edit', 'password_change_view'], [link_current_user_details, link_current_user_edit, link_password_change], menu_name='secondary_menu')
-bind_links(['about_view', 'license_view'], [link_about, link_license], menu_name='secondary_menu')
+Link.bind_links(['current_user_details', 'current_user_edit', 'password_change_view'], [link_current_user_details, link_current_user_edit, link_password_change], menu_name='secondary_menu')
+Link.bind_links(['about_view', 'license_view'], [link_about, link_license], menu_name='secondary_menu')
 
 register_top_menu('about', link=link_about, position=-1)
 

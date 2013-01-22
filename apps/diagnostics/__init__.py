@@ -1,9 +1,9 @@
 from __future__ import absolute_import
 
-from navigation.api import bind_links
+from navigation.classes import Link
 
-from .links import diagnostic_list, diagnostic_execute
 from .api import DiagnosticTool
+from .links import diagnostic_list, diagnostic_execute
 
-bind_links(['diagnostic_list'], diagnostic_list, menu_name='secondary_menu')
-bind_links([DiagnosticTool], diagnostic_execute)
+Link.bind_links(['diagnostic_list'], diagnostic_list, menu_name='secondary_menu')
+Link.bind_links([DiagnosticTool], diagnostic_execute)

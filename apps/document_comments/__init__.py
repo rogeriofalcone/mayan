@@ -1,19 +1,20 @@
 from __future__ import absolute_import
 
-from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.contrib.comments.models import Comment
 from django.contrib.contenttypes import generic
+from django.utils.translation import ugettext_lazy as _
 
-from navigation.api import bind_links, register_model_list_columns
-from common.utils import encapsulate
 from acls.api import class_permissions
+from common.utils import encapsulate
 from documents.models import Document
+from navigation.api import register_model_list_columns
+from navigation.classes import Link
 
-from .permissions import (PERMISSION_COMMENT_CREATE,
-    PERMISSION_COMMENT_DELETE, PERMISSION_COMMENT_VIEW)
 from .links import (comment_delete, comment_multiple_delete, comment_add,
     comments_for_document)
+from .permissions import (PERMISSION_COMMENT_CREATE,
+    PERMISSION_COMMENT_DELETE, PERMISSION_COMMENT_VIEW)
 
 register_model_list_columns(Comment, [
     {
@@ -30,9 +31,9 @@ register_model_list_columns(Comment, [
     }
 ])
 
-bind_links(['comments_for_document', 'comment_add', 'comment_delete', 'comment_multiple_delete'], [comment_add], menu_name='sidebar')
-bind_links([Comment], [comment_delete])
-bind_links([Document], [comments_for_document], menu_name='form_header')
+Link.bind_links(['comments_for_document', 'comment_add', 'comment_delete', 'comment_multiple_delete'], [comment_add], menu_name='sidebar')
+Link.bind_links([Comment], [comment_delete])
+Link.bind_links([Document], [comments_for_document], menu_name='form_header')
 
 Document.add_to_class(
     'comments',

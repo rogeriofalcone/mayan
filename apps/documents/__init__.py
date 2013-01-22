@@ -12,9 +12,10 @@ from diagnostics.api import DiagnosticNamespace
 from dynamic_search.classes import SearchModel
 from history.permissions import PERMISSION_HISTORY_VIEW
 from maintenance.api import MaintenanceNamespace
-from navigation.api import (bind_links, register_top_menu,
+from navigation.api import (register_top_menu,
     register_model_list_columns, register_multi_item_links,
-    register_sidebar_template, Combined)
+    register_sidebar_template)
+from navigation.classes import Combined, Link
 from project_setup.api import register_setup
 
 from .links import (document_list, document_list_recent,
@@ -47,38 +48,38 @@ from .conf import settings as document_settings
 from .widgets import document_thumbnail
 
 # Register document type links
-bind_links([DocumentType], [document_type_edit, document_type_delete, document_type_document_list, document_type_filename_list])
-bind_links([DocumentTypeFilename], [document_type_filename_edit, document_type_filename_delete])
+Link.bind_links([DocumentType], [document_type_edit, document_type_delete, document_type_document_list, document_type_filename_list])
+Link.bind_links([DocumentTypeFilename], [document_type_filename_edit, document_type_filename_delete])
 
-bind_links(['setup_document_type_metadata', 'document_type_filename_delete', 'document_type_create', 'document_type_filename_create', 'document_type_filename_edit', 'document_type_filename_list', 'document_type_list', 'document_type_document_list', 'document_type_edit', 'document_type_delete'], [document_type_list, document_type_create], menu_name='secondary_menu')
-bind_links([DocumentTypeFilename, 'document_type_filename_list', 'document_type_filename_create'], [document_type_filename_create], menu_name='sidebar')
+Link.bind_links(['setup_document_type_metadata', 'document_type_filename_delete', 'document_type_create', 'document_type_filename_create', 'document_type_filename_edit', 'document_type_filename_list', 'document_type_list', 'document_type_document_list', 'document_type_edit', 'document_type_delete'], [document_type_list, document_type_create], menu_name='secondary_menu')
+Link.bind_links([DocumentTypeFilename, 'document_type_filename_list', 'document_type_filename_create'], [document_type_filename_create], menu_name='sidebar')
 
 # Register document links
-bind_links([Document], [document_view_simple, document_view_advanced, document_edit, document_print, document_delete, document_download, document_find_duplicates, document_clear_transformations])
+Link.bind_links([Document], [document_view_simple, document_view_advanced, document_edit, document_print, document_delete, document_download, document_find_duplicates, document_clear_transformations])
 register_multi_item_links(['document_find_duplicates', 'folder_view', 'index_instance_node_view', 'document_type_document_list', 'search', 'results', 'document_group_view', 'document_list', 'document_list_recent', 'tag_tagged_item_list'], [document_multiple_clear_transformations, document_multiple_delete, document_multiple_download])
 
 # Document Version links
-bind_links([DocumentVersion], [document_version_revert, document_version_download])
+Link.bind_links([DocumentVersion], [document_version_revert, document_version_download])
 
 secondary_menu_links = [document_list_recent, document_list]
 
-bind_links(['document_list_recent', 'document_list', 'document_create', 'upload_interactive', 'staging_file_delete'], secondary_menu_links, menu_name='secondary_menu')
-bind_links([Document], secondary_menu_links, menu_name='secondary_menu')
+Link.bind_links(['document_list_recent', 'document_list', 'document_create', 'upload_interactive', 'staging_file_delete'], secondary_menu_links, menu_name='secondary_menu')
+Link.bind_links([Document], secondary_menu_links, menu_name='secondary_menu')
 
 # Document page links
-bind_links([DocumentPage], [
+Link.bind_links([DocumentPage], [
     link_transformation_list, document_page_view,
     document_page_text, document_page_edit,
 ])
 
 # Document page navigation links
-bind_links([DocumentPage], [
+Link.bind_links([DocumentPage], [
     document_page_navigation_first, document_page_navigation_previous,
     document_page_navigation_next, document_page_navigation_last
 ], menu_name='secondary_menu')
 
 # Document page rotation and zoom links
-bind_links([Combined(DocumentPage, 'document_page_view')], [
+Link.bind_links([Combined(DocumentPage, 'document_page_view')], [
     document_page_rotate_left, document_page_rotate_right, document_page_zoom_in,
     document_page_zoom_out, document_page_view_reset
 ], menu_name='form_header')
@@ -109,10 +110,10 @@ register_top_menu(
 register_sidebar_template(['document_list_recent'], 'recent_document_list_help.html')
 register_sidebar_template(['document_type_list'], 'document_types_help.html')
 
-bind_links([Document], [document_view_simple], menu_name='form_header', position=0)
-bind_links([Document], [document_view_advanced], menu_name='form_header', position=1)
-bind_links([Document], [document_history_view], menu_name='form_header')
-bind_links([Document], [document_version_list], menu_name='form_header')
+Link.bind_links([Document], [document_view_simple], menu_name='form_header', position=0)
+Link.bind_links([Document], [document_view_advanced], menu_name='form_header', position=1)
+Link.bind_links([Document], [document_history_view], menu_name='form_header')
+Link.bind_links([Document], [document_version_list], menu_name='form_header')
 
 if (validate_path(document_settings.CACHE_PATH) == False) or (not document_settings.CACHE_PATH):
     setattr(document_settings, 'CACHE_PATH', tempfile.mkdtemp())

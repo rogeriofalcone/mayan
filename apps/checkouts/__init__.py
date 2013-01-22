@@ -2,19 +2,19 @@ from __future__ import absolute_import
 
 from django.utils.translation import ugettext_lazy as _
 
-from navigation.api import (bind_links, register_top_menu,
-    register_multi_item_links, register_sidebar_template)
-from scheduler.api import register_interval_job
-
+from acls.api import class_permissions
 from documents.models import Document
 from documents.permissions import PERMISSION_DOCUMENT_VIEW
-from acls.api import class_permissions
+from navigation.api import (register_top_menu,
+    register_multi_item_links, register_sidebar_template)
+from navigation.classes import Link
+from scheduler.api import register_interval_job
 
+from .links import checkout_list, checkout_document, checkout_info, checkin_document
+from .models import DocumentCheckout
 from .permissions import (PERMISSION_DOCUMENT_CHECKOUT,
     PERMISSION_DOCUMENT_CHECKIN, PERMISSION_DOCUMENT_CHECKIN_OVERRIDE,
     PERMISSION_DOCUMENT_RESTRICTIONS_OVERRIDE)
-from .links import checkout_list, checkout_document, checkout_info, checkin_document
-from .models import DocumentCheckout
 from .tasks import task_check_expired_check_outs
 
 
@@ -26,8 +26,8 @@ def initialize_document_checkout_extra_methods():
     Document.add_to_class('is_new_versions_allowed', lambda document, user=None: DocumentCheckout.objects.is_document_new_versions_allowed(document, user))
 
 register_top_menu(name='checkouts', link=checkout_list)
-bind_links([Document], [checkout_info], menu_name='form_header')
-bind_links(['checkout_info', 'checkout_document', 'checkin_document'], [checkout_document, checkin_document], menu_name="sidebar")
+Link.bind_links([Document], [checkout_info], menu_name='form_header')
+Link.bind_links(['checkout_info', 'checkout_document', 'checkin_document'], [checkout_document, checkin_document], menu_name="sidebar")
 
 class_permissions(Document, [
     PERMISSION_DOCUMENT_CHECKOUT,

@@ -1,4 +1,4 @@
-from navigation.api import bind_links
+from navigation.classes import Link
 
 from .links import maintenance_menu
 
@@ -40,7 +40,7 @@ class MaintenanceNamespace(object):
         self.tools.append(tool_instance)
         tool_instance.id = len(MaintenanceNamespace.tools_by_id) + 1
         MaintenanceNamespace.tools_by_id[tool_instance.id] = tool_instance
-        bind_links([tool_instance.link.view], maintenance_menu, menu_name='secondary_menu')
+        Link.bind_links([tool_instance.link.view], maintenance_menu, menu_name='secondary_menu')
 
     def __unicode__(self):
         return unicode(self.label)
