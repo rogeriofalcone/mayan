@@ -1,6 +1,5 @@
 from __future__ import absolute_import
 
-from ast import literal_eval
 import datetime
 
 from django.db import models
