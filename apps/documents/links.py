@@ -100,20 +100,15 @@ document_version_revert = Link(text=_(u'revert'), view='document_version_revert'
 # Document type related links
 document_type_list = Link(text=_(u'document type list'), view='document_type_list', icon=icon_document_types, permissions=[PERMISSION_DOCUMENT_TYPE_VIEW])
 document_type_setup = Link(text=_(u'document types'), view='document_type_list', icon=icon_document_types, permissions=[PERMISSION_DOCUMENT_TYPE_VIEW], children_view_regex=[r'^document_type_'])
-document_type_document_list = Link(text=_(u'documents of this type'), view='document_type_document_list', args='document_type.id', icon=icon_document_type_document_list, permissions=[PERMISSION_DOCUMENT_TYPE_VIEW])
-document_type_edit = Link(text=_(u'edit'), view='document_type_edit', args='document_type.id', icon=icon_document_type_edit, permissions=[PERMISSION_DOCUMENT_TYPE_EDIT])
-document_type_delete = Link(text=_(u'delete'), view='document_type_delete', args='document_type.id', icon=icon_document_type_delete, permissions=[PERMISSION_DOCUMENT_TYPE_DELETE])
+document_type_document_list = Link(text=_(u'documents of this type'), view='document_type_document_list', args='resolved_object.id', icon=icon_document_type_document_list, permissions=[PERMISSION_DOCUMENT_TYPE_VIEW])
+document_type_edit = Link(text=_(u'edit'), view='document_type_edit', args='resolved_object.id', icon=icon_document_type_edit, permissions=[PERMISSION_DOCUMENT_TYPE_EDIT])
+document_type_delete = Link(text=_(u'delete'), view='document_type_delete', args='resolved_object.id', icon=icon_document_type_delete, permissions=[PERMISSION_DOCUMENT_TYPE_DELETE])
 document_type_create = Link(text=_(u'create document type'), view='document_type_create', icon=icon_document_type_create, permissions=[PERMISSION_DOCUMENT_TYPE_CREATE])
 
-document_type_filename_list = Link(text=_(u'filenames'), view='document_type_filename_list', args='document_type.id', icon=icon_document_type_filename_list, permissions=[PERMISSION_DOCUMENT_TYPE_VIEW])
+document_type_filename_list = Link(text=_(u'filenames'), view='document_type_filename_list', args='resolved_object.id', icon=icon_document_type_filename_list, permissions=[PERMISSION_DOCUMENT_TYPE_VIEW])
 document_type_filename_create = Link(text=_(u'add filename to document type'), view='document_type_filename_create', args='document_type.id', icon=icon_document_type_filename_create, permissions=[PERMISSION_DOCUMENT_TYPE_EDIT])
-document_type_filename_edit = Link(text=_(u'edit'), view='document_type_filename_edit', args='filename.id', icon=icon_document_type_filename_edit, permissions=[PERMISSION_DOCUMENT_TYPE_EDIT])
-document_type_filename_delete = Link(text=_(u'delete'), view='document_type_filename_delete', args='filename.id', icon=icon_document_type_filename_delete, permissions=[PERMISSION_DOCUMENT_TYPE_EDIT])
-
-document_type_filename_list = Link(text=_(u'filenames'), view='document_type_filename_list', args='document_type.id', icon=icon_document_type_filename_list, permissions=[PERMISSION_DOCUMENT_TYPE_VIEW])
-document_type_filename_create = Link(text=_(u'add filename to document type'), view='document_type_filename_create', args='document_type.id', icon=icon_document_type_filename_create, permissions=[PERMISSION_DOCUMENT_TYPE_EDIT])
-document_type_filename_edit = Link(text=_(u'edit'), view='document_type_filename_edit', args='filename.id', icon=icon_document_type_filename_edit, permissions=[PERMISSION_DOCUMENT_TYPE_EDIT])
-document_type_filename_delete = Link(text=_(u'delete'), view='document_type_filename_delete', args='filename.id', icon=icon_document_type_filename_delete, permissions=[PERMISSION_DOCUMENT_TYPE_EDIT])
+document_type_filename_edit = Link(text=_(u'edit'), view='document_type_filename_edit', args='resolved_object.id', icon=icon_document_type_filename_edit, permissions=[PERMISSION_DOCUMENT_TYPE_EDIT])
+document_type_filename_delete = Link(text=_(u'delete'), view='document_type_filename_delete', args='resolved_object.id', icon=icon_document_type_filename_delete, permissions=[PERMISSION_DOCUMENT_TYPE_EDIT])
 
 link_documents_menu = Link(icon=icon_documents, text=_(u'documents'), view='document_list_recent',
     children_url_regex=[r'^documents/[^t]', r'^metadata/[^s]', r'comments', r'tags/document', r'grouping/[^s]', r'history/list/for_resolved_object/documents'],

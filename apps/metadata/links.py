@@ -36,4 +36,4 @@ setup_metadata_set_delete = Link(text=_(u'delete'), view='setup_metadata_set_del
 setup_metadata_set_create = Link(text=_(u'create new'), view='setup_metadata_set_create', icon=icon_metadata_set_create, permissions=[PERMISSION_METADATA_SET_CREATE])
 setup_metadata_set_members = Link(text=_(u'members'), view='setup_metadata_set_members', args='object.pk', icon=icon_metadata_set_members, permissions=[PERMISSION_METADATA_SET_EDIT])
 
-setup_document_type_metadata = Link(text=_(u'default metadata'), view='setup_document_type_metadata', args='document_type.pk', icon=icon_metadata_view, permissions=[PERMISSION_DOCUMENT_TYPE_EDIT])
+setup_document_type_metadata = Link(text=_(u'default metadata'), view='setup_document_type_metadata', args='resolved_object.pk', icon=icon_metadata_view, permissions=[PERMISSION_DOCUMENT_TYPE_EDIT])

@@ -573,9 +573,7 @@ def document_page_view(request, document_page_id):
         rotation_text = u''
 
     return render_to_response('generic_detail.html', {
-        'page': document_page,
-        'access_object': document_page.document,
-        'navigation_object_name': 'page',
+        'object': document_page,
         'web_theme_hide_menus': True,
         'form': document_page_form,
         'title': u' '.join([base_title, zoom_text, rotation_text]),
@@ -598,12 +596,10 @@ def document_page_text(request, document_page_id):
     document_page_form = DocumentPageForm_text(instance=document_page)
 
     return render_to_response('generic_detail.html', {
-        'page': document_page,
-        'navigation_object_name': 'page',
+        'object': document_page,
         'web_theme_hide_menus': True,
         'form': document_page_form,
         'title': _(u'details for: %s') % document_page,
-        'access_object': document_page.document,
     }, context_instance=RequestContext(request))
 
 
@@ -628,11 +624,9 @@ def document_page_edit(request, document_page_id):
 
     return render_to_response('generic_form.html', {
         'form': form,
-        'page': document_page,
-        'navigation_object_name': 'page',
+        'object': document_page,
         'title': _(u'edit: %s') % document_page,
         'web_theme_hide_menus': True,
-        'access_object': document_page.document,
     }, context_instance=RequestContext(request))
 
 
@@ -935,8 +929,7 @@ def document_type_document_list(request, document_type_id):
         title=_(u'documents of type "%s"') % document_type,
         extra_context={
             'object_name': _(u'document type'),
-            'navigation_object_name': 'document_type',
-            'document_type': document_type,
+            'object': document_type,
         }
     )
 
@@ -962,10 +955,8 @@ def document_type_edit(request, document_type_id):
     return render_to_response('generic_form.html', {
         'title': _(u'edit document type: %s') % document_type,
         'form': form,
-        #'object': document_type,
         'object_name': _(u'document type'),
-        'navigation_object_name': 'document_type',
-        'document_type': document_type,
+        'object': document_type,
         'next': next
     },
     context_instance=RequestContext(request))
@@ -996,11 +987,8 @@ def document_type_delete(request, document_type_id):
         'delete_view': True,
         'previous': previous,
         'next': next,
-
         'object_name': _(u'document type'),
-        'navigation_object_name': 'document_type',
-        'document_type': document_type,
-
+        'object': document_type,
         'title': _(u'Are you sure you wish to delete the document type: %s?') % document_type,
         'message': _(u'The document type of all documents using this document type will be set to none.'),
         'form_icon': icon_document_type_delete,
@@ -1041,9 +1029,10 @@ def document_type_filename_list(request, document_type_id):
         'object_list': document_type.documenttypefilename_set.all(),
         'title': _(u'filenames for document type: %s') % document_type,
         'object_name': _(u'document type'),
-        'navigation_object_name': 'document_type',
         'document_type': document_type,
-        'list_object_variable_name': 'filename',
+        'navigation_object_list': [
+            {'object': 'document_type', 'name': _(u'document type')},
+        ],        
         'hide_link': True,
         'extra_columns': [
             {
