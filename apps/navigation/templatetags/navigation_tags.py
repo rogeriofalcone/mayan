@@ -1,22 +1,21 @@
 from __future__ import absolute_import
 
 import copy
-import re
 import logging
+import re
 
 from django.core.urlresolvers import reverse
 from django.template import (TemplateSyntaxError, Library,
     Node, Variable, VariableDoesNotExist)
 from django.utils.translation import ugettext as _
 
-from ..api import (bound_links, multi_object_navigation,
-    sidebar_templates, get_context_navigation_links)
+from ..api import main_menu, multi_object_navigation, sidebar_templates
+from ..classes import Link
 from ..forms import MultiItemForm
 from ..utils import resolve_to_name, resolve_template_variable
-from ..api import main_menu
 
-register = Library()
 logger = logging.getLogger(__name__)
+register = Library()
 
 
 class TopMenuNavigationNode(Node):
@@ -35,7 +34,7 @@ def get_top_menu_links(parser, token):
 
 
 class GetNavigationLinks(Node):
-    def __init__(self, menu_name=None, links_dict=bound_links, var_name='object_navigation_links'):
+    def __init__(self, menu_name=None, links_dict=Link.bound_links, var_name='object_navigation_links'):
         self.menu_name = menu_name
         self.links_dict = links_dict
         self.var_name = var_name
@@ -43,7 +42,7 @@ class GetNavigationLinks(Node):
 
     def render(self, context):
         menu_name = resolve_template_variable(context, self.menu_name)
-        context[self.var_name] = get_context_navigation_links(context, menu_name, links_dict=self.links_dict)
+        context[self.var_name] = Link.get_context_navigation_links(context, menu_name, links_dict=self.links_dict)
         return ''
 
 
@@ -78,7 +77,7 @@ def object_navigation_template(context):
         else:
             new_context.update({
                 'horizontal': True,
-                'links': get_context_navigation_links(context).get(object_reference)
+                'links': Link.get_context_navigation_links(context).get(object_reference)
             })
 
     return new_context

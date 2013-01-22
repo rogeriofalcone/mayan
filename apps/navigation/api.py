@@ -1,36 +1,11 @@
 from __future__ import absolute_import
 
-import logging
-
 from xml.etree.ElementTree import Element, SubElement
-
-from django.template import (VariableDoesNotExist, Variable)
-
-from .utils import resolve_to_name, get_navigation_objects
 
 multi_object_navigation = {}
 model_list_columns = {}
 sidebar_templates = {}
-bound_links = {}
-logger = logging.getLogger(__name__)
 main_menu = Element('root')
-
-
-def bind_links(sources, links, menu_name=None, position=0):
-    """
-    Associate a link to a model, a view, or an url
-    """
-    bound_links.setdefault(menu_name, {})
-    try:
-        for source in sources:
-            bound_links[menu_name].setdefault(source, {'links': []})
-            try:
-                bound_links[menu_name][source]['links'].extend(links)
-            except TypeError:
-                # Try to see if links is a single link
-                bound_links[menu_name][source]['links'].append(links)
-    except TypeError:
-        raise Exception('The bind_links source argument must be a list, even for single element sources.')
 
 
 def register_top_menu(name, link, position=None):
@@ -74,83 +49,3 @@ def register_multi_item_links(sources, links, menu_name=None):
     for source in sources:
         multi_object_navigation[menu_name].setdefault(source, {'links': []})
         multi_object_navigation[menu_name][source]['links'].extend(links)
-
-
-class Combined(object):
-    """
-    Class that binds a link to a combination of an object and a view.
-    This is used to show links relating to a specific object type but only
-    in certain views.
-    Used by the PageDocument class to show rotatio and zoom link only on
-    certain views
-    """
-    def __init__(self, obj, view):
-        self.obj = obj
-        self.view = view
-
-    def __hash__(self):
-        return hash((self.obj, self.view))
-
-    def __eq__(self, other):
-        return hash(self) == hash(other)
-
-
-def get_context_navigation_links(context, menu_name=None, links_dict=bound_links):
-    request = Variable('request').resolve(context)
-    current_path = request.META['PATH_INFO']
-    current_view = resolve_to_name(current_path)
-    context_links = {}
-
-    # Don't fudge with the original global dictionary
-    # TODO: fix this
-    links_dict = links_dict.copy()
-
-    # Dynamic sources
-    # TODO: improve name to 'injected...'
-    # TODO: remove, only used by staging files
-    try:
-        """
-        Check for and inject a temporary navigation dictionary
-        """
-        temp_navigation_links = Variable('temporary_navigation_links').resolve(context)
-        if temp_navigation_links:
-            links_dict.update(temp_navigation_links)
-    except VariableDoesNotExist:
-        pass
-
-    # Get view only links
-    try:
-        view_links = links_dict[menu_name][current_view]['links']
-        if view_links:
-            context_links.setdefault(None, [])
-
-        for link in view_links:
-            context_links[None].append(link.resolve(context, request=request, current_path=current_path, current_view=current_view))
-    except KeyError:
-        pass
-
-    # Get object links
-    for resolved_object, object_properties in get_navigation_objects(context).items():
-        # Get object class links
-        try:
-            object_links = links_dict[menu_name][type(resolved_object)]['links']
-            if object_links:
-                context_links.setdefault(resolved_object, [])
-
-            for link in object_links:
-                context_links[resolved_object].append(link.resolve(context, request=request, current_path=current_path, current_view=current_view, resolved_object=resolved_object))
-        except KeyError:
-            pass
-
-        # Get Combined() instances class links
-        try:
-            object_links = links_dict[menu_name][Combined(obj=type(resolved_object), view=current_view)]['links']
-            if object_links:
-                context_links.setdefault(resolved_object, [])
-
-            for link in object_links:
-                context_links[resolved_object].append(link.resolve(context, request=request, current_path=current_path, current_view=current_view, resolved_object=resolved_object))
-        except KeyError:
-            pass
-
-    return context_links
