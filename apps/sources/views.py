@@ -431,7 +431,7 @@ def staging_file_delete(request, source_type, source_id, staging_file_id):
 
     if request.method == 'POST':
         try:
-            transformations, errors = SourceTransformation.transformations.get_for_object_as_list(staging_folder)
+            transformations, errors = Transformation.objects.get_for_object_as_list(staging_folder)
             staging_file.delete(
                 preview_size=staging_folder.get_preview_size(),
                 transformations=transformations

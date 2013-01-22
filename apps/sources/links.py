@@ -32,7 +32,7 @@ setup_staging_folder_create = Link(text=_(u'add new staging folders'), view='set
 setup_source_edit = Link(text=_(u'edit'), view='setup_source_edit', args=['resolved_object.source_type', 'resolved_object.pk'], icon=icon_setup_source_edit, permissions=[PERMISSION_SOURCES_SETUP_EDIT])
 setup_source_delete = Link(text=_(u'delete'), view='setup_source_delete', args=['resolved_object.source_type', 'resolved_object.pk'], icon=icon_setup_source_delete, permissions=[PERMISSION_SOURCES_SETUP_DELETE])
 
-staging_file_delete = Link(text=_(u'delete'), view='staging_file_delete', args=['source.source_type', 'source.pk', 'object.pk'], icon=icon_staging_file_delete, keep_query=True, permissions=[PERMISSION_DOCUMENT_NEW_VERSION, PERMISSION_DOCUMENT_CREATE])
+staging_file_delete = Link(text=_(u'delete'), view='staging_file_delete', args=['resolved_object.source.source_type', 'resolved_object.source.pk', 'resolved_object.id'], icon=icon_staging_file_delete, keep_query=True, permissions=[PERMISSION_DOCUMENT_NEW_VERSION, PERMISSION_DOCUMENT_CREATE])
 
 upload_version = Link(text=_(u'upload new version'), view='upload_version', args='object.pk', icon=icon_upload_version, permissions=[PERMISSION_DOCUMENT_NEW_VERSION])
 
