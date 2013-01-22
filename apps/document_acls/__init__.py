@@ -8,8 +8,9 @@ from documents.models import Document
 from navigation.classes import Link
 
 from .links import acl_list
+from acls.links import link_acl_list
 
-Link.bind_links([Document], [acl_list], menu_name='form_header')
+Link.bind_links([Document], [link_acl_list], menu_name='form_header')
 
 class_permissions(Document, [
     ACLS_VIEW_ACL,
