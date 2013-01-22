@@ -12,6 +12,7 @@ from django.db import transaction
 
 from converter.api import get_available_transformations_choices
 from converter.literals import DIMENSION_SEPARATOR
+from converter.models import Transformation
 from documents.models import DocumentType, Document
 from documents.events import history_document_created
 from metadata.models import MetadataType
@@ -54,7 +55,7 @@ class BaseModel(models.Model):
         return u'%s_%d' % (self.source_type, self.pk)
 
     def get_transformation_list(self):
-        return SourceTransformation.transformations.get_for_object_as_list(self)
+        return Transformation.objects.get_for_object_as_list(self)
 
     def upload_file(self, file_object, filename=None, use_file_name=False, document_type=None, expand=False, metadata_dict_list=None, user=None, document=None, new_version_data=None, command_line=False):
         is_compressed = None
@@ -121,9 +122,9 @@ class BaseModel(models.Model):
         if filename:
             document.rename(filename)
 
-        transformations, errors = self.get_transformation_list()
+        for document_page in new_version.pages.all():
+            Transformation.objects.clone(self, document_page)
 
-        new_version.apply_default_transformations(transformations)
         #TODO: new HISTORY for version updates
 
         if metadata_dict_list and new_document:

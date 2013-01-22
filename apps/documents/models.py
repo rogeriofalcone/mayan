@@ -379,7 +379,6 @@ class DocumentVersion(models.Model):
             self.timestamp = datetime.datetime.now()
 
         #Only do this for new documents
-        transformations = kwargs.pop('transformations', None)
         super(DocumentVersion, self).save(*args, **kwargs)
 
         for key in sorted(DocumentVersion._post_save_hooks):
@@ -391,8 +390,6 @@ class DocumentVersion(models.Model):
             self.update_mimetype(save=False)
             self.save()
             self.update_page_count(save=False)
-            if transformations:
-                self.apply_default_transformations(transformations)
 
     def update_checksum(self, save=True):
         """
@@ -439,19 +436,6 @@ class DocumentVersion(models.Model):
 
         return detected_pages
 
-    def apply_default_transformations(self, transformations):
-        #Only apply default transformations on new documents
-        if reduce(lambda x, y: x + y, [page.documentpagetransformation_set.count() for page in self.pages.all()]) == 0:
-            for transformation in transformations:
-                for document_page in self.pages.all():
-                    page_transformation = DocumentPageTransformation(
-                        document_page=document_page,
-                        order=0,
-                        transformation=transformation.get('transformation'),
-                        arguments=transformation.get('arguments')
-                    )
-
-                    page_transformation.save()
 
     def revert(self):
         """
