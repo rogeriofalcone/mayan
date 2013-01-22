@@ -60,24 +60,18 @@ def get_context_navigation_links_tag(parser, token):
 
 @register.inclusion_tag('generic_navigation.html', takes_context=True)
 def object_navigation_template(context):
-    # Used by list subtemplate
+    # Used by list subtemplate to display list item links
     new_context = copy.copy(context)
-    try:
-        object_variable_name = Variable('navigation_object_name').resolve(context)
-    except VariableDoesNotExist:
-        object_variable_name = 'object'
-    finally:
-        logger.debug('object_variable_name: %s' % object_variable_name)
 
-        try:
-            object_reference = Variable(object_variable_name).resolve(context)
-        except VariableDoesNotExist:
-            pass
-        else:
-            new_context.update({
-                'horizontal': True,
-                'links': Link.get_context_navigation_links(context).get(object_reference)
-            })
+    try:
+        object_reference = Variable('object').resolve(context)
+    except VariableDoesNotExist:
+        pass
+    else:
+        new_context.update({
+            'horizontal': True,
+            'links': Link.get_context_navigation_links(context).get(object_reference)
+        })
 
     return new_context
 

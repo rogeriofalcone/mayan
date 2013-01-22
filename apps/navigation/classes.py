@@ -233,44 +233,6 @@ class Link(object):
                     objects[resolved_object]['label'] = indirect_reference.get('object_name')
 
         try:
-            indirect_reference = Variable('navigation_object_name').resolve(context)
-        except VariableDoesNotExist:
-            pass
-        else:
-            logger.debug('found: navigation_object_name')
-            try:
-                object_label = Variable('object_name').resolve(context)
-            except VariableDoesNotExist:
-                object_label = None
-            finally:
-                try:
-                    resolved_object = Variable(indirect_reference).resolve(context)
-                except VariableDoesNotExist:
-                    resolved_object = None
-
-                objects.setdefault(resolved_object, {})
-                objects[resolved_object]['label'] = object_label
-
-        try:
-            indirect_reference = Variable('list_object_variable_name').resolve(context)
-        except VariableDoesNotExist:
-            pass
-        else:
-            logger.debug('found renamed list object')
-            try:
-                object_label = Variable('object_name').resolve(context)
-            except VariableDoesNotExist:
-                object_label = None
-            finally:
-                try:
-                    resolved_object = Variable(indirect_reference).resolve(context)
-                except VariableDoesNotExist:
-                    resolved_object = None
-                else:
-                    objects.setdefault(resolved_object, {})
-                    objects[resolved_object]['label'] = object_label
-
-        try:
             resolved_object = Variable('object').resolve(context)
         except VariableDoesNotExist:
             pass
