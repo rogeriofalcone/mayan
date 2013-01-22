@@ -16,26 +16,9 @@ from mimetype.api import (get_icon_file_path, get_error_icon_file_path,
 from converter.api import convert, cache_cleanup
 from converter.exceptions import UnknownFileFormat, UnkownConvertError
 
-
 DEFAULT_STAGING_DIRECTORY = u'/tmp'
 
 HASH_FUNCTION = lambda x: hashlib.sha256(x).hexdigest()
-#TODO: Do benchmarks
-#func = lambda:[StagingFile.get_all() is None for i in range(100)]
-#t1=time.time();func();t2=time.time();print '%s took %0.3f ms' % (func.func_name, (t2-t1)*1000.0)
-
-#STAGING_FILE_FUNCTIONS = {
-#    UPLOAD_SOURCE_STAGING: lambda x: STAGING_DIRECTORY,
-#    UPLOAD_SOURCE_USER_STAGING: lambda x: os.path.join(USER_STAGING_DIRECTORY_ROOT, eval(USER_STAGING_DIRECTORY_EXPRESSION, {'user': x.user}))
-#}
-
-
-#def evaluate_user_staging_path(request, source):
-#    try:
-#        return STAGING_FILE_FUNCTIONS[source](request)
-#    except Exception, exc:
-#        messages.error(request, _(u'Error evaluating user staging directory expression; %s') % exc)
-#        return u''
 
 
 def get_all_files(path):
@@ -43,19 +26,6 @@ def get_all_files(path):
         return sorted([os.path.normcase(f) for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))])
     except OSError, exc:
         raise Exception(ugettext(u'Unable get list of staging files: %s') % exc)
-
-
-def _return_new_class():
-    return type('StagingFile', (StagingFile,), dict(StagingFile.__dict__))
-
-
-def create_staging_file_class(request, directory_path, source=None):
-    cls = _return_new_class()
-    #cls.set_path(evaluate_user_staging_path(request, source))
-    cls.set_path(directory_path)
-    if source is not None:
-        cls.set_source(source)
-    return cls
 
 
 class StagingFile(object):

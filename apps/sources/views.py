@@ -41,7 +41,6 @@ from .models import WebForm, StagingFolder, WatchFolder
 from .permissions import (PERMISSION_SOURCES_SETUP_VIEW,
     PERMISSION_SOURCES_SETUP_EDIT, PERMISSION_SOURCES_SETUP_DELETE,
     PERMISSION_SOURCES_SETUP_CREATE)
-from .staging import create_staging_file_class
 from .wizards import DocumentCreateWizard
 
 
@@ -227,7 +226,7 @@ def upload_interactive(request, source_type=None, source_id=None, document_pk=No
         elif source_type == SOURCE_CHOICE_STAGING:
             staging_folder = get_object_or_404(StagingFolder, pk=source_id)
             context['source'] = staging_folder
-            StagingFile = create_staging_file_class(request, staging_folder.folder_path, source=staging_folder)
+            StagingFile = staging_folder.create_staging_file_class()
             if request.method == 'POST':
                 form = StagingDocumentForm(request.POST, request.FILES,
                     cls=StagingFile, document_type=document_type,
@@ -385,7 +384,7 @@ def get_form_filename(form):
 def staging_file_preview(request, source_type, source_id, staging_file_id):
     Permission.objects.check_permissions(request.user, [PERMISSION_DOCUMENT_CREATE, PERMISSION_DOCUMENT_NEW_VERSION])
     staging_folder = get_object_or_404(StagingFolder, pk=source_id)
-    StagingFile = create_staging_file_class(request, staging_folder.folder_path)
+    StagingFile = staging_folder.create_staging_file_class()
     transformations, errors = Transformation.objects.get_for_object_as_list(staging_folder)
 
     output_file = StagingFile.get(staging_file_id).get_image(
@@ -404,7 +403,7 @@ def staging_file_preview(request, source_type, source_id, staging_file_id):
 def staging_file_thumbnail(request, source_id, staging_file_id):
     Permission.objects.check_permissions(request.user, [PERMISSION_DOCUMENT_CREATE, PERMISSION_DOCUMENT_NEW_VERSION])
     staging_folder = get_object_or_404(StagingFolder, pk=source_id)
-    StagingFile = create_staging_file_class(request, staging_folder.folder_path, source=staging_folder)
+    StagingFile = staging_folder.create_staging_file_class()
     transformations, errors = Transformation.objects.get_for_object_as_list(staging_folder)
 
     output_file = StagingFile.get(staging_file_id).get_image(
@@ -423,7 +422,7 @@ def staging_file_thumbnail(request, source_id, staging_file_id):
 def staging_file_delete(request, source_type, source_id, staging_file_id):
     Permission.objects.check_permissions(request.user, [PERMISSION_DOCUMENT_CREATE, PERMISSION_DOCUMENT_NEW_VERSION])
     staging_folder = get_object_or_404(StagingFolder, pk=source_id)
-    StagingFile = create_staging_file_class(request, staging_folder.folder_path)
+    StagingFile = staging_folder.create_staging_file_class()
 
     staging_file = StagingFile.get(staging_file_id)
     next = request.POST.get('next', request.GET.get('next', request.META.get('HTTP_REFERER', '/')))

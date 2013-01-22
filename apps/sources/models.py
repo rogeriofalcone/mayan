@@ -26,6 +26,7 @@ from .literals import (SOURCE_CHOICES, SOURCE_CHOICES_PLURAL,
     SOURCE_ICON_CHOICES, SOURCE_CHOICE_WATCH, SOURCE_UNCOMPRESS_CHOICES,
     SOURCE_UNCOMPRESS_CHOICE_Y)
 from .compressed_file import CompressedFile, NotACompressedFile
+from .staging import StagingFile
 
 logger = logging.getLogger(__name__)
 
@@ -166,6 +167,12 @@ class StagingFolder(InteractiveBaseModel):
             dimensions.append(unicode(self.preview_height))
 
         return DIMENSION_SEPARATOR.join(dimensions)
+
+    def create_staging_file_class(self):
+        cls = type('StagingFile', (StagingFile,), dict(StagingFile.__dict__))
+        cls.set_path(self.folder_path)
+        cls.set_source(self)
+        return cls
 
     class Meta(InteractiveBaseModel.Meta):
         verbose_name = _(u'staging folder')
