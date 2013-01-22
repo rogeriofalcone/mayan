@@ -20,7 +20,7 @@ class TransformationManager(models.Manager):
     def get_for_object_as_list(self, obj):
         warnings = []
         transformations = []
-        for transformation in self.get_for_object(obj).values('transformation', 'arguments'):
+        for transformation in self.for_model(obj).values('transformation', 'arguments'):
             try:
                 transformations.append(
                     {
