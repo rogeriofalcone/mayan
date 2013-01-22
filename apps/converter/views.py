@@ -58,7 +58,7 @@ def transformation_list(request, app_label, module_name, object_pk):
 
     context = {
         'object_list': Transformation.objects.for_model(content_object),
-        'title': _(u'add transformation for %s: %s') % (content_object._meta.verbose_name, content_object),
+        'title': _(u'transformation for %s: %s') % (content_object._meta.verbose_name, content_object),
         'extra_columns': [
             {'name': _(u'order'), 'attribute': 'order'},
             {'name': _(u'transformation'), 'attribute': encapsulate(lambda x: x.get_transformation_display())},
