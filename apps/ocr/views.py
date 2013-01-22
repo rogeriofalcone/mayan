@@ -38,10 +38,8 @@ def queue_document_list(request, queue_name='default'):
         extra_context={
             'title': _(u'documents in queue: %s') % document_queue,
             'hide_object': True,
-            'queue': document_queue,
+            'object': document_queue,
             'object_name': _(u'document queue'),
-            'navigation_object_name': 'queue',
-            'list_object_variable_name': 'queue_document',
             'extra_columns': [
                 {'name': 'document', 'attribute': encapsulate(lambda x: document_link(x.document) if hasattr(x, 'document') else _(u'Missing document.'))},
                 {'name': _(u'thumbnail'), 'attribute': encapsulate(lambda x: document_thumbnail(x.document))},
@@ -226,8 +224,7 @@ def document_queue_disable(request, document_queue_id):
         return HttpResponseRedirect(next)
 
     return render_to_response('generic_confirm.html', {
-        'queue': document_queue,
-        'navigation_object_name': 'queue',
+        'object': document_queue,
         'title': _(u'Are you sure you wish to disable document queue: %s') % document_queue,
         'next': next,
         'previous': previous,
@@ -253,8 +250,7 @@ def document_queue_enable(request, document_queue_id):
         return HttpResponseRedirect(next)
 
     return render_to_response('generic_confirm.html', {
-        'queue': document_queue,
-        'navigation_object_name': 'queue',
+        'object': document_queue,
         'title': _(u'Are you sure you wish to activate document queue: %s') % document_queue,
         'next': next,
         'previous': previous,

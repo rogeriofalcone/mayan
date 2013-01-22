@@ -14,8 +14,8 @@ re_queue_multiple_document = Link(text=_('re-queue'), view='re_queue_multiple_do
 queue_document_delete = Link(text=_(u'delete'), view='queue_document_delete', args='object.id', permissions=[PERMISSION_OCR_DOCUMENT_DELETE])
 queue_document_multiple_delete = Link(text=_(u'delete'), view='queue_document_multiple_delete', permissions=[PERMISSION_OCR_DOCUMENT_DELETE])
 
-document_queue_disable = Link(text=_(u'stop queue'), view='document_queue_disable', args='queue.id', permissions=[PERMISSION_OCR_QUEUE_ENABLE_DISABLE])
-document_queue_enable = Link(text=_(u'activate queue'), view='document_queue_enable', args='queue.id', permissions=[PERMISSION_OCR_QUEUE_ENABLE_DISABLE])
+document_queue_disable = Link(text=_(u'stop queue'), view='document_queue_disable', args='resolved_object.id', permissions=[PERMISSION_OCR_QUEUE_ENABLE_DISABLE])
+document_queue_enable = Link(text=_(u'activate queue'), view='document_queue_enable', args='resolved_object.id', permissions=[PERMISSION_OCR_QUEUE_ENABLE_DISABLE])
 
 queue_document_list = Link(text=_(u'queue document list'), view='queue_document_list', permissions=[PERMISSION_OCR_DOCUMENT])
 ocr_tool_link = Link(text=_(u'OCR'), view='queue_document_list', icon=icon_submit_document, permissions=[PERMISSION_OCR_DOCUMENT], children_view_regex=[r'queue_', r'document_queue'])
