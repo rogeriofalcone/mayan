@@ -137,7 +137,6 @@ def smart_link_list(request):
             {'name': _(u'enabled'), 'attribute': encapsulate(lambda x: two_state_template(x.enabled).display_small())},
         ],
         'hide_link': True,
-        'list_object_variable_name': 'smart_link',
 
         }, context_instance=RequestContext(request))
 
@@ -179,7 +178,6 @@ def smart_link_edit(request, smart_link_pk):
         form = SmartLinkForm(instance=smart_link)
 
     return render_to_response('generic_form.html', {
-        #'navigation_object_name': 'smart_link',
         'object': smart_link,
         'form': form,
         'title': _(u'Edit smart link: %s') % smart_link
@@ -234,7 +232,6 @@ def smart_link_condition_list(request, smart_link_pk):
         ],
         'hide_link': True,
         'object': smart_link,
-        'list_object_variable_name': 'condition',
         }, context_instance=RequestContext(request))
 
 

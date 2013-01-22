@@ -912,7 +912,6 @@ def document_type_list(request):
         'object_list': DocumentType.objects.all(),
         'title': _(u'document types'),
         'hide_link': True,
-        'list_object_variable_name': 'document_type',
     }
 
     return render_to_response('generic_list.html', context,

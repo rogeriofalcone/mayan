@@ -468,7 +468,6 @@ def setup_source_list(request, source_type):
         'object_list': cls.objects.all(),
         'title': cls.class_fullname_plural(),
         'hide_link': True,
-        'list_object_variable_name': 'source',
         'source_type': source_type,
     }
 

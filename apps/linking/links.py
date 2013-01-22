@@ -26,7 +26,7 @@ smart_link_delete = Link(text=_(u'delete'), view='smart_link_delete', args='obje
 
 smart_link_condition_list = Link(text=_(u'conditions'), view='smart_link_condition_list', args='object.pk', icon=icon_smart_link_condition_list, permissions=[PERMISSION_SMART_LINK_CREATE, PERMISSION_SMART_LINK_CREATE])
 smart_link_condition_create = Link(text=_(u'create condition'), view='smart_link_condition_create', args='object.pk', icon=icon_smart_link_condition_create, permissions=[PERMISSION_SMART_LINK_CREATE, PERMISSION_SMART_LINK_EDIT])
-smart_link_condition_edit = Link(text=_(u'edit'), view='smart_link_condition_edit', args='condition.pk', icon=icon_smart_link_condition_edit, permissions=[PERMISSION_SMART_LINK_CREATE, PERMISSION_SMART_LINK_EDIT])
-smart_link_condition_delete = Link(text=_(u'delete'), view='smart_link_condition_delete', args='condition.pk', icon=icon_smart_link_condition_delete, permissions=[PERMISSION_SMART_LINK_CREATE, PERMISSION_SMART_LINK_EDIT])
+smart_link_condition_edit = Link(text=_(u'edit'), view='smart_link_condition_edit', args='resolved_object.pk', icon=icon_smart_link_condition_edit, permissions=[PERMISSION_SMART_LINK_CREATE, PERMISSION_SMART_LINK_EDIT])
+smart_link_condition_delete = Link(text=_(u'delete'), view='smart_link_condition_delete', args='resolved_object.pk', icon=icon_smart_link_condition_delete, permissions=[PERMISSION_SMART_LINK_CREATE, PERMISSION_SMART_LINK_EDIT])
 
 smart_link_acl_list = Link(text=_(u'ACLs'), view='smart_link_acl_list', args='object.pk', icon=icon_smart_link_acl_list, permissions=[ACLS_VIEW_ACL])
