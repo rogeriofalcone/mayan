@@ -436,6 +436,12 @@ class DocumentVersion(models.Model):
 
         return detected_pages
 
+    def is_latest_version(self):
+        """
+        Return a True is this document version is the latest version of the
+        parent document
+        """
+        return self.document.latest_version == self
 
     def revert(self):
         """
