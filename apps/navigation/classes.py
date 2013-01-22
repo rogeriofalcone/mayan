@@ -129,13 +129,6 @@ class Link(object):
                 if re.compile(children_view_regex).match(current_view):
                     resolved_link.active = True
 
-            for cls in self.children_classes:
-                object_list = get_navigation_objects(context)
-                if object_list:
-                    if type(object_list[0]['object']) == cls or object_list[0]['object'] == cls:
-                        #new_link['active'] = True
-                        resolved_link.active = True
-
             return resolved_link
 
 class ModelListColumn(object):
