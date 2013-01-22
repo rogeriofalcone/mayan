@@ -9,7 +9,6 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.contrib import messages
-from django.views.generic.list_detail import object_list
 from django.core.urlresolvers import reverse
 from django.utils.http import urlencode
 from django.core.exceptions import PermissionDenied
@@ -42,10 +41,8 @@ from .permissions import (PERMISSION_DOCUMENT_CREATE,
     PERMISSION_DOCUMENT_EDIT, PERMISSION_DOCUMENT_VERSION_REVERT,
     PERMISSION_DOCUMENT_TYPE_EDIT, PERMISSION_DOCUMENT_TYPE_DELETE,
     PERMISSION_DOCUMENT_TYPE_CREATE, PERMISSION_DOCUMENT_TYPE_VIEW)
-from .events import (history_document_created, history_document_edited,
-    history_document_deleted)
-from .forms import (DocumentTypeSelectForm,
-        DocumentForm_edit, DocumentPropertiesForm,
+from .events import history_document_edited
+from .forms import (DocumentForm_edit, DocumentPropertiesForm,
         DocumentPreviewForm, DocumentPageForm,
         DocumentContentForm, DocumentPageForm_edit, DocumentPageForm_text,
         PrintForm, DocumentTypeForm, DocumentTypeFilenameForm,
