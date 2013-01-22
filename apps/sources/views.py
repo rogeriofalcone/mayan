@@ -16,6 +16,7 @@ import sendfile
 
 from acls.models import AccessEntry
 from common.utils import encapsulate
+from converter.models import Transformation
 from documents.permissions import (PERMISSION_DOCUMENT_CREATE,
     PERMISSION_DOCUMENT_NEW_VERSION)
 from documents.models import DocumentType, Document
@@ -385,7 +386,7 @@ def staging_file_preview(request, source_type, source_id, staging_file_id):
     Permission.objects.check_permissions(request.user, [PERMISSION_DOCUMENT_CREATE, PERMISSION_DOCUMENT_NEW_VERSION])
     staging_folder = get_object_or_404(StagingFolder, pk=source_id)
     StagingFile = create_staging_file_class(request, staging_folder.folder_path)
-    transformations, errors = SourceTransformation.transformations.get_for_object_as_list(staging_folder)
+    transformations, errors = Transformation.objects.get_for_object_as_list(staging_folder)
 
     output_file = StagingFile.get(staging_file_id).get_image(
         size=staging_folder.get_preview_size(),
@@ -404,7 +405,7 @@ def staging_file_thumbnail(request, source_id, staging_file_id):
     Permission.objects.check_permissions(request.user, [PERMISSION_DOCUMENT_CREATE, PERMISSION_DOCUMENT_NEW_VERSION])
     staging_folder = get_object_or_404(StagingFolder, pk=source_id)
     StagingFile = create_staging_file_class(request, staging_folder.folder_path, source=staging_folder)
-    transformations, errors = SourceTransformation.transformations.get_for_object_as_list(staging_folder)
+    transformations, errors = Transformation.objects.get_for_object_as_list(staging_folder)
 
     output_file = StagingFile.get(staging_file_id).get_image(
         size=THUMBNAIL_SIZE,
