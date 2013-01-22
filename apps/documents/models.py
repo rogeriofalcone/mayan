@@ -14,14 +14,13 @@ except ImportError:
     from StringIO import StringIO
 
 from django.db import models
+from django.db.models.loading import get_model
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from converter.api import get_page_count
-from converter.api import get_available_transformations_choices
-from converter.api import convert
+from converter.api import get_page_count, convert
 from converter.exceptions import UnknownFileFormat, UnkownConvertError
 from mimetype.api import (get_mimetype, get_icon_file_path,
     get_error_icon_file_path)
@@ -578,7 +577,10 @@ class DocumentPage(models.Model):
         verbose_name_plural = _(u'document pages')
 
     def get_transformation_list(self):
-        return DocumentPageTransformation.objects.get_for_document_page_as_list(self)
+        # TODO: fix circular import that impedes importing the Transformation
+        # model directy
+        Transformation = get_model('converter', 'Transformation')
+        return Transformation.objects.get_for_object_as_list(self)
 
     @models.permalink
     def get_absolute_url(self):
