@@ -51,7 +51,7 @@ def is_max_zoom(context):
 
 
 def is_current_version(context):
-    return context['resolved_object'].document.latest_version.timestamp == context['resolved_object'].timestamp
+    return context['resolved_object'].is_latest_version()
 
 
 document_list = Link(text=_(u'all documents'), view='document_list', icon=icon_documents)
