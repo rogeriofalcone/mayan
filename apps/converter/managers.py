@@ -32,3 +32,12 @@ class TransformationManager(models.Manager):
                 warnings.append(e)
 
         return transformations, warnings
+
+    def clone(self, source_object, target_object):
+        for source_transformation in self.for_model(source_object):
+            self.create(
+                content_object=target_object,
+                order=source_transformation.order,
+                transformation=source_transformation.transformation,
+                arguments=source_transformation.arguments
+            )
