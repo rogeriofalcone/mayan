@@ -34,7 +34,7 @@ class Convert(object):
         self.mysql = self._mysql.bake(database=self.database, user=self.username, password=self.password)
 
     def get_tables(self, engine=None):
-        for table in self.mysql(_in='SHOW TABLE STATUS IN %s;' % self.database).stdout.splitlines()[1:]:  # Discard first line which is just a title
+        for table in self.mysql(_in='SHOW TABLE STATUS IN `%s`;' % self.database).stdout.splitlines()[1:]:  # Discard first line which is just a title
             table = Table._make(table.split('\t'))  # Split by tab, and make each string into a Table instance argument
             if table.engine == engine or not engine:
                 yield table
