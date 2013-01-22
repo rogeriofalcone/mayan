@@ -37,10 +37,10 @@ class DocumentPageImageWidget(forms.widgets.Widget):
             return u''
 
 
-class DocumentPageForm(DetailForm):
+class DocumentPageForm(forms.ModelForm):
     class Meta:
         model = DocumentPage
-        exclude = ('document', 'document_type', 'page_label', 'content')
+        fields = ()
 
     def __init__(self, *args, **kwargs):
         zoom = kwargs.pop('zoom', 100)
