@@ -52,5 +52,6 @@ class Transformation(models.Model):
 
     class Meta:
         ordering = ('order',)
+        unique_together = ('content_type', 'object_pk', 'order', 'transformation')
         verbose_name = _(u'transformation')
         verbose_name_plural = _(u'transformations')
