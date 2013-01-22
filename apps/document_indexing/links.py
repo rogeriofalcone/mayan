@@ -20,11 +20,11 @@ from .permissions import (PERMISSION_DOCUMENT_INDEXING_VIEW,
 
 
 def is_not_root_node(context):
-    return context['resolved_object'].parent is not None  # TODO: use node's proper method to determine if it's not a root node
+    return not context['resolved_object'].is_root_node()
 
 
 def is_not_instance_root_node(context):
-    return context['resolved_object'].parent is not None # TODO: use node's proper method to determine if it's not a root node
+    return not context['resolved_object'].is_root_node()
 
 
 index_setup = Link(text=_(u'indexes'), view='index_setup_list', icon=icon_index_setup, permissions=[PERMISSION_DOCUMENT_INDEXING_SETUP], children_view_regex=[r'^index_setup', r'^template_node'])
