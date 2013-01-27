@@ -11,6 +11,11 @@ from ..models import Transformation
 
 
 class Migration(DataMigration):
+    depends_on = (
+        ('documents', '0015_auto__add_unique_documenttype_name'),
+        ('sources', '0001_initial'),
+        ('ocr', '0001_initial'),
+    )
 
     def forwards(self, orm):
         "Write your forwards methods here."
@@ -30,12 +35,13 @@ class Migration(DataMigration):
         # Get sources' tranformations
         for source_transformation in orm['sources.sourcetransformation'].objects.all():
             transformation = Transformation.objects.create(
-                #content_type=source_transformation.content_type,
                 # User proper call to ContentType until 
                 # the contenttype instance returned is fixed in South
                 # https://groups.google.com/forum/?fromgroups=#!topic/south-users/h85BGCdCb8A%5B1-25-false%5D
-                content_type=ContentType.objects.get(app_label="sources", model="sourcetransformation"),
-                object_pk=source_transformation.object_id,
+                #content_type=source_transformation.content_type,
+                #content_type=ContentType.objects.get(app_label="sources", model="sourcetransformation"),
+                #object_pk=source_transformation.object_id,
+                content_object=source_transformation.content_object,
                 transformation=source_transformation.transformation,
                 arguments=source_transformation.arguments,
                 order=source_transformation.order,
