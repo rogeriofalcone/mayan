@@ -169,6 +169,7 @@ INSTALLED_APPS = (
     'job_processor',
     'diagnostics',
     'installation',
+    'statistics',
 # Mayan EDMS
     'storage',
     'maintenance',
