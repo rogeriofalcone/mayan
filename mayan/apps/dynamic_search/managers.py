@@ -1,10 +1,12 @@
+from __future__ import absolute_import
+
 import urlparse
 
 from django.db import models
 from django.utils.http import urlencode
 from django.contrib.auth.models import AnonymousUser
         
-from dynamic_search.conf.settings import RECENT_COUNT
+from .conf.settings import RECENT_COUNT
 
 
 class RecentSearchManager(models.Manager):
