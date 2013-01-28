@@ -102,13 +102,7 @@
                             </td>
                         {% endif %}
                         {% if not hide_object %}
-                            {% if main_object %}
-                                {% with object|object_property:main_object as object %}
-                                    <td>{% if not hide_link %}<a href="{{ object.get_absolute_url }}">{{ object }}</a>{% else %}{{ object }}{% endif %}</td>
-                                {% endwith %}
-                            {% else %}
-                                <td>{% if not hide_link %}<a href="{{ object.get_absolute_url }}">{{ object }}</a>{% else %}{{ object }}{% endif %}</td>
-                            {% endif %}
+                            <td>{% if not hide_link %}<a href="{{ object.get_absolute_url }}">{{ object }}</a>{% else %}{{ object }}{% endif %}</td>
                         {% endif %}
                         {% for column in extra_columns_preffixed %}
                             {% if column.keep_together %}
