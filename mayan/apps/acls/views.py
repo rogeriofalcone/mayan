@@ -46,7 +46,10 @@ def acl_list(request, app_label, module_name, object_pk):
 
     context = {
         'object_list': AccessEntry.objects.get_holders_for(content_object),
-        'title': _(u'access control lists for %s: %s') % (content_object._meta.verbose_name, content_object),
+        'title': _(u'access control lists for %(object_label)s: %(object)s') % {
+            'object_label': content_object._meta.verbose_name,
+            'object': content_object
+        },
         'extra_columns': [
             {'name': _(u'holder'), 'attribute': encapsulate(lambda x: object_w_content_type_icon(x.source_object))},
             {'name': _(u'permissions'), 'attribute': encapsulate(lambda x: _permission_titles(AccessEntry.objects.get_holder_permissions_for(content_object, x.source_object, db_only=True)))},
