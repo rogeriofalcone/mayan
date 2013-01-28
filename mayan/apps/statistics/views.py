@@ -42,6 +42,11 @@ def execute(request, statistic_id):
 
     return render_to_response('generic_list.html', {
         'object': statictic, 
+        'namespace': statictic.namespace,
+        'navigation_object_list': [
+            {'object': 'namespace'},
+            {'object': 'object'},
+        ],     
         'object_list': statictic.get_results(),
         'hide_link': True,
         'title': _(u'results for: %s') % statictic,

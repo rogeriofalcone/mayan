@@ -20,6 +20,7 @@ class StatisticNamespace(object):
 
     def add_statistic(self, statistic):
         self._statistics.append(statistic)
+        statistic.namespace = self
 
     @property
     def id(self):
