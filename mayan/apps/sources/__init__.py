@@ -15,7 +15,7 @@ from .links import (staging_file_delete, setup_sources,
     setup_web_form_list, setup_staging_folder_list, setup_watch_folder_list,
     setup_source_edit, setup_source_delete, setup_web_form_create, setup_staging_folder_create,
     upload_version, document_create_multiple, document_create_siblings)
-from .models import (WebForm, StagingFolder, WatchFolder)
+from .models import WebForm, StagingFolder, WatchFolder, InteractiveBaseModel
 from .staging import StagingFile
 from .widgets import staging_file_thumbnail
 
@@ -23,17 +23,11 @@ Link.bind_links([StagingFile], [staging_file_delete])
 
 Link.bind_links(['setup_web_form_list', 'setup_staging_folder_list', 'setup_watch_folder_list', 'setup_source_create', 'setup_source_create_staging_folder', 'setup_source_create_web_form'], [setup_web_form_list, setup_staging_folder_list], menu_name='form_header')
 
-Link.bind_links([WebForm], [setup_web_form_list, setup_staging_folder_list], menu_name='form_header')
-Link.bind_links([WebForm], [link_transformation_list, setup_source_edit, setup_source_delete])
+Link.bind_links([InteractiveBaseModel], [setup_web_form_list, setup_staging_folder_list], menu_name='form_header')
+Link.bind_links([InteractiveBaseModel], [link_transformation_list, setup_source_edit, setup_source_delete])
 
 Link.bind_links([WebForm, 'setup_web_form_list', 'setup_source_create_web_form'], [setup_web_form_create], menu_name='secondary_menu')
 Link.bind_links([StagingFolder, 'setup_staging_folder_list', 'setup_source_create_staging_folder'], [setup_staging_folder_create], menu_name='secondary_menu')
-
-Link.bind_links([StagingFolder], [setup_web_form_list, setup_staging_folder_list], menu_name='form_header')
-Link.bind_links([StagingFolder], [link_transformation_list, setup_source_edit, setup_source_delete])
-
-Link.bind_links([WatchFolder], [setup_web_form_list, setup_staging_folder_list, setup_watch_folder_list], menu_name='form_header')
-Link.bind_links([WatchFolder], [link_transformation_list, setup_source_edit, setup_source_delete])
 
 # Document version
 Link.bind_links(['document_version_list', 'upload_version', 'document_version_revert'], [upload_version], menu_name='sidebar')
