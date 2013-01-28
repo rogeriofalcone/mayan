@@ -180,13 +180,13 @@ class Link(object):
         # Get view only links
         try:
             view_links = links_dict[menu_name][current_view]['links']
-            if view_links:
-                context_links.setdefault(None, [])
+        except KeyError:
+            pass
+        else:
+            context_links[None] = []
 
             for link in view_links:
                 context_links[None].append(link.resolve(context, request=request, current_path=current_path, current_view=current_view))
-        except KeyError:
-            pass
 
         # Get object links
         for resolved_object in Link.get_navigation_objects(context).keys():
