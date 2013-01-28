@@ -14,3 +14,5 @@ _build/
 /whoosh_index/
 /fabfile_install
 /venv/
+/site_media/
+/src/
