@@ -17,6 +17,7 @@ from navigation.api import (register_top_menu,
     register_sidebar_template)
 from navigation.classes import Combined, Link
 from project_setup.api import register_setup
+from statistics.classes import StatisticNamespace
 
 from .links import (document_list, document_list_recent,
     document_view_simple, document_view_advanced,
@@ -45,6 +46,7 @@ from .permissions import (PERMISSION_DOCUMENT_CREATE,
     PERMISSION_DOCUMENT_TYPE_CREATE, PERMISSION_DOCUMENT_TYPE_VIEW,
     PERMISSION_DOCUMENT_NEW_VERSION)
 from .conf import settings as document_settings
+from .statistics import DocumentStatistics
 from .widgets import document_thumbnail
 
 # Register document type links
@@ -142,3 +144,6 @@ document_search.add_model_field('documentversion__documentpage__content', label=
 document_search.add_model_field('description', label=_(u'Description'))
 document_search.add_model_field('tags__name', label=_(u'Tags'))
 document_search.add_related_field('comments', 'Comment', 'comment', 'object_pk', label=_(u'Comments'))
+
+namespace = StatisticNamespace(name='documents', label=_(u'Documents'))
+namespace.add_statistic(DocumentStatistics(name = 'document_usage', label = _(u'Document usage')))
