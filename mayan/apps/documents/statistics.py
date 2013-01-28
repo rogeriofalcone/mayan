@@ -46,6 +46,25 @@ class DocumentStatistics(Statistic):
 
         results.extend([
             _(u'Document types: %d') % DocumentType.objects.count(),
+        ])
+
+        document_stats = DocumentVersion.objects.annotate(page_count=Count('documentpage')).aggregate(Min('page_count'), Max('page_count'), Avg('page_count'))
+        results.extend([
+            _(u'Minimum amount of pages per document: %d') % (document_stats['page_count__min'] or 0),
+            _(u'Maximum amount of pages per document: %d') % (document_stats['page_count__max'] or 0),
+            _(u'Average amount of pages per document: %f') % (document_stats['page_count__avg'] or 0),
+        ])
+
+        return results
+
+
+class DocumentUsageStatistics(Statistic):
+    def get_results(self):
+        results = []
+
+        total_db_documents = Document.objects.only('pk',).count()
+
+        results.extend([
             _(u'Documents in database: %d') % total_db_documents,
         ])
 
@@ -64,9 +83,6 @@ class DocumentStatistics(Statistic):
         document_stats = DocumentVersion.objects.annotate(page_count=Count('documentpage')).aggregate(Min('page_count'), Max('page_count'), Avg('page_count'))
         results.extend([
             _(u'Document pages in database: %d') % DocumentPage.objects.only('pk',).count(),
-            _(u'Minimum amount of pages per document: %d') % (document_stats['page_count__min'] or 0),
-            _(u'Maximum amount of pages per document: %d') % (document_stats['page_count__max'] or 0),
-            _(u'Average amount of pages per document: %f') % (document_stats['page_count__avg'] or 0),
         ])
 
         return results

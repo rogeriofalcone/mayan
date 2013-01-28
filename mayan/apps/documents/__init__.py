@@ -46,7 +46,7 @@ from .permissions import (PERMISSION_DOCUMENT_CREATE,
     PERMISSION_DOCUMENT_TYPE_CREATE, PERMISSION_DOCUMENT_TYPE_VIEW,
     PERMISSION_DOCUMENT_NEW_VERSION)
 from .conf import settings as document_settings
-from .statistics import DocumentStatistics
+from .statistics import DocumentStatistics, DocumentUsageStatistics
 from .widgets import document_thumbnail
 
 # Register document type links
@@ -146,4 +146,5 @@ document_search.add_model_field('tags__name', label=_(u'Tags'))
 document_search.add_related_field('comments', 'Comment', 'comment', 'object_pk', label=_(u'Comments'))
 
 namespace = StatisticNamespace(name='documents', label=_(u'Documents'))
-namespace.add_statistic(DocumentStatistics(name = 'document_usage', label = _(u'Document usage')))
+namespace.add_statistic(DocumentStatistics(name = 'document_stats', label = _(u'Document tendencies')))
+namespace.add_statistic(DocumentUsageStatistics(name = 'document_usage', label = _(u'Document usage')))
