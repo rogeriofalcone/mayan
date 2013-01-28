@@ -3,24 +3,24 @@ import sys
 import os
 import optparse
 
-import pbs
+import sh
 
 APP_LIST = ('acls', 'checkouts', 'common', 'converter', 'django_gpg', 'documents',
     'document_comments', 'document_indexing', 'document_signatures', 'dynamic_search',
     'folders', 'history', 'installation', 'linking', 'main', 'metadata', 'navigation',
     'ocr', 'permissions', 'project_setup', 'project_tools', 'scheduler', 'smart_settings',
     'sources', 'tags', 'user_management', 'web_theme', 'bootstrap', 'registration')
-LANGUAGE_LIST = ('bg', 'de_DE', 'en', 'es', 'fr', 'it', 'nl_NL', 'pl', 'pt', 'pt_BR', 'ru')
+LANGUAGE_LIST = ('ar', 'bg', 'de_DE', 'en', 'es', 'fr', 'it', 'nl_NL', 'pl', 'pt', 'pt_BR', 'ru', 'vi_VN')
 
-makemessages = pbs.Command('django-admin.py')
+makemessages = sh.Command('django-admin.py')
 makemessages = makemessages.bake('makemessages')
 
-compilemessages = pbs.Command('django-admin.py')
+compilemessages = sh.Command('django-admin.py')
 compilemessages = compilemessages.bake('compilemessages')
 
 if hasattr(sys, 'real_prefix'):
     # We are inside a virtual env
-    BASE_DIR = os.path.join(os.environ['VIRTUAL_ENV'], 'mayan')
+    BASE_DIR = os.path.join(os.environ['VIRTUAL_ENV'], '..', 'mayan')
 else:
     BASE_DIR = os.getcwd()
 
