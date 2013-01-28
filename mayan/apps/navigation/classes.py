@@ -4,6 +4,7 @@ import logging
 import re
 import urllib
 import urlparse
+import inspect
 
 from django.core.urlresolvers import NoReverseMatch, resolve, reverse
 from django.template import VariableDoesNotExist, Variable
@@ -188,29 +189,13 @@ class Link(object):
             pass
 
         # Get object links
-        for resolved_object, object_properties in Link.get_navigation_objects(context).items():
-            # Get object class links
-            try:
-                object_links = links_dict[menu_name][type(resolved_object)]['links']
-                if object_links:
-                    context_links.setdefault(resolved_object, [])
-
-                for link in object_links:
-                    context_links[resolved_object].append(link.resolve(context, request=request, current_path=current_path, current_view=current_view, resolved_object=resolved_object))
-            except KeyError:
-                pass
-
-            # Get Combined() instances class links
-            try:
-                object_links = links_dict[menu_name][Combined(obj=type(resolved_object), view=current_view)]['links']
-                if object_links:
-                    context_links.setdefault(resolved_object, [])
-
-                for link in object_links:
-                    context_links[resolved_object].append(link.resolve(context, request=request, current_path=current_path, current_view=current_view, resolved_object=resolved_object))
-            except KeyError:
-                pass
-
+        for resolved_object in Link.get_navigation_objects(context).keys():
+            for source, data in links_dict[menu_name].items():
+                if inspect.isclass(source) and isinstance(resolved_object, source) or Combined(obj=type(resolved_object), view=current_view) == source:
+                    context_links[resolved_object] = []
+                    for link in data['links']:
+                        context_links[resolved_object].append(link.resolve(context, request=request, current_path=current_path, current_view=current_view, resolved_object=resolved_object))
+                    break  # No need for further content object match testing
         return context_links
 
     @classmethod
