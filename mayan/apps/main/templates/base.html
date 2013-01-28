@@ -30,7 +30,8 @@
 {% block web_theme_stylesheets %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/960-fluid.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="{{ STATIC_URL }}css/override.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="{{ STATIC_URL }}packages/jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}packages/fancybox_2_1_4/jquery.fancybox.css" type="text/css" media="screen" />
+
     <style type="text/css"> 
         #fancybox-left-ico { 
          left: 20px; 
@@ -112,8 +113,7 @@
 {% block web_theme_javascript %}
     <script type="text/javascript" src="{{ STATIC_URL }}packages/jquery.scrollview.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}packages/JqueryAsynchImageLoader.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}packages/jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}packages/jquery.fancybox-1.3.4/fancybox/jquery.easing-1.3.pack.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}packages/fancybox_2_1_4/jquery.fancybox.pack.js"></script>
 
     <script type="text/javascript">
         jQuery(document).ready(function() {
@@ -130,45 +130,41 @@
             });        
 
             $("a.fancybox").fancybox({
-            'titleShow'     : true,
-            'transitionIn'  : 'elastic',
-            'transitionOut' : 'elastic',
-            'easingIn'      : 'easeOutBack',
-            'easingOut'     : 'easeInBack',
-            'type'          : 'image',
-            'autoScale'     : true
+                openEffect  	: 'elastic',
+                closeEffect 	: 'elastic',
+                prevEffect	: 'none',
+                nextEffect	: 'none',
+                'titleShow'     : true,
+                'type'          : 'image',
+                'autoResize'     : true
             });
 
             $("a.fancybox-staging").fancybox({
-            'titleShow'     : true,
-            'transitionIn'  : 'elastic',
-            'transitionOut' : 'elastic',
-            'easingIn'      : 'easeOutBack',
-            'easingOut'     : 'easeInBack',
-            'type'          : 'image',
-            'autoScale'     : true
+                openEffect	: 'elastic',
+                closeEffect	: 'elastic',
+                'titleShow'     : true,
+                'type'          : 'image',
+                'autoResize'     : true
             });
             
             $("a.fancybox-noscaling").fancybox({
-            'titleShow'     : true,
-            'transitionIn'  : 'elastic',
-            'transitionOut' : 'elastic',
-            'easingIn'      : 'easeOutBack',
-            'easingOut'     : 'easeInBack',
-            'type'          : 'image',
-            'autoScale'     : false
+                openEffect	: 'elastic',
+                closeEffect	: 'elastic',
+                'titleShow'     : true,
+                'type'          : 'image',
+                'autoResize'     : false
             });
             
             $("a.fancybox-iframe").fancybox({
+            openEffect	: 'elastic',
+            closeEffect	: 'elastic',
                 'titleShow'     : false,
-                'transitionIn'  : 'elastic',
-                'transitionOut' : 'elastic',
-                'easingIn'      : 'easeOutBack',
-                'easingOut'     : 'easeInBack',
                 'type'          : 'iframe',
-                'autoScale'     : false,
-                'width'         : '99%',
-                'height'        : '99%',
+                autoHeight     : false, 
+                width         : '99%',
+                height        : '99%',
+                minHeight       : '100%',
+                minWidth       : '100%',
                 'showNavArrows' : false,
                 'margin'        : 20
             });    
