@@ -1,20 +1,20 @@
 from __future__ import absolute_import
 
 import errno
-import os
 import hashlib
+import os
 
-from django.core.files.base import File
 from django.core.exceptions import ObjectDoesNotExist
-from django.utils.translation import ugettext
+from django.core.files.base import File
 from django.utils.encoding import smart_str
+from django.utils.translation import ugettext
 
-from documents.conf.settings import THUMBNAIL_SIZE
+from documents.settings import THUMBNAIL_SIZE
 
-from mimetype.api import (get_icon_file_path, get_error_icon_file_path,
-    get_mimetype)
 from converter.api import convert, cache_cleanup
 from converter.exceptions import UnknownFileFormat, UnkownConvertError
+from mimetype.api import (get_icon_file_path, get_error_icon_file_path,
+    get_mimetype)
 
 DEFAULT_STAGING_DIRECTORY = u'/tmp'
 

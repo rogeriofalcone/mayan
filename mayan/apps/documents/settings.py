@@ -1,14 +1,14 @@
 """Configuration options for the documents app"""
 
 import hashlib
-import uuid
 import os
+import uuid
 
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
-from storage.backends.filebasedstorage import FileBasedStorage
 from smart_settings.api import register_settings
+from storage.backends.filebasedstorage import FileBasedStorage
 
 
 def default_checksum(x):
@@ -20,9 +20,10 @@ def default_uuid():
     """unicode(uuid.uuid4())"""
     return unicode(uuid.uuid4())
 
+
 register_settings(
     namespace=u'documents',
-    module=u'documents.conf.settings',
+    module=u'documents.settings',
     settings=[
         # Saving
         {'name': u'CHECKSUM_FUNCTION', 'global_name': u'DOCUMENTS_CHECKSUM_FUNCTION', 'default': default_checksum},

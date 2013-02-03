@@ -16,7 +16,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from acls.models import AccessEntry
 from common.compressed_files import CompressedFile
-from common.conf.settings import DEFAULT_PAPER_SIZE
+from common.settings import DEFAULT_PAPER_SIZE
 from common.literals import (PAGE_SIZE_DIMENSIONS,
     PAGE_ORIENTATION_PORTRAIT, PAGE_ORIENTATION_LANDSCAPE)
 from common.utils import (pretty_size, parse_range, urlquote,
@@ -30,7 +30,7 @@ from filetransfers.api import serve_file
 from permissions.models import Permission
 import sendfile
 
-from .conf.settings import (PREVIEW_SIZE, STORAGE_BACKEND, ZOOM_PERCENT_STEP,
+from .settings import (PREVIEW_SIZE, STORAGE_BACKEND, ZOOM_PERCENT_STEP,
     ZOOM_MAX_LEVEL, ZOOM_MIN_LEVEL, ROTATION_STEP, PRINT_SIZE,
     RECENT_COUNT)
 from .forms import (DocumentForm_edit, DocumentPropertiesForm,

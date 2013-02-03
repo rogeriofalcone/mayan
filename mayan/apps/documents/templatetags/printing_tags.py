@@ -1,8 +1,10 @@
+from __future__ import absolute_import
+
 from django.template import Library, Node, Variable
 
 from converter.api import get_dimensions
 
-from documents.conf.settings import PRINT_SIZE
+from ..settings import PRINT_SIZE
 
 register = Library()
 

@@ -6,7 +6,7 @@ from django.db import models
 from django.utils.http import urlencode
 from django.contrib.auth.models import AnonymousUser
         
-from .conf.settings import RECENT_COUNT
+from .settings import RECENT_COUNT
 
 
 class RecentSearchManager(models.Manager):

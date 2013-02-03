@@ -5,8 +5,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from documents.models import Document, DocumentType
 
-from .conf.settings import (AVAILABLE_MODELS, AVAILABLE_FUNCTIONS)
 from .managers import MetadataTypeManager, MetadataSetManager
+from .settings import (AVAILABLE_MODELS, AVAILABLE_FUNCTIONS)
 
 available_models_string = (_(u' Available models: %s') % u','.join([name for name, model in AVAILABLE_MODELS.items()])) if AVAILABLE_MODELS else u''
 available_functions_string = (_(u' Available functions: %s') % u','.join([u'%s()' % name for name, function in AVAILABLE_FUNCTIONS.items()])) if AVAILABLE_FUNCTIONS else u''

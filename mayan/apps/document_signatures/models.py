@@ -1,12 +1,13 @@
 from __future__ import absolute_import
+
 import logging
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from documents.models import DocumentVersion, get_filename_from_uuid
-from documents.conf.settings import STORAGE_BACKEND
 from django_gpg.runtime import gpg
+from documents.models import DocumentVersion, get_filename_from_uuid
+from documents.settings import STORAGE_BACKEND
 
 from .managers import DocumentVersionSignatureManager
 

@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 from django.conf.urls.defaults import patterns, url
 
-from .conf.settings import (PREVIEW_SIZE, PRINT_SIZE, THUMBNAIL_SIZE,
+from .settings import (PREVIEW_SIZE, PRINT_SIZE, THUMBNAIL_SIZE,
     DISPLAY_SIZE, MULTIPAGE_PREVIEW_SIZE)
 
 urlpatterns = patterns('documents.views',

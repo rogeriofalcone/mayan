@@ -6,7 +6,7 @@ from django.db.models import Avg, Count, Min, Max
 from common.utils import pretty_size, pretty_size_10
 from statistics.classes import Statistic
 
-from .conf.settings import STORAGE_BACKEND
+from .settings import STORAGE_BACKEND
 from .models import Document, DocumentType, DocumentPage, DocumentVersion
 
 

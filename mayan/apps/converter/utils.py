@@ -16,7 +16,7 @@ def _lazy_load(fn):
 
 @_lazy_load
 def load_backend():
-    from converter.conf.settings import GRAPHICS_BACKEND as backend_name
+    from converter.settings import GRAPHICS_BACKEND as backend_name
 
     try:
         module = import_module('.base', 'converter.backends.%s' % backend_name)

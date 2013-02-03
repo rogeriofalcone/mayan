@@ -20,8 +20,8 @@ from converter.models import Transformation
 from documents.permissions import (PERMISSION_DOCUMENT_CREATE,
     PERMISSION_DOCUMENT_NEW_VERSION)
 from documents.models import DocumentType, Document
-from documents.conf.settings import THUMBNAIL_SIZE
 from documents.exceptions import NewDocumentVersionNotAllowed
+from documents.settings import THUMBNAIL_SIZE
 from icons.classes import Icon
 from metadata.api import decode_metadata_from_url, metadata_repr_as_list
 from metadata.forms import MetadataFormSet, MetadataSelectionForm

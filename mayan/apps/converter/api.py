@@ -6,7 +6,7 @@ import logging
 
 from django.utils.encoding import smart_str
 
-from common.conf.settings import TEMPORARY_DIRECTORY
+from common.settings import TEMPORARY_DIRECTORY
 
 from .literals import (DEFAULT_PAGE_NUMBER,
     DEFAULT_ZOOM_LEVEL, DEFAULT_ROTATION, DEFAULT_FILE_FORMAT)

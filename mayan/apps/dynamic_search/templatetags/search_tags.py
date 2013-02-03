@@ -7,7 +7,7 @@ from django.utils.translation import ugettext as _
 from ..forms import SearchForm
 from ..icons import icon_search, icon_advanced_search
 from ..models import RecentSearch
-from ..conf.settings import RECENT_COUNT
+from ..settings import RECENT_COUNT
 
 register = Library()
 

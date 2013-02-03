@@ -45,7 +45,7 @@ from .permissions import (PERMISSION_DOCUMENT_CREATE,
     PERMISSION_DOCUMENT_TYPE_EDIT, PERMISSION_DOCUMENT_TYPE_DELETE,
     PERMISSION_DOCUMENT_TYPE_CREATE, PERMISSION_DOCUMENT_TYPE_VIEW,
     PERMISSION_DOCUMENT_NEW_VERSION)
-from .conf import settings as document_settings
+import documents.settings as document_settings
 from .statistics import DocumentStatistics, DocumentUsageStatistics
 from .widgets import document_thumbnail
 

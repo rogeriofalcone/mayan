@@ -1,14 +1,14 @@
 """Configuration options for the storage app"""
 import os
 
-from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 
 from smart_settings.api import register_settings
 
 register_settings(
     namespace=u'storage',
-    module=u'storage.conf.settings',
+    module=u'storage.settings',
     settings=[
         {'name': u'GRIDFS_HOST', 'global_name': u'STORAGE_GRIDFS_HOST', 'default': u'localhost'},
         {'name': u'GRIDFS_PORT', 'global_name': u'STORAGE_GRIDFS_PORT', 'default': 27017},

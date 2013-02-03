@@ -12,8 +12,8 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.utils.http import urlencode
 
-from .conf.settings import SHOW_OBJECT_TYPE
-from .conf.settings import LIMIT
+from .settings import SHOW_OBJECT_TYPE
+from .settings import LIMIT
 from .forms import SearchForm, AdvancedSearchForm
 from .icons import icon_advanced_search, icon_search
 from .models import RecentSearch

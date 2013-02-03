@@ -1,18 +1,18 @@
 from __future__ import absolute_import
 
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 
 from navigation.api import register_multi_item_links
 from navigation.classes import Link
 from project_setup.api import register_setup
 
-from .conf.settings import DEFAULT_ROLES
 from .links import (role_list, role_create, role_edit, role_members,
     role_permissions, role_delete, permission_grant, permission_revoke)
 from .models import Role, Permission, PermissionNamespace
+from .settings import DEFAULT_ROLES
 
 Link.bind_links([Role], [role_edit, role_delete, role_permissions, role_members])
 Link.bind_links([Role, 'role_list', 'role_create'], [role_list, role_create], menu_name='secondary_menu')

@@ -1,10 +1,12 @@
+from __future__ import absolute_import
+
 import re
 
-from django.conf import settings
+from django.conf import settings as django_settings
 from django.template import Library, Node, TemplateSyntaxError
 from django.utils.safestring import mark_safe
 
-from web_theme.conf import settings as web_theme_settings
+import web_theme.settings as web_theme_settings
 
 register = Library()
 

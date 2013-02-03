@@ -4,7 +4,7 @@ import datetime
 
 from django.db import models
 
-from .conf.settings import RECENT_COUNT
+from .settings import RECENT_COUNT
 
 
 class RecentDocumentManager(models.Manager):

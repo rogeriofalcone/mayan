@@ -1,40 +1,40 @@
 from __future__ import absolute_import
 
-import os
-import tempfile
-import hashlib
 from ast import literal_eval
 import base64
 import datetime
+import hashlib
 import logging
+import os
+import tempfile
 
 try:
     from cStringIO import StringIO
 except ImportError:
     from StringIO import StringIO
 
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.loading import get_model
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext
-from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
 
 from converter.api import get_page_count, convert
 from converter.exceptions import UnknownFileFormat, UnkownConvertError
-from mimetype.api import (get_mimetype, get_icon_file_path,
-    get_error_icon_file_path)
 from converter.literals import (DEFAULT_ZOOM_LEVEL, DEFAULT_ROTATION,
     DEFAULT_PAGE_NUMBER)
+from mimetype.api import (get_mimetype, get_icon_file_path,
+    get_error_icon_file_path)
 
-from .conf.settings import (CHECKSUM_FUNCTION, UUID_FUNCTION,
-    STORAGE_BACKEND, DISPLAY_SIZE, CACHE_PATH,
-    ZOOM_MAX_LEVEL, ZOOM_MIN_LEVEL)
-from .managers import RecentDocumentManager, DocumentTypeManager
-from .utils import document_save_to_temp_dir
+from .exceptions import NewDocumentVersionNotAllowed
 from .literals import (RELEASE_LEVEL_FINAL, RELEASE_LEVEL_CHOICES,
     VERSION_UPDATE_MAJOR, VERSION_UPDATE_MINOR, VERSION_UPDATE_MICRO)
-from .exceptions import NewDocumentVersionNotAllowed
+from .managers import RecentDocumentManager, DocumentTypeManager
+from .settings import (CHECKSUM_FUNCTION, UUID_FUNCTION,
+    STORAGE_BACKEND, DISPLAY_SIZE, CACHE_PATH,
+    ZOOM_MAX_LEVEL, ZOOM_MIN_LEVEL)
+from .utils import document_save_to_temp_dir
 
 # document image cache name hash function
 HASH_FUNCTION = lambda x: hashlib.sha256(x).hexdigest()
