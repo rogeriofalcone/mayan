@@ -10,12 +10,12 @@ from django.utils.text import capfirst
 from common.utils import encapsulate
 from permissions.models import Permission
 
-from .api import MaintenanceNamespace
+from .classes import MaintenanceNamespace
 
 
 def maintenance_menu(request):
     tool_list = []
-    
+
     for tool in MaintenanceNamespace.tool_all():
         try:
             Permission.objects.check_permissions(request.user, tool.link.permissions)
@@ -23,7 +23,7 @@ def maintenance_menu(request):
             pass
         else:
             tool_list.append(tool)
-    
+
     return render_to_response('generic_list.html', {
         'title': _(u'maintenance tools'),
         'object_list': tool_list,

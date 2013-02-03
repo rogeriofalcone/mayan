@@ -5,4 +5,3 @@ from icons import Icon
 
 icon_maintenance_menu = Icon(RAINBOW)
 icon_maintenance_execute = Icon(LIGHTNING)
-

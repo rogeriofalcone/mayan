@@ -11,7 +11,7 @@ from converter.links import link_transformation_list
 from diagnostics.api import DiagnosticNamespace
 from dynamic_search.classes import SearchModel
 from history.permissions import PERMISSION_HISTORY_VIEW
-from maintenance.api import MaintenanceNamespace
+from maintenance.classes import MaintenanceNamespace
 from navigation.api import (register_top_menu,
     register_model_list_columns, register_multi_item_links,
     register_sidebar_template)

@@ -7,7 +7,7 @@ from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 
 from documents.models import Document
-from maintenance.api import MaintenanceNamespace
+from maintenance.classes import MaintenanceNamespace
 from metadata.models import DocumentMetadata
 from navigation.api import register_top_menu, register_sidebar_template
 from navigation.classes import Link

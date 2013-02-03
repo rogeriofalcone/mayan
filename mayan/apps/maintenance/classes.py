@@ -2,8 +2,6 @@ from navigation.classes import Link
 
 from .links import maintenance_menu
 
-tools = {}
-
 
 class MaintenanceNamespace(object):
     namespaces = {}
@@ -15,7 +13,7 @@ class MaintenanceNamespace(object):
         for namespace in cls.all():
             for tool in namespace.tools:
                 tool_list.append(tool)
-                
+
         return tool_list
 
     @classmethod
