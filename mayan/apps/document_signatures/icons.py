@@ -6,3 +6,4 @@ from icons import Icon
 icon_document_signature_upload = Icon(PENCIL_ADD)
 icon_document_signature_download = Icon(DISK)
 icon_document_verify = Icon(TEXT_SIGNATURE)
+icon_document_signature_delete = Icon(PENCIL_DELETE)

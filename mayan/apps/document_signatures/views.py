@@ -3,27 +3,27 @@ from __future__ import absolute_import
 from datetime import datetime
 import logging
 
-from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
+from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
-from django.contrib import messages
-from django.utils.safestring import mark_safe
-from django.conf import settings
 from django.template.defaultfilters import force_escape
-from django.core.exceptions import PermissionDenied
+from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext_lazy as _
 
-from documents.models import Document, RecentDocument
-from permissions.models import Permission
-from filetransfers.api import serve_file
 from acls.models import AccessEntry
-
+from documents.models import Document, RecentDocument
 from django_gpg.api import SIGNATURE_STATES
+from filetransfers.api import serve_file
+from permissions.models import Permission
 
 from .forms import DetachedSignatureForm
+from .icons import icon_document_signature_delete
 from .models import DocumentVersionSignature
 from .permissions import (PERMISSION_DOCUMENT_VERIFY, PERMISSION_SIGNATURE_UPLOAD,
-    PERMISSION_SIGNATURE_DOWNLOAD)
+    PERMISSION_SIGNATURE_DOWNLOAD, PERMISSION_SIGNATURE_DELETE)
 
 logger = logging.getLogger(__name__)
 
@@ -131,3 +131,36 @@ def document_signature_download(request, document_pk):
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+def document_signature_delete(request, document_pk):
+    document = get_object_or_404(Document, pk=document_pk)
+
+    try:
+        Permission.objects.check_permissions(request.user, [PERMISSION_SIGNATURE_DELETE])
+    except PermissionDenied:
+        AccessEntry.objects.check_access(PERMISSION_SIGNATURE_DELETE, request.user, document)
+
+    RecentDocument.objects.add_document_for_user(request.user, document)
+
+    post_action_redirect = None
+    previous = request.POST.get('previous', request.GET.get('previous', request.META.get('HTTP_REFERER', '/')))
+    next = request.POST.get('next', request.GET.get('next', post_action_redirect if post_action_redirect else request.META.get('HTTP_REFERER', '/')))
+
+    if request.method == 'POST':
+        try:
+            DocumentVersionSignature.objects.clear_detached_signature(document)
+            messages.success(request, _(u'Detached signature deleted successfully.'))
+            return HttpResponseRedirect(next)
+        except Exception, exc:
+            messages.error(request, _(u'Error while deleting the detached signature; %s') % exc)
+            return HttpResponseRedirect(previous)
+
+    return render_to_response('generic_confirm.html', {
+        'title': _(u'Are you sure you wish to delete the detached signature from document: %s?') % document,
+        'form_icon': icon_document_signature_delete,
+        'next': next,
+        'previous': previous,
+        'object': document,
+        'delete_view': True,
+    }, context_instance=RequestContext(request))

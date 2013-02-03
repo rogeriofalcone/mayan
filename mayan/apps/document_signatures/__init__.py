@@ -17,12 +17,10 @@ from django_gpg.exceptions import GPGDecryptionError
 from navigation.classes import Link
 
 from .models import DocumentVersionSignature
-from .permissions import (
-    PERMISSION_DOCUMENT_VERIFY,
-    PERMISSION_SIGNATURE_UPLOAD,
-    PERMISSION_SIGNATURE_DOWNLOAD
-)
-from .links import document_signature_upload, document_signature_download, document_verify
+from .permissions import (PERMISSION_DOCUMENT_VERIFY, PERMISSION_SIGNATURE_UPLOAD,
+    PERMISSION_SIGNATURE_DOWNLOAD, PERMISSION_SIGNATURE_DELETE)
+from .links import (document_signature_upload, document_signature_download,
+    document_verify, document_signature_delete)
 
 logger = logging.getLogger(__name__)
 
@@ -74,7 +72,7 @@ def document_post_save_hook(instance):
 
 
 Link.bind_links([Document], [document_verify], menu_name='form_header')
-Link.bind_links(['document_verify', 'document_signature_upload', 'document_signature_download'], [document_signature_upload, document_signature_download], menu_name='sidebar')
+Link.bind_links(['document_verify', 'document_signature_upload', 'document_signature_download'], [document_signature_upload, document_signature_download, document_signature_delete], menu_name='sidebar')
 
 DocumentVersion.register_pre_open_hook(1, document_pre_open_hook)
 DocumentVersion.register_post_save_hook(1, document_post_save_hook)
@@ -82,5 +80,6 @@ DocumentVersion.register_post_save_hook(1, document_post_save_hook)
 class_permissions(Document, [
     PERMISSION_DOCUMENT_VERIFY,
     PERMISSION_SIGNATURE_UPLOAD,
-    PERMISSION_SIGNATURE_DOWNLOAD
+    PERMISSION_SIGNATURE_DOWNLOAD,
+    PERMISSION_SIGNATURE_DELETE    
 ])
