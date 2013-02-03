@@ -1,12 +1,12 @@
 from __future__ import absolute_import
 
-from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 
 from navigation.api import register_top_menu
 
-from .conf.settings import SIDE_BAR_SEARCH, DISABLE_HOME_VIEW
 from .links import home_link
+from .settings import SIDE_BAR_SEARCH, DISABLE_HOME_VIEW
 
 __author__ = 'Roberto Rosario'
 __copyright__ = 'Copyright 2011, 2012, 2013 Roberto Rosario'

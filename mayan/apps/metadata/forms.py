@@ -1,13 +1,13 @@
 from __future__ import absolute_import
 
 from django import forms
-from django.utils.translation import ugettext_lazy as _
 from django.forms.formsets import formset_factory
+from django.utils.translation import ugettext_lazy as _
 
 from common.widgets import ScrollableCheckboxSelectMultiple
 
-from .conf.settings import AVAILABLE_MODELS, AVAILABLE_FUNCTIONS
 from .models import MetadataSet, MetadataType, DocumentTypeDefaults
+from .settings import AVAILABLE_MODELS, AVAILABLE_FUNCTIONS
 
 
 class MetadataForm(forms.Form):

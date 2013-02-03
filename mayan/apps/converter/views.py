@@ -15,7 +15,7 @@ from permissions.models import Permission
 
 from .api import get_format_list
 from .classes import MenuLessObject
-from .conf.settings import GRAPHICS_BACKEND
+from .settings import GRAPHICS_BACKEND
 from .forms import TransformationForm_create, TransformationForm
 from .models import Transformation
 from .permissions import (PERMISSION_TRANSFORMATION_CREATE, PERMISSION_TRANSFORMATION_DELETE,

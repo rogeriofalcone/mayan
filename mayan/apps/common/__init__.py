@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 import tempfile
 
-from django.conf import settings
+from django.conf import settings as django_settings
 from django.contrib.auth import models as auth_models
 from django.contrib.auth.models import User
 from django.contrib.auth.management import create_superuser
@@ -18,13 +18,13 @@ from navigation.api import register_top_menu
 from project_setup.api import register_setup
 from project_tools.api import register_tool
 
-from .conf.settings import (AUTO_CREATE_ADMIN, AUTO_ADMIN_USERNAME,
-    AUTO_ADMIN_PASSWORD, TEMPORARY_DIRECTORY)
-from .conf import settings as common_settings
 from .links import (link_password_change, link_current_user_details,
     link_current_user_edit, link_about, link_license, link_admin_site,
     link_sentry)
 from .models import AutoAdminSingleton
+import common.settings as common_settings
+from .settings import (AUTO_CREATE_ADMIN, AUTO_ADMIN_USERNAME,
+    AUTO_ADMIN_PASSWORD, TEMPORARY_DIRECTORY)
 from .utils import validate_path
 
 Link.bind_links(['current_user_details', 'current_user_edit', 'password_change_view'], [link_current_user_details, link_current_user_edit, link_password_change], menu_name='secondary_menu')
@@ -80,9 +80,9 @@ def auto_admin_account_passwd_change(sender, instance, **kwargs):
 if (validate_path(TEMPORARY_DIRECTORY) == False) or (not TEMPORARY_DIRECTORY):
     setattr(common_settings, 'TEMPORARY_DIRECTORY', tempfile.mkdtemp())
 
-if 'django.contrib.admin' in settings.INSTALLED_APPS:
+if 'django.contrib.admin' in django_settings.INSTALLED_APPS:
     register_setup(link_admin_site)
 
 
-if 'sentry' in settings.INSTALLED_APPS:
+if 'sentry' in django_settings.INSTALLED_APPS:
     register_tool(link_sentry)

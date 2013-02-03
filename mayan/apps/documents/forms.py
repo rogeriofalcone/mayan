@@ -10,7 +10,7 @@ from django.utils.encoding import force_unicode
         
 from common.forms import DetailForm
 from common.literals import PAGE_SIZE_CHOICES, PAGE_ORIENTATION_CHOICES
-from common.conf.settings import DEFAULT_PAPER_SIZE, DEFAULT_PAGE_ORIENTATION
+from common.settings import DEFAULT_PAPER_SIZE, DEFAULT_PAGE_ORIENTATION
 from common.widgets import TextAreaDiv
 
 from .icons import icon_page_details, icon_document_preview

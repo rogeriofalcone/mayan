@@ -1,12 +1,14 @@
+from __future__ import absolute_import
+
 import os
 
 from django.core.files.storage import Storage
 from django.utils.encoding import force_unicode
 
-from pymongo import Connection
 from gridfs import GridFS
+from pymongo import Connection
 
-from storage.conf import settings
+import ..settings
 
 
 class GridFSStorage(Storage):

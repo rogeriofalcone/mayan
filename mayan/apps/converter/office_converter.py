@@ -6,9 +6,9 @@ import logging
 import sh
 
 from mimetype.api import get_mimetype
-from common.conf.settings import TEMPORARY_DIRECTORY
+from common.settings import TEMPORARY_DIRECTORY
 
-from .conf.settings import LIBREOFFICE_PATH
+from .settings import LIBREOFFICE_PATH
 from .exceptions import (OfficeConversionError,
     OfficeBackendError, UnknownFileFormat)
 
