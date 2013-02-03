@@ -57,9 +57,6 @@ class QueueDocument(models.Model):
         verbose_name = _(u'queue document')
         verbose_name_plural = _(u'queue documents')
 
-    def get_transformation_list(self):
-        return QueueTransformation.transformations.get_for_object_as_list(self)
-
     def requeue(self):
         if self.state == QUEUEDOCUMENT_STATE_PROCESSING:
             raise ReQueueError
