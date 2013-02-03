@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+import logging
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -8,10 +10,12 @@ from mptt.models import MPTTModel
 
 from documents.models import Document, DocumentType
 
-from .managers import IndexManager
+from .managers import IndexManager, IndexInstanceNodeManager
 from .settings import AVAILABLE_INDEXING_FUNCTIONS
+from .signals import add_document_to_node_instance, create_node_instance
 
 available_indexing_functions_string = (_(u'Available functions: %s') % u','.join([u'%s()' % name for name, function in AVAILABLE_INDEXING_FUNCTIONS.items()])) if AVAILABLE_INDEXING_FUNCTIONS else u''
+logger = logging.getLogger(__name__)
 
 
 class Index(models.Model):
@@ -79,6 +83,35 @@ class IndexTemplateNode(MPTTModel):
     def node_instance(self):
         return self.indexinstancenode_set.get()
 
+    def evaluate(self, eval_dict, document, parent_node_instance=None):
+        logger.debug('self.expression: %s' % self.expression)
+        try:
+            if not self.is_root_node():
+                result = eval(self.expression, eval_dict, AVAILABLE_INDEXING_FUNCTIONS)
+            else:
+                # Root node always evaluate to True so that its children get
+                # processed
+                result = True
+        except Exception, exc:
+            raise
+        else:
+            logger.debug('result: %s' % result)
+            if result:
+                node_instance, created = self.indexinstancenode_set.get_or_create(value=result)
+                node_instance.parent = parent_node_instance
+                node_instance.save()
+
+                create_node_instance.send(sender=node_instance)
+
+                if self.link_documents:
+                    add_document_to_node_instance.send(sender=node_instance, document=document)
+
+                    node_instance.documents.add(document)
+               
+                for child_node in self.get_children():
+                    if child_node.enabled:
+                        child_node.evaluate(eval_dict, document, node_instance)
+
     class Meta:
         verbose_name = _(u'index template node')
         verbose_name_plural = _(u'indexes template nodes')
@@ -90,6 +123,8 @@ class IndexInstanceNode(MPTTModel):
     value = models.CharField(max_length=128, blank=True, verbose_name=_(u'value'))
     documents = models.ManyToManyField(Document, verbose_name=_(u'documents'))
 
+    objects = IndexInstanceNodeManager()
+
     def __unicode__(self):
         return self.value
 
@@ -100,16 +135,3 @@ class IndexInstanceNode(MPTTModel):
     class Meta:
         verbose_name = _(u'index instance node')
         verbose_name_plural = _(u'indexes instance nodes')
-
-
-class DocumentRenameCount(models.Model):
-    index_instance_node = models.ForeignKey(IndexInstanceNode, verbose_name=_(u'index instance'))
-    document = models.ForeignKey(Document, verbose_name=_(u'document'))
-    suffix = models.PositiveIntegerField(blank=True, verbose_name=(u'suffix'))
-
-    def __unicode__(self):
-        return u'%s - %s - %s' % (self.index_instance_node, self.document, self.suffix or u'0')
-
-    class Meta:
-        verbose_name = _(u'document rename count')
-        verbose_name_plural = _(u'documents rename count')

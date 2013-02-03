@@ -13,7 +13,6 @@ from navigation.api import register_top_menu, register_sidebar_template
 from navigation.classes import Link
 from project_setup.api import register_setup
 
-from .api import update_indexes, delete_indexes
 from .links import (index_setup, index_setup_list, index_setup_create,
     index_setup_edit, index_setup_delete, index_setup_view, index_setup_document_types,
     template_node_create, template_node_edit, template_node_delete, index_list,
@@ -39,31 +38,36 @@ Link.bind_links([IndexTemplateNode], [template_node_create, template_node_edit, 
 
 @receiver(post_save, dispatch_uid='document_index_update', sender=Document)
 def document_index_update(sender, **kwargs):
+    logger.debug('document_index_update; %s' % kwargs)
     # TODO: save result in index log
-    delete_indexes(kwargs['instance'])
-    update_indexes(kwargs['instance'])
+    IndexInstanceNode.objects.delete_nodes_for(document=kwargs['instance'])
+    Index.objects.update_for(document=kwargs['instance'])
 
 
 @receiver(pre_delete, dispatch_uid='document_index_delete', sender=Document)
 def document_index_delete(sender, **kwargs):
+    logger.debug('document_index_delete; %s' % kwargs)
     # TODO: save result in index log
-    delete_indexes(kwargs['instance'])
+    IndexInstanceNode.objects.delete_nodes_for(document=kwargs['instance'])
 
 
 @receiver(post_save, dispatch_uid='document_metadata_index_update', sender=DocumentMetadata)
 def document_metadata_index_update(sender, **kwargs):
+    logger.debug('document_metadata_index_update; %s' % kwargs)
     # TODO: save result in index log
-    delete_indexes(kwargs['instance'].document)
-    update_indexes(kwargs['instance'].document)
+    IndexInstanceNode.objects.delete_nodes_for(document=kwargs['instance'].document)
+    Index.objects.update_for(document=kwargs['instance'].document)
 
 
 @receiver(pre_delete, dispatch_uid='document_metadata_index_delete', sender=DocumentMetadata)
 def document_metadata_index_delete(sender, **kwargs):
+    logger.debug('document_metadata_index_delete; %s' % kwargs)
     # TODO: save result in index log
-    delete_indexes(kwargs['instance'].document)
+    IndexInstanceNode.objects.delete_nodes_for(document=kwargs['instance'].document)
 
 
 @receiver(post_delete, dispatch_uid='document_metadata_index_post_delete', sender=DocumentMetadata)
 def document_metadata_index_post_delete(sender, **kwargs):
+    logger.debug('document_metadata_index_post_delete; %s' % kwargs)
     # TODO: save result in index log
-    update_indexes(kwargs['instance'].document)
+    Index.objects.update_for(document=kwargs['instance'].document)
