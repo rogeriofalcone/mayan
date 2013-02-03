@@ -1,21 +1,15 @@
 from __future__ import absolute_import
 
-from ast import literal_eval
 import logging
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes import generic
-from django.core.exceptions import ValidationError
 from django.db import transaction
 
-from converter.api import get_available_transformations_choices
 from converter.literals import DIMENSION_SEPARATOR
 from converter.models import Transformation
-from documents.models import DocumentType, Document
+from documents.models import Document
 from documents.events import history_document_created
-from metadata.models import MetadataType
 from metadata.api import save_metadata_list
 from scheduler.api import register_interval_job, remove_job
 from acls.utils import apply_default_acls

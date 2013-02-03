@@ -42,8 +42,6 @@ class DocumentStatistics(Statistic):
     def get_results(self):
         results = []
 
-        total_db_documents = Document.objects.only('pk',).count()
-
         results.extend([
             _(u'Document types: %d') % DocumentType.objects.count(),
         ])
@@ -80,7 +78,6 @@ class DocumentUsageStatistics(Statistic):
         except NotImplementedError:
             pass
 
-        document_stats = DocumentVersion.objects.annotate(page_count=Count('documentpage')).aggregate(Min('page_count'), Max('page_count'), Avg('page_count'))
         results.extend([
             _(u'Document pages in database: %d') % DocumentPage.objects.only('pk',).count(),
         ])

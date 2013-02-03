@@ -5,3 +5,4 @@ from .models import Role, PermissionHolder
 
 def cleanup():
     Role.objects.all().delete()
+    PermissionHolder.objects.all().delete()

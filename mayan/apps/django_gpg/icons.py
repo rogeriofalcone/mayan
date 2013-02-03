@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
 from icons.literals import (DOCUMENT_SIGNATURE, KEY, KEY_DELETE, KEY_ADD,
-    ZOOM, LIGHTNING, CROSS, USER_SILHOUETTE)
+    ZOOM, CROSS, USER_SILHOUETTE)
 from icons import Icon
 
 icon_private_keys = Icon(KEY)

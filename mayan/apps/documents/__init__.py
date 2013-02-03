@@ -21,8 +21,8 @@ from statistics.classes import StatisticNamespace
 
 from .links import (document_list, document_list_recent,
     document_view_simple, document_view_advanced,
-    document_delete, document_multiple_delete, document_edit, document_preview,
-    document_download, document_multiple_download, document_version_download,
+    document_delete, document_multiple_delete, document_edit, document_download,
+    document_multiple_download, document_version_download,
     document_find_duplicates, document_find_all_duplicates, document_update_page_count,
     document_clear_transformations, document_multiple_clear_transformations,
     document_print, document_history_view, document_missing_list, document_clear_image_cache,
@@ -32,18 +32,15 @@ from .links import (document_list, document_list_recent,
     document_page_rotate_right, document_page_rotate_left,
     document_page_view_reset, document_version_list, document_version_revert,
     document_type_list, document_type_setup, document_type_document_list,
-    document_type_edit, document_type_delete, document_type_create, 
+    document_type_edit, document_type_delete, document_type_create,
     document_type_filename_list, document_type_filename_create, document_type_filename_edit,
     document_type_filename_delete, link_documents_menu)
 from .models import (Document, DocumentPage, DocumentType, DocumentTypeFilename,
     DocumentVersion)
-from .permissions import (PERMISSION_DOCUMENT_CREATE,
-    PERMISSION_DOCUMENT_PROPERTIES_EDIT, PERMISSION_DOCUMENT_VIEW,
-    PERMISSION_DOCUMENT_DELETE, PERMISSION_DOCUMENT_DOWNLOAD,
-    PERMISSION_DOCUMENT_TRANSFORM, PERMISSION_DOCUMENT_TOOLS,
+from .permissions import (PERMISSION_DOCUMENT_PROPERTIES_EDIT,
+    PERMISSION_DOCUMENT_VIEW, PERMISSION_DOCUMENT_DELETE,
+    PERMISSION_DOCUMENT_DOWNLOAD, PERMISSION_DOCUMENT_TRANSFORM,
     PERMISSION_DOCUMENT_EDIT, PERMISSION_DOCUMENT_VERSION_REVERT,
-    PERMISSION_DOCUMENT_TYPE_EDIT, PERMISSION_DOCUMENT_TYPE_DELETE,
-    PERMISSION_DOCUMENT_TYPE_CREATE, PERMISSION_DOCUMENT_TYPE_VIEW,
     PERMISSION_DOCUMENT_NEW_VERSION)
 import documents.settings as document_settings
 from .statistics import DocumentStatistics, DocumentUsageStatistics
@@ -98,10 +95,10 @@ namespace.create_tool(document_update_page_count)
 namespace.create_tool(document_clear_image_cache)
 
 register_model_list_columns(Document, [
-        {'name':_(u'thumbnail'), 'attribute':
-            encapsulate(lambda x: document_thumbnail(x, gallery_name='document_list', title=x.filename))
-        },
-    ])
+    {'name': _(u'thumbnail'), 'attribute':
+        encapsulate(lambda x: document_thumbnail(x, gallery_name='document_list', title=x.filename))
+    },
+])
 
 register_top_menu(
     'documents',
@@ -117,7 +114,7 @@ Link.bind_links([Document], [document_view_advanced], menu_name='form_header', p
 Link.bind_links([Document], [document_history_view], menu_name='form_header')
 Link.bind_links([Document], [document_version_list], menu_name='form_header')
 
-if (validate_path(document_settings.CACHE_PATH) == False) or (not document_settings.CACHE_PATH):
+if (validate_path(document_settings.CACHE_PATH) is False) or (not document_settings.CACHE_PATH):
     setattr(document_settings, 'CACHE_PATH', tempfile.mkdtemp())
 
 register_setup(document_type_setup)
@@ -146,5 +143,5 @@ document_search.add_model_field('tags__name', label=_(u'Tags'))
 document_search.add_related_field('comments', 'Comment', 'comment', 'object_pk', label=_(u'Comments'))
 
 namespace = StatisticNamespace(name='documents', label=_(u'Documents'))
-namespace.add_statistic(DocumentStatistics(name = 'document_stats', label = _(u'Document tendencies')))
-namespace.add_statistic(DocumentUsageStatistics(name = 'document_usage', label = _(u'Document usage')))
+namespace.add_statistic(DocumentStatistics(name='document_stats', label=_(u'Document tendencies')))
+namespace.add_statistic(DocumentUsageStatistics(name='document_usage', label=_(u'Document usage')))

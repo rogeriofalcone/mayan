@@ -1,6 +1,5 @@
 from __future__ import absolute_import
 
-from ast import literal_eval
 import base64
 import datetime
 import hashlib
@@ -14,7 +13,6 @@ except ImportError:
     from StringIO import StringIO
 
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.loading import get_model
 from django.utils.translation import ugettext_lazy as _
@@ -514,11 +512,11 @@ class DocumentVersion(models.Model):
             return self.file.storage.size(self.file.path)
         else:
             return None
-            
+
     def rename(self, new_name):
         new_filename, new_extension = os.path.splitext(new_name)
         name, extension = os.path.splitext(self.filename)
-        
+
         # Preserve existing extension if new name doesn't has one
         if new_extension:
             extension = new_extension

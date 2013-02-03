@@ -31,8 +31,7 @@ from permissions.models import Permission
 import sendfile
 
 from .settings import (PREVIEW_SIZE, STORAGE_BACKEND, ZOOM_PERCENT_STEP,
-    ZOOM_MAX_LEVEL, ZOOM_MIN_LEVEL, ROTATION_STEP, PRINT_SIZE,
-    RECENT_COUNT)
+    ZOOM_MAX_LEVEL, ZOOM_MIN_LEVEL, ROTATION_STEP, RECENT_COUNT)
 from .forms import (DocumentForm_edit, DocumentPropertiesForm,
         DocumentPreviewForm, DocumentPageForm,
         DocumentContentForm, DocumentPageForm_edit, DocumentPageForm_text,
@@ -45,13 +44,13 @@ from .icons import (icon_document_delete, icon_find_duplicates,
     icon_version_revert, icon_document_missing_list)
 from .models import (Document, DocumentType, DocumentPage,
     RecentDocument, DocumentTypeFilename, DocumentVersion)
-from .permissions import (PERMISSION_DOCUMENT_CREATE,
-    PERMISSION_DOCUMENT_PROPERTIES_EDIT, PERMISSION_DOCUMENT_VIEW,
-    PERMISSION_DOCUMENT_DELETE, PERMISSION_DOCUMENT_DOWNLOAD,
-    PERMISSION_DOCUMENT_TRANSFORM, PERMISSION_DOCUMENT_TOOLS,
-    PERMISSION_DOCUMENT_EDIT, PERMISSION_DOCUMENT_VERSION_REVERT,
-    PERMISSION_DOCUMENT_TYPE_EDIT, PERMISSION_DOCUMENT_TYPE_DELETE,
-    PERMISSION_DOCUMENT_TYPE_CREATE, PERMISSION_DOCUMENT_TYPE_VIEW)
+from .permissions import (PERMISSION_DOCUMENT_PROPERTIES_EDIT,
+    PERMISSION_DOCUMENT_VIEW, PERMISSION_DOCUMENT_DELETE,
+    PERMISSION_DOCUMENT_DOWNLOAD, PERMISSION_DOCUMENT_TRANSFORM,
+    PERMISSION_DOCUMENT_TOOLS, PERMISSION_DOCUMENT_EDIT,
+    PERMISSION_DOCUMENT_VERSION_REVERT, PERMISSION_DOCUMENT_TYPE_EDIT,
+    PERMISSION_DOCUMENT_TYPE_DELETE, PERMISSION_DOCUMENT_TYPE_CREATE,
+    PERMISSION_DOCUMENT_TYPE_VIEW)
 
 logger = logging.getLogger(__name__)
 
@@ -103,11 +102,11 @@ def document_view(request, document_id, advanced=False):
             {'label': _(u'Filename'), 'field': 'filename'},
             {'label': _(u'File mimetype'), 'field': lambda x: x.file_mimetype or _(u'None')},
             {'label': _(u'File mime encoding'), 'field': lambda x: x.file_mime_encoding or _(u'None')},
-            {'label': _(u'File size'), 'field':lambda x: pretty_size(x.size) if x.size else '-'},
+            {'label': _(u'File size'), 'field': lambda x: pretty_size(x.size) if x.size else '-'},
             {'label': _(u'Exists in storage'), 'field': 'exists'},
             {'label': _(u'File path in storage'), 'field': 'file'},
-            {'label': _(u'Date added'), 'field':lambda x: x.date_added.date()},
-            {'label': _(u'Time added'), 'field':lambda x: unicode(x.date_added.time()).split('.')[0]},
+            {'label': _(u'Date added'), 'field': lambda x: x.date_added.date()},
+            {'label': _(u'Time added'), 'field': lambda x: unicode(x.date_added.time()).split('.')[0]},
             {'label': _(u'Checksum'), 'field': 'checksum'},
             {'label': _(u'UUID'), 'field': 'uuid'},
             {'label': _(u'Pages'), 'field': 'page_count'},
@@ -353,8 +352,8 @@ def document_download(request, document_id=None, document_id_list=None, document
                         raise
                     else:
                         messages.error(request, e)
-                        return HttpResponseRedirect(request.META['HTTP_REFERER'])                
-        
+                        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
     else:
         form = DocumentDownloadForm(document_versions=document_versions)
 
@@ -651,8 +650,8 @@ def document_page_navigation_next(request, document_page_id):
             args = [document_page._meta.app_label, document_page._meta.module_name, document_page.pk]
             view = 'transformation_list'
         else:
-            args = [document_page.pk]        
-        
+            args = [document_page.pk]
+
         return HttpResponseRedirect(reverse(view, args=args))
 
 
@@ -678,8 +677,8 @@ def document_page_navigation_previous(request, document_page_id):
             args = [document_page._meta.app_label, document_page._meta.module_name, document_page.pk]
             view = 'transformation_list'
         else:
-            args = [document_page.pk]        
-        return HttpResponseRedirect(reverse(view, args=args))        
+            args = [document_page.pk]
+        return HttpResponseRedirect(reverse(view, args=args))
 
 
 def document_page_navigation_first(request, document_page_id):
@@ -700,7 +699,7 @@ def document_page_navigation_first(request, document_page_id):
         view = 'transformation_list'
     else:
         args = [document_page.pk]
-    
+
     return HttpResponseRedirect(reverse(view, args=args))
 
 
@@ -722,7 +721,7 @@ def document_page_navigation_last(request, document_page_id):
         view = 'transformation_list'
     else:
         args = [document_page.pk]
-    
+
     return HttpResponseRedirect(reverse(view, args=args))
 
 
@@ -956,8 +955,7 @@ def document_type_edit(request, document_type_id):
         'object_name': _(u'document type'),
         'object': document_type,
         'next': next
-    },
-    context_instance=RequestContext(request))
+    }, context_instance=RequestContext(request))
 
 
 def document_type_delete(request, document_type_id):
@@ -1015,8 +1013,7 @@ def document_type_create(request):
     return render_to_response('generic_form.html', {
         'title': _(u'create document type'),
         'form': form,
-    },
-    context_instance=RequestContext(request))
+    }, context_instance=RequestContext(request))
 
 
 def document_type_filename_list(request, document_type_id):
@@ -1030,7 +1027,7 @@ def document_type_filename_list(request, document_type_id):
         'document_type': document_type,
         'navigation_object_list': [
             {'object': 'document_type', 'name': _(u'document type')},
-        ],        
+        ],     
         'hide_link': True,
         'extra_columns': [
             {
@@ -1076,8 +1073,7 @@ def document_type_filename_edit(request, document_type_filename_id):
             {'object': 'document_type', 'name': _(u'document type')},
             {'object': 'filename', 'name': _(u'document type filename')}
         ],
-    },
-    context_instance=RequestContext(request))
+    }, context_instance=RequestContext(request))
 
 
 def document_type_filename_delete(request, document_type_filename_id):
@@ -1149,9 +1145,8 @@ def document_type_filename_create(request, document_type_id):
         'document_type': document_type,
         'navigation_object_list': [
             {'object': 'document_type', 'name': _(u'document type')},
-        ],        
-    },
-    context_instance=RequestContext(request))
+        ],
+    }, context_instance=RequestContext(request))
 
 
 def document_clear_image_cache(request):

@@ -15,7 +15,6 @@ from django.utils.translation import ugettext
 import sendfile
 
 from acls.models import AccessEntry
-from common.utils import encapsulate
 from converter.models import Transformation
 from documents.permissions import (PERMISSION_DOCUMENT_CREATE,
     PERMISSION_DOCUMENT_NEW_VERSION)

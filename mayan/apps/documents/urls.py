@@ -29,7 +29,7 @@ urlpatterns = patterns('documents.views',
 
     url(r'^(?P<document_id>\d+)/download/$', 'document_download', (), 'document_download'),
     url(r'^multiple/download/$', 'document_multiple_download', (), 'document_multiple_download'),
- 
+
     url(r'^(?P<document_id>\d+)/find_duplicates/$', 'document_find_duplicates', (), 'document_find_duplicates'),
     url(r'^(?P<document_id>\d+)/clear_transformations/$', 'document_clear_transformations', (), 'document_clear_transformations'),
     url(r'^multiple/clear_transformations/$', 'document_multiple_clear_transformations', (), 'document_multiple_clear_transformations'),

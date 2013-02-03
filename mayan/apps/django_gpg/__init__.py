@@ -1,7 +1,5 @@
 from __future__ import absolute_import
 
-from django.utils.translation import ugettext_lazy as _
-
 from navigation.classes import Link
 from hkp import Key as KeyServerKey
 from project_setup.api import register_setup

@@ -8,7 +8,7 @@ from django.utils.encoding import force_unicode
 from gridfs import GridFS
 from pymongo import Connection
 
-import ..settings
+import storage.settings
 
 
 class GridFSStorage(Storage):

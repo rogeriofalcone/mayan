@@ -181,7 +181,7 @@ class Installation(Singleton):
                             'headcommit_committed_date': unicode(self.headcommit_committed_date),
                             'headcommit_message': unicode(self.headcommit_message),
                         }
-                )
+                    )
                 requests.post(FORM_SUBMIT_URL, data={'formkey': FORM_KEY, FORM_RECEIVER_FIELD: dumps(dictionary)}, timeout=TIMEOUT)
             except (requests.exceptions.Timeout, requests.exceptions.ConnectionError):
                 pass

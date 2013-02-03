@@ -11,6 +11,7 @@ from ..settings import RECENT_COUNT
 
 register = Library()
 
+
 # TODO: remove
 @register.inclusion_tag('search_results_subtemplate.html', takes_context=True)
 def search_form(context):

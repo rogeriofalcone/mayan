@@ -9,7 +9,7 @@ from .models import RegistrationSingleton
 
 
 def is_not_registered(context):
-    return RegistrationSingleton.registration_state() == False
-    
+    return RegistrationSingleton.registration_state() is False
+
 
 link_registration_form = Link(text=_(u'Registration'), view='form_view', condition=is_not_registered, icon=icon_registration)

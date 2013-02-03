@@ -8,7 +8,6 @@ from django.utils.http import urlencode
 
 from converter.literals import (DEFAULT_ZOOM_LEVEL, DEFAULT_ROTATION,
     DEFAULT_PAGE_NUMBER)
-from mimetype.api import get_error_icon_url
 
 
 def document_thumbnail(document, **kwargs):

@@ -33,6 +33,7 @@ from .permissions import (PERMISSION_DOCUMENT_CREATE,
     PERMISSION_DOCUMENT_NEW_VERSION)
 from .settings import ZOOM_MAX_LEVEL, ZOOM_MIN_LEVEL
 
+
 def is_first_page(context):
     return context['resolved_object'].is_first_page()
 

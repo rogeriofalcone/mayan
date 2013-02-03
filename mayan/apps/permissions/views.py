@@ -16,12 +16,12 @@ from django.contrib.auth.models import User, Group
 from django.utils.simplejson import loads
 
 from common.views import assign_remove
-from common.utils import generate_choices_w_labels, encapsulate, get_object_name
+from common.utils import encapsulate, get_object_name
 from common.widgets import two_state_template
 from common.models import AnonymousUserSingleton
 from acls.classes import EncapsulatedObject
 
-from .models import Role, Permission, PermissionHolder, RoleMember
+from .models import Role, Permission
 from .forms import RoleForm, RoleForm_view
 from .icons import icon_permission_revoke, icon_role_delete, icon_permission_grant
 from .permissions import (PERMISSION_ROLE_VIEW, PERMISSION_ROLE_EDIT,
@@ -60,7 +60,7 @@ def role_permissions(request, role_id):
                     {'name': _(u'namespace'), 'attribute': encapsulate(lambda x: x.namespace)},
                     {'name': _(u'name'), 'attribute': encapsulate(lambda x: x.label)},
                     {
-                        'name':_(u'has permission'),
+                        'name': _(u'has permission'),
                         'attribute': encapsulate(lambda x: two_state_template(x.requester_has_this(role)).display_small()),
                     },
                 ],
@@ -90,7 +90,9 @@ def role_edit(request, role_id):
 
     return update_object(request, template_name='generic_form.html',
         form_class=RoleForm, object_id=role_id, extra_context={
-        'object_name': _(u'role')})
+            'object_name': _(u'role')
+        }
+    )
 
 
 def role_create(request):

@@ -11,9 +11,8 @@ from .icons import (icon_smart_link_instance_view, icon_smart_link_instances_for
     icon_smart_link_edit, icon_smart_link_delete, icon_smart_link_condition_list,
     icon_smart_link_condition_create, icon_smart_link_condition_edit,
     icon_smart_link_condition_delete, icon_smart_link_acl_list)
-from .permissions import (PERMISSION_SMART_LINK_VIEW,
-    PERMISSION_SMART_LINK_CREATE, PERMISSION_SMART_LINK_DELETE,
-    PERMISSION_SMART_LINK_EDIT)
+from .permissions import (PERMISSION_SMART_LINK_CREATE,
+    PERMISSION_SMART_LINK_DELETE, PERMISSION_SMART_LINK_EDIT)
 
 smart_link_instance_view_link = Link(text=_(u'smart links actions'), view='smart_link_instance_view', icon=icon_smart_link_instance_view, permissions=[PERMISSION_DOCUMENT_VIEW])
 smart_link_instances_for_document = Link(text=_(u'smart links'), view='smart_link_instances_for_document', args='object.pk', icon=icon_smart_link_instances_for_document, permissions=[PERMISSION_DOCUMENT_VIEW])

@@ -5,8 +5,6 @@ from django.utils.translation import ugettext_lazy as _
 from common.utils import encapsulate
 from converter.links import link_transformation_list
 from documents.models import Document
-from documents.permissions import (PERMISSION_DOCUMENT_NEW_VERSION, 
-    PERMISSION_DOCUMENT_CREATE)
 from navigation.api import register_model_list_columns
 from navigation.classes import Link
 from project_setup.api import register_setup

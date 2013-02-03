@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-import datetime
 from south.db import db
 from south.v2 import SchemaMigration
-from django.db import models
 
 
 class Migration(SchemaMigration):
@@ -18,7 +16,6 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True),
                       keep_default=False)
 
-
         # Changing field 'DocumentCheckout.checkout_datetime'
         db.alter_column('checkouts_documentcheckout', 'checkout_datetime', self.gf('django.db.models.fields.DateTimeField')(null=True))
 
@@ -28,7 +25,6 @@ class Migration(SchemaMigration):
 
         # Deleting field 'DocumentCheckout.user_object_id'
         db.delete_column('checkouts_documentcheckout', 'user_object_id')
-
 
         # Changing field 'DocumentCheckout.checkout_datetime'
         db.alter_column('checkouts_documentcheckout', 'checkout_datetime', self.gf('django.db.models.fields.DateTimeField')())

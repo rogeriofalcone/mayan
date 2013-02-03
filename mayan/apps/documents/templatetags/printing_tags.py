@@ -4,8 +4,6 @@ from django.template import Library, Node, Variable
 
 from converter.api import get_dimensions
 
-from ..settings import PRINT_SIZE
-
 register = Library()
 
 

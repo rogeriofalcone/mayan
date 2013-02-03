@@ -9,7 +9,6 @@ from django.contrib.auth.management import create_superuser
 from django.db.models.signals import post_save
 from django.db import transaction, DatabaseError
 from django.dispatch import receiver
-from django.utils.translation import ugettext_lazy as _
 
 from south.signals import post_migrate
 

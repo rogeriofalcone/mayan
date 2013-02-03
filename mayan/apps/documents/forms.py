@@ -7,10 +7,8 @@ from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.utils.html import conditional_escape
 from django.utils.encoding import force_unicode
-        
+
 from common.forms import DetailForm
-from common.literals import PAGE_SIZE_CHOICES, PAGE_ORIENTATION_CHOICES
-from common.settings import DEFAULT_PAPER_SIZE, DEFAULT_PAGE_ORIENTATION
 from common.widgets import TextAreaDiv
 
 from .icons import icon_page_details, icon_document_preview
@@ -301,16 +299,14 @@ class DocumentTypeFilenameForm_create(forms.ModelForm):
         model = DocumentTypeFilename
         fields = ('filename',)
 
-        
+
 class DocumentDownloadForm(forms.Form):
     compressed = forms.BooleanField(label=_(u'Compress'), required=False, help_text=_(u'Download the document in the original format or in a compressed manner.  This option is selectable only when downloading one document, for multiple documents, the bundle will always be downloads as a compressed file.'))
     zip_filename = forms.CharField(initial=DEFAULT_ZIP_FILENAME, label=_(u'Compressed filename'), required=False, help_text=_(u'The filename of the compressed file that will contain the documents to be downloaded, if the previous option is selected.'))
-    
+
     def __init__(self, *args, **kwargs):
         self.document_versions = kwargs.pop('document_versions', None)
         super(DocumentDownloadForm, self).__init__(*args, **kwargs)
         if len(self.document_versions) > 1:
             self.fields['compressed'].initial = True
-            self.fields['compressed'].widget.attrs.update({'disabled': True})   
-    
-    
+            self.fields['compressed'].widget.attrs.update({'disabled': True})

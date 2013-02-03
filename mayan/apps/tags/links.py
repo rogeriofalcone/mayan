@@ -9,8 +9,7 @@ from .icons import (icon_tag_list, icon_tag_create, icon_tag_attach, icon_tag_do
     icon_document_list, icon_tag_delete, icon_tag_edit, icon_tagged_item_list,
     icon_tag_acl_list)
 from .permissions import (PERMISSION_TAG_CREATE, PERMISSION_TAG_ATTACH,
-    PERMISSION_TAG_REMOVE, PERMISSION_TAG_DELETE, PERMISSION_TAG_EDIT,
-    PERMISSION_TAG_VIEW)
+    PERMISSION_TAG_REMOVE, PERMISSION_TAG_DELETE, PERMISSION_TAG_EDIT)
 
 
 tag_list = Link(text=_(u'tag list'), view='tag_list', icon=icon_tag_list)

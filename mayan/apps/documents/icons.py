@@ -6,7 +6,7 @@ from icons.literals import (LAYOUT, MAGNIFIER, PAGE, PAGE_GEAR, PAGE_DELETE,
     PAGE_WHITE_TEXT, PAGE_WHITE_EDIT, RESULTSET_NEXT, RESULTSET_PREVIOUS,
     RESULTSET_FIRST, RESULTSET_LAST, ZOOM_IN, ZOOM_OUT, ARROW_TURN_RIGHT,
     ARROW_TURN_LEFT, PAGE_WHITE, LAYOUT_EDIT, LAYOUT_ADD, LAYOUT_DELETE,
-    DATABASE, DATABASE_ADD, DATABASE_EDIT, DATABASE_DELETE, PAGE_FIND, DELETE,
+    DATABASE, DATABASE_ADD, DATABASE_EDIT, DATABASE_DELETE, PAGE_FIND,
     PAGE_WHITE_GO)
 from icons import Icon
 
@@ -31,7 +31,7 @@ icon_document_page_view = Icon(PAGE_WHITE_PICTURE)
 icon_document_page_text = Icon(PAGE_WHITE_TEXT)
 icon_document_page_edit = Icon(PAGE_WHITE_EDIT)
 icon_document_page_navigation_next = Icon(RESULTSET_NEXT)
-icon=icon_document_page_navigation_previous = Icon(RESULTSET_PREVIOUS)
+icon_document_page_navigation_previous = Icon(RESULTSET_PREVIOUS)
 icon_document_page_navigation_first = Icon(RESULTSET_FIRST)
 icon_document_page_navigation_last = Icon(RESULTSET_LAST)
 icon_document_page_zoom_in = Icon(ZOOM_IN)
