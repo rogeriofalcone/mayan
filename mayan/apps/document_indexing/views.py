@@ -396,11 +396,8 @@ def rebuild_index_instances(request):
         }, context_instance=RequestContext(request))
     else:
         try:
-            warnings = do_rebuild_all_indexes()
+            do_rebuild_all_indexes()
             messages.success(request, _(u'Index rebuild completed successfully.'))
-            for warning in warnings:
-                messages.warning(request, warning)
-
         except Exception, e:
             if settings.DEBUG:
                 raise
