@@ -1,6 +1,6 @@
 from django.utils.translation import ugettext_lazy as _
 
-from acls.classes import EncapsulatedObject
+from common.classes import EncapsulatedObject
 
 
 class MetadataClass(object):
