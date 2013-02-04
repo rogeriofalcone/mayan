@@ -92,7 +92,10 @@ class Document(models.Model):
         ordering = ['-date_added']
 
     def __unicode__(self):
-        return self.latest_version.filename
+        try:
+            return self.latest_version.filename
+        except IndexError:
+            return ugettext(u'Corrupted document')
 
     @models.permalink
     def get_absolute_url(self):
@@ -249,7 +252,11 @@ class Document(models.Model):
 
     @property
     def pages(self):
-        return self.latest_version.pages
+        try:
+            return self.latest_version.pages
+        except IndexError:
+            # Corrupted document
+            return DocumentPage.objects.none()
 
     @property
     def page_count(self):
