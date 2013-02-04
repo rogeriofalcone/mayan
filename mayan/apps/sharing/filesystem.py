@@ -21,34 +21,10 @@ def assemble_suffixed_filename(filename, suffix=0):
         return filename
 
 
-def assemble_path_from_list(directory_list):
-    return os.path.normpath(os.sep.join(directory_list))
 
 
-def get_instance_path(index_instance):
-    """
-    Return a platform formated filesytem path corresponding to an
-    index instance
-    """
-    names = []
-    for ancestor in index_instance.get_ancestors():
-        names.append(ancestor.value)
-
-    names.append(index_instance.value)
-
-    return assemble_path_from_list(names)
 
 
-def fs_create_index_directory(index_instance):
-    if index_instance.index_template_node.index.name in FILESYSTEM_SERVING:
-        target_directory = assemble_path_from_list([FILESYSTEM_SERVING[index_instance.index_template_node.index.name], get_instance_path(index_instance)])
-        try:
-            os.mkdir(target_directory)
-        except OSError, exc:
-            if exc.errno == errno.EEXIST:
-                pass
-            else:
-                raise Exception(_(u'Unable to create indexing directory; %s') % exc)
 
 
 def fs_create_document_link(index_instance, document, suffix=0):
@@ -84,16 +60,7 @@ def fs_delete_document_link(index_instance, document, suffix=0):
                 raise Exception(_(u'Unable to delete document symbolic link; %s') % exc)
 
 
-def fs_delete_index_directory(index_instance):
-    if index_instance.index_template_node.index.name in FILESYSTEM_SERVING:
-        target_directory = assemble_path_from_list([FILESYSTEM_SERVING[index_instance.index_template_node.index.name], get_instance_path(index_instance)])
-        try:
-            os.removedirs(target_directory)
-        except OSError, exc:
-            if exc.errno == errno.EEXIST:
-                pass
-            else:
-                raise Exception(_(u'Unable to delete indexing directory; %s') % exc)
+
 
 
 def fs_delete_directory_recusive(index):

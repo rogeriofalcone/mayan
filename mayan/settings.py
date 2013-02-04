@@ -205,6 +205,7 @@ INSTALLED_APPS = (
     'metadata',
     'linking',
     'document_indexing',
+    'sharing',
     'document_acls',
     'document_signatures',
     'checkouts',
