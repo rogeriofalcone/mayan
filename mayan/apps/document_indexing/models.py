@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 import logging
+import datetime
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -85,15 +86,11 @@ class IndexTemplateNode(MPTTModel):
 
     def evaluate(self, eval_dict, document, parent_node_instance=None):
         logger.debug('self.expression: %s' % self.expression)
+
         try:
-            if not self.is_root_node():
-                result = eval(self.expression, eval_dict, AVAILABLE_INDEXING_FUNCTIONS)
-            else:
-                # Root node always evaluate to True so that its children get
-                # processed
-                result = True
-        except Exception, exc:
-            raise
+            result = eval(self.expression, eval_dict, AVAILABLE_INDEXING_FUNCTIONS)
+        except Exception as exception:
+            return
         else:
             logger.debug('result: %s' % result)
             if result:
@@ -101,16 +98,15 @@ class IndexTemplateNode(MPTTModel):
                 node_instance.parent = parent_node_instance
                 node_instance.save()
 
-                create_node_instance.send(sender=node_instance)
+                create_node_instance.send(sender=node_instance, node_instance=node_instance)
 
                 if self.link_documents:
-                    add_document_to_node_instance.send(sender=node_instance, document=document)
-
                     node_instance.documents.add(document)
+                    add_document_to_node_instance.send(sender=node_instance, node_instance=node_instance, document=document)
                
                 for child_node in self.get_children():
                     if child_node.enabled:
-                        child_node.evaluate(eval_dict, document, node_instance)
+                        child_node.evaluate(eval_dict=eval_dict, document=document, parent_node_instance=node_instance)
 
     class Meta:
         verbose_name = _(u'index template node')
@@ -131,6 +127,10 @@ class IndexInstanceNode(MPTTModel):
     @models.permalink
     def get_absolute_url(self):
         return ('index_instance_node_view', [self.pk])
+
+    @property
+    def index(self):
+        return self.index_template_node.index
 
     class Meta:
         verbose_name = _(u'index instance node')
