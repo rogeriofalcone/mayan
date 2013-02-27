@@ -28,26 +28,7 @@ class Icon(object):
         from .settings import ICON_SET
         return IconSetBase.get_by_name(self.icon_set or ICON_SET)
 
-    #def get_url(self, size):
-    #    #from .settings import ICON_SET
-    #    #return IconSetBase.get_by_name(self.icon_set or ICON_SET).get_url_of_icon(self, size)
-    #    return self.get_iconset().get_url_of_icon(self, size)
-     
-    #def get_as_base64(self, size):
-    #    from .settings import ICON_SET
-    #    return IconSetBase.get_by_name(self.icon_set or ICON_SET).get_as_base64(self, size)
-
-    #def get_as_filename(self, size):
-    #    #from .settings import ICON_SET
-    #    #return IconSetBase.get_by_name(self.icon_set or ICON_SET).get_filename_of_icon(self, size)        
-    #    return self.get_iconset().get_filename_of_icon(self, size)        
-
     def display(self, size): # TODO: move to widgets?
-        #return mark_safe('<img style="vertical-align: middle;" src="%s" />' % self.get_url(size))
-        #return mark_safe('<img style="vertical-align: middle;" src="%s" />' % self.get_as_base64(size))
-        #return mark_safe('<img style="vertical-align: middle;" src="%s" />' % self.process(size))
-        #return mark_safe('<img style="vertical-align: middle;" src="%s" />' % self.get_iconset().compose(self, size))
-        
         # Cache a composed icon result for a specific size
         try:
             result = self.__class__._cache['%d_%s' % (id(self), size)]
@@ -78,20 +59,11 @@ class IconSetBase(object):
     def __init__(self):
         self.__class__._registry[self.name] = self
     
-    #def get_filename_of_icon(self, icon, size):
-    #    if settings.DEVELOPMENT:
-    #        return os.path.join(settings.PROJECT_ROOT, 'apps', 'icons', 'static', ICONSETS_STATIC_DIRECTORY, self.directory, size, self.dictionary.get(icon.id, ERROR))
-    #    else:
-    #        return os.path.join(settings.STATIC_ROOT, ICONSETS_STATIC_DIRECTORY, self.directory, size, self.dictionary.get(icon.id, ERROR))
-
     def get_filename_of_image(self, image_name, size):
         if settings.DEVELOPMENT:
             return os.path.join(settings.PROJECT_ROOT, 'apps', 'icons', 'static', ICONSETS_STATIC_DIRECTORY, self.directory, size, image_name)
         else:
             return os.path.join(settings.STATIC_ROOT, ICONSETS_STATIC_DIRECTORY, self.directory, size, image_name)
-
-    #def get_url_of_icon(self, icon, size):
-    #    return '%s%s/%s/%s/%s' % (settings.STATIC_URL, ICONSETS_STATIC_DIRECTORY, self.directory, size, self.dictionary.get(icon.id, ERROR))
 
     def get_major_minor(self, icon):
         return self.dictionary.get(icon.id, self.dictionary.get(ERROR))
