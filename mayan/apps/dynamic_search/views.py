@@ -37,11 +37,11 @@ def results(request, extra_context=None):
             # Simple query
             logger.debug('simple search')
             query_string = request.GET.get('q', u'').strip()
-            model_list, flat_list, shown_result_count, result_count, elapsed_time = document_search.simple_search(query_string)
+            model_list, flat_list, shown_result_count, result_count, elapsed_time = document_search.simple_search(query_string, user=request.user)
         else:
             # Advanced search
             logger.debug('advanced search')
-            model_list, flat_list, shown_result_count, result_count, elapsed_time = document_search.advanced_search(request.GET)
+            model_list, flat_list, shown_result_count, result_count, elapsed_time = document_search.advanced_search(request.GET, user=request.user)
 
         if shown_result_count != result_count:
             title = _(u'results, (showing only %(shown_result_count)s out of %(result_count)s)') % {

@@ -6,6 +6,10 @@ import re
 
 from django.db.models import Q
 from django.db.models.loading import get_model
+from django.core.exceptions import PermissionDenied
+
+from acls.models import AccessEntry
+from permissions.models import Permission
 
 from .settings import LIMIT
 
@@ -23,12 +27,13 @@ class SearchModel(object):
     def get(cls, full_name):
         return cls.registry[full_name]
 
-    def __init__(self, app_label, model_name, label=None):
+    def __init__(self, app_label, model_name, label=None, permission=None):
         self.app_label = app_label
         self.model_name = model_name
         self.search_fields = {}
         self.model = get_model(app_label, model_name)
         self.label = label or self.model._meta.verbose_name
+        self.permission = permission
         self.__class__.registry[self.get_full_name()] = self
 
     def get_full_name(self):
@@ -77,7 +82,7 @@ class SearchModel(object):
         """
         return [normspace(' ', (t[0] or t[1]).strip()) for t in findterms(query_string)]
 
-    def simple_search(self, query_string):
+    def simple_search(self, query_string, user):
         search_dict = {}
 
         for search_field in self.get_all_search_fields():
@@ -95,9 +100,9 @@ class SearchModel(object):
 
         logger.debug('search_dict: %s' % search_dict)
 
-        return self.execute_search(search_dict, global_and_search=False)
+        return self.execute_search(search_dict, user, global_and_search=False)
 
-    def advanced_search(self, dictionary):
+    def advanced_search(self, dictionary, user):
         search_dict = {}
 
         for key, value in dictionary.items():
@@ -121,9 +126,9 @@ class SearchModel(object):
 
         logger.debug('search_dict: %s' % search_dict)
 
-        return self.execute_search(search_dict, global_and_search=True)
+        return self.execute_search(search_dict, user, global_and_search=True)
 
-    def execute_search(self, search_dict, global_and_search=False):
+    def execute_search(self, search_dict, user, global_and_search=False):
         model_list = {}
         flat_list = []
         result_count = 0
@@ -196,7 +201,20 @@ class SearchModel(object):
 
         elapsed_time = unicode(datetime.datetime.now() - start_time).split(':')[2]
 
-        return model_list, flat_list, shown_result_count, result_count, elapsed_time
+        if self.permission:
+            try:
+                Permission.objects.check_permissions(user, [self.permission])
+            except PermissionDenied:
+                # If user doesn't have global permission, get a list of document
+                # for which he/she does hace access use it to filter the
+                # provided object_list
+                final_object_list = AccessEntry.objects.filter_objects_by_access(self.permission, user, flat_list)
+            else:
+                final_object_list = flat_list
+        else:
+            final_object_list = flat_list
+
+        return model_list, final_object_list, shown_result_count, result_count, elapsed_time
 
     def assemble_query(self, terms, search_fields):
         """

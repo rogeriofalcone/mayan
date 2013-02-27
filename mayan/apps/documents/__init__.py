@@ -131,7 +131,7 @@ class_permissions(Document, [
     PERMISSION_HISTORY_VIEW
 ])
 
-document_search = SearchModel('documents', 'Document')
+document_search = SearchModel('documents', 'Document', permission=PERMISSION_DOCUMENT_VIEW)
 document_search.add_model_field('document_type__name', label=_(u'Document type'))
 document_search.add_model_field('documentversion__mimetype', label=_(u'MIME type'))
 document_search.add_model_field('documentversion__filename', label=_(u'Filename'))
