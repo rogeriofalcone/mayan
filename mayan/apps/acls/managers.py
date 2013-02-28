@@ -247,6 +247,7 @@ class AccessEntryManager(models.Manager):
             return qs
         except AttributeError:
             # Fallback to a filtered list
+            # TODO: Deprecate, too slow on long lists
             object_list = list(set(object_list) & set(self.get_allowed_class_objects(permission, actor, object_list[0].__class__, related)))
             logger.debug('object_list: %s' % object_list)
             if len(object_list) == 0 and exception_on_empty == True:
