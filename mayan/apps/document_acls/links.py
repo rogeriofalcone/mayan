@@ -7,4 +7,4 @@ from .icons import icon_document_acls
 from acls.permissions import ACLS_VIEW_ACL
 from navigation.classes import Link
 
-acl_list = Link(text=_(u'ACLs'), view='document_acl_list', args='object.pk', permissions=[ACLS_VIEW_ACL], icon=icon_document_acls)
+link_acl_list = Link(text=_(u'ACLs'), view='document_acl_list', args='resolved_object.pk', permissions=[ACLS_VIEW_ACL], icon=icon_document_acls)
