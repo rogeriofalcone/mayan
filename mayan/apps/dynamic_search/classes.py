@@ -11,8 +11,6 @@ from django.core.exceptions import PermissionDenied
 from acls.models import AccessEntry
 from permissions.models import Permission
 
-from .settings import LIMIT
-
 logger = logging.getLogger(__name__)
 
 
@@ -125,16 +123,13 @@ class SearchModel(object):
                 )
 
         logger.debug('search_dict: %s' % search_dict)
-
+            
         return self.execute_search(search_dict, user, global_and_search=True)
 
     def execute_search(self, search_dict, user, global_and_search=False):
-        model_list = {}
-        flat_list = []
-        result_count = 0
-        shown_result_count = 0
-        elapsed_time = 0
         start_time = datetime.datetime.now()
+        model_list = {}
+        list_results = set()
 
         for model, data in search_dict.items():
             logger.debug('model: %s' % model)
@@ -180,27 +175,13 @@ class SearchModel(object):
 
                 logger.debug('model_result_set: %s' % model_result_set)
 
-            # Update the search result total count
-            result_count += len(model_result_set)
+            # Accumulate the field results return values (PK)
+            list_results |= model_result_set
 
-            # Search the field results return values (PK) in the SearchModel's model
-            results = self.model.objects.in_bulk(list(model_result_set)[: LIMIT]).values()
-            logger.debug('query model_result_set: %s' % model_result_set)
-
-            # Update the search result visible count (limited by LIMIT config option)
-            shown_result_count += len(results)
-
-            if results:
-                model_list[data['label']] = results
-                for result in results:
-                    if result not in flat_list:
-                        flat_list.append(result)
-
-            logger.debug('model_list: %s' % model_list)
-            logger.debug('flat_list: %s' % flat_list)
-
-        elapsed_time = unicode(datetime.datetime.now() - start_time).split(':')[2]
-
+        # Return a QuerySet object of search results
+        search_results = self.model.objects.filter(pk__in=list_results)
+        
+        # Filter the search results by the users permissions or ACLS
         if self.permission:
             try:
                 Permission.objects.check_permissions(user, [self.permission])
@@ -208,13 +189,15 @@ class SearchModel(object):
                 # If user doesn't have global permission, get a list of document
                 # for which he/she does hace access use it to filter the
                 # provided object_list
-                final_object_list = AccessEntry.objects.filter_objects_by_access(self.permission, user, flat_list)
+                final_object_list = AccessEntry.objects.filter_objects_by_access(self.permission, user, search_results)
             else:
-                final_object_list = flat_list
+                final_object_list = search_results
         else:
-            final_object_list = flat_list
+            final_object_list = search_results
 
-        return model_list, final_object_list, shown_result_count, result_count, elapsed_time
+        elapsed_time = unicode(datetime.datetime.now() - start_time).split(':')[2]
+
+        return final_object_list, elapsed_time
 
     def assemble_query(self, terms, search_fields):
         """
