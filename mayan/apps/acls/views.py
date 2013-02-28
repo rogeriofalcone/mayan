@@ -67,7 +67,18 @@ def acl_list(request, app_label, module_name, object_pk):
         context_instance=RequestContext(request))
 
 
-def acl_detail(request, actor, obj):
+def acl_detail(request, access_object_gid, holder_object_gid):
+    try:
+        holder = AccessHolder.get(gid=holder_object_gid)
+        access_object = AccessObject.get(gid=access_object_gid)
+    except ObjectDoesNotExist:
+        raise Http404
+
+    #return acl_detail_for(request, holder.source_object, access_object.source_object)
+    return acl_detail_for(request, holder, access_object)
+
+
+def acl_detail_for(request, actor, obj):
     try:
         Permission.objects.check_permissions(request.user, [ACLS_VIEW_ACL])
     except PermissionDenied:
@@ -119,6 +130,7 @@ def acl_detail(request, actor, obj):
         context,
         context_instance=RequestContext(request)
     )
+
 
 def acl_list_for(request, obj, extra_context=None):
     try:
@@ -149,77 +161,6 @@ def acl_list_for(request, obj, extra_context=None):
 
     return render_to_response('generic_list.html', context,
         context_instance=RequestContext(request))
-
-'''
-def acl_list(request, app_label, model_name, object_id):
-    ct = get_object_or_404(ContentType, app_label=app_label, model=model_name)
-    obj = get_object_or_404(ct.get_object_for_this_type, pk=object_id)
-    return acl_list_for(request, obj)
-'''
-
-def acl_detail_old(request, access_object_gid, holder_object_gid):
-    try:
-        holder = AccessHolder.get(gid=holder_object_gid)
-        access_object = AccessObject.get(gid=access_object_gid)
-    except ObjectDoesNotExist:
-        raise Http404
-
-    #return acl_detail_for(request, holder.source_object, access_object.source_object)
-    return acl_detail_for(request, holder, access_object)
-
-
-def acl_detail_for_old(request, actor, obj):
-    try:
-        Permission.objects.check_permissions(request.user, [ACLS_VIEW_ACL])
-    except PermissionDenied:
-        AccessEntry.objects.check_accesses([ACLS_VIEW_ACL], actor, obj)
-
-    permission_list = get_class_permissions_for(obj.source_object)
-    #TODO : get all globally assigned permission, new function get_permissions_for_holder (roles aware)
-    subtemplates_list = [
-        {
-            'name': u'generic_list_subtemplate.html',
-            'context': {
-                'title': _(u'permissions available to: %(actor)s for %(obj)s' % {
-                    'actor': actor,
-                    'obj': obj
-                    }
-                ),
-                'object_list': permission_list,
-                'extra_columns': [
-                    {'name': _(u'namespace'), 'attribute': 'namespace'},
-                    {'name': _(u'label'), 'attribute': 'label'},
-                    {
-                        'name':_(u'has permission'),
-                        'attribute': encapsulate(lambda permission: two_state_template(AccessEntry.objects.has_access(permission, actor, obj, db_only=True)).display_small())
-                    },
-                ],
-                'hide_object': True,
-            }
-        },
-    ]
-
-    context = {
-        'object': obj.source_object,
-        'subtemplates_list': subtemplates_list,
-        'multi_select_as_buttons': True,
-        'multi_select_item_properties': {
-            'permission_pk': lambda x: x.pk,
-            'holder_gid': lambda x: actor.gid,
-            'object_gid': lambda x: obj.gid,
-        },
-        'access_object': obj,
-        'navigation_object_list': [
-            {'object': 'object'},
-            {'object': 'access_object'}
-        ],
-    }
-
-    return render_to_response(
-        'generic_detail.html',
-        context,
-        context_instance=RequestContext(request)
-    )
 
 
 def acl_grant(request):
