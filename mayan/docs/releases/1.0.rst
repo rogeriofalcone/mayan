@@ -12,7 +12,8 @@ Overview
 
 What's new in Mayan EDMS v1.0
 ================================
-
+TODO: Remove dynamic search's LIMIT setting
+TODO: Permission/ACL filtered search results
 
 Upgrading from a previous version
 =================================
@@ -52,5 +53,6 @@ Bugs fixed or issues closed
 ===========================
 * `issue #39`_ Feature request "Bulk move folders"
 
+TODO: Bug45
 
 .. _issue #39: https://github.com/rosarior/mayan/issues/39
