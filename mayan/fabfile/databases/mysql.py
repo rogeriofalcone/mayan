@@ -6,8 +6,7 @@ def create_database():
     """
     Create the MySQL Mayan EDMS database
     """
-    run('echo "CREATE DATABASE %(database_name)s;" |  mysql -u root --password=%(database_manager_admin_password)s' % env)
-
+    run('echo "CREATE DATABASE %(database_name)s; DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci" | mysql -u root --password=%(database_manager_admin_password)s' % env) 
 
 def create_user():
     """
