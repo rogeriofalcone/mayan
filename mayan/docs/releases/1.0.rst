@@ -56,7 +56,11 @@ Backward incompatible changes
 Bugs fixed or issues closed
 ===========================
 * `issue #39`_ Feature request "Bulk move folders"
-
-TODO: Bug45
+* `issue #40`_ python manage.py syncdb - error with Postgresql
+* `issue #45`_ Errors when using unicode characters in the SmartLink title
+* `issue #47`_ LCA restricted documents appeare in the search results (though they luckily can't be opened)
 
 .. _issue #39: https://github.com/rosarior/mayan/issues/39
+.. _issue #40: https://github.com/rosarior/mayan/issues/40
+.. _issue #45: https://github.com/rosarior/mayan/issues/45
+.. _issue #47: https://github.com/rosarior/mayan/issues/47
