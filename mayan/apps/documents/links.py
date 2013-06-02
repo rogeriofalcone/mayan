@@ -2,7 +2,6 @@ from __future__ import absolute_import
 
 from django.utils.translation import ugettext_lazy as _
 
-from converter.icons import icon_transformation_clear
 from history.icons import icon_history_link
 from history.permissions import PERMISSION_HISTORY_VIEW
 from navigation.classes import Link
@@ -26,11 +25,10 @@ from .icons import (icon_documents, icon_document_delete,
 from .permissions import (PERMISSION_DOCUMENT_CREATE,
     PERMISSION_DOCUMENT_PROPERTIES_EDIT, PERMISSION_DOCUMENT_VIEW,
     PERMISSION_DOCUMENT_DELETE, PERMISSION_DOCUMENT_DOWNLOAD,
-    PERMISSION_DOCUMENT_TRANSFORM, PERMISSION_DOCUMENT_TOOLS,
-    PERMISSION_DOCUMENT_EDIT, PERMISSION_DOCUMENT_VERSION_REVERT,
-    PERMISSION_DOCUMENT_TYPE_EDIT, PERMISSION_DOCUMENT_TYPE_DELETE,
-    PERMISSION_DOCUMENT_TYPE_CREATE, PERMISSION_DOCUMENT_TYPE_VIEW,
-    PERMISSION_DOCUMENT_NEW_VERSION)
+    PERMISSION_DOCUMENT_TOOLS, PERMISSION_DOCUMENT_EDIT,
+    PERMISSION_DOCUMENT_VERSION_REVERT, PERMISSION_DOCUMENT_TYPE_EDIT,
+    PERMISSION_DOCUMENT_TYPE_DELETE, PERMISSION_DOCUMENT_TYPE_CREATE,
+    PERMISSION_DOCUMENT_TYPE_VIEW, PERMISSION_DOCUMENT_NEW_VERSION)
 from .settings import ZOOM_MAX_LEVEL, ZOOM_MIN_LEVEL
 
 
@@ -70,8 +68,6 @@ document_version_download = Link(text=_(u'download'), view='document_version_dow
 document_find_duplicates = Link(text=_(u'find duplicates'), view='document_find_duplicates', args='resolved_object.id', icon=icon_find_duplicates, permissions=[PERMISSION_DOCUMENT_VIEW])
 document_find_all_duplicates = Link(text=_(u'find all duplicates'), view='document_find_all_duplicates', icon=icon_find_duplicates, permissions=[PERMISSION_DOCUMENT_VIEW], description=_(u'Search all the documents\' checksums and return a list of the exact matches.'))
 document_update_page_count = Link(text=_(u'update office documents\' page count'), view='document_update_page_count', icon=icon_document_update_page_count, permissions=[PERMISSION_DOCUMENT_TOOLS], description=_(u'Update the page count of the office type documents.  This is useful when enabling office document support after there were already office type documents in the database.'))
-document_clear_transformations = Link(text=_(u'clear transformations'), view='document_clear_transformations', args='resolved_object.id', permissions=[PERMISSION_DOCUMENT_TRANSFORM], icon=icon_transformation_clear)
-document_multiple_clear_transformations = Link(text=_(u'clear transformations'), view='document_multiple_clear_transformations', permissions=[PERMISSION_DOCUMENT_TRANSFORM])
 document_print = Link(text=_(u'print'), view='document_print', args='resolved_object.id', icon=icon_print, permissions=[PERMISSION_DOCUMENT_VIEW])
 document_history_view = Link(text=_(u'history'), view='history_for_object', args=['"documents"', '"document"', 'resolved_object.pk'], icon=icon_history_link, permissions=[PERMISSION_HISTORY_VIEW])
 document_missing_list = Link(text=_(u'Find missing document files'), view='document_missing_list', icon=icon_document_missing_list, description=_(u'Return a list of documents found on the database but that don\'t physically exist in the document storage.'), permissions=[PERMISSION_DOCUMENT_VIEW])

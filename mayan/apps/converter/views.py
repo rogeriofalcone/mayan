@@ -11,15 +11,17 @@ from django.utils.translation import ugettext_lazy as _
 
 from acls.models import AccessEntry
 from common.utils import encapsulate
+from documents.models import Document
 from permissions.models import Permission
 
 from .api import get_format_list
 from .classes import MenuLessObject
-from .settings import GRAPHICS_BACKEND
 from .forms import TransformationForm_create, TransformationForm
+from .icons import icon_transformation_clear
 from .models import Transformation
 from .permissions import (PERMISSION_TRANSFORMATION_CREATE, PERMISSION_TRANSFORMATION_DELETE,
-    PERMISSION_TRANSFORMATION_EDIT, PERMISSION_TRANSFORMATION_VIEW)
+    PERMISSION_TRANSFORMATION_EDIT, PERMISSION_TRANSFORMATION_VIEW, PERMISSION_DOCUMENT_TRANSFORM)
+from .settings import GRAPHICS_BACKEND
 
 
 def formats_list(request):
@@ -204,3 +206,58 @@ def transformation_delete(request, transformation_pk):
 
     return render_to_response('generic_confirm.html', context,
         context_instance=RequestContext(request))
+
+
+def document_clear_transformations(request, document_pk=None, document_pk_list=None):
+    if document_pk:
+        documents = [get_object_or_404(Document.objects, pk=document_pk)]
+        post_redirect = reverse('document_view_simple', args=[documents[0].pk])
+    elif document_pk_list:
+        documents = [get_object_or_404(Document, pk=document_pk) for document_pk in document_pk_list.split(',')]
+        post_redirect = None
+    else:
+        messages.error(request, _(u'Must provide at least one document.'))
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', u'/'))
+
+    try:
+        Permission.objects.check_permissions(request.user, [PERMISSION_DOCUMENT_TRANSFORM])
+    except PermissionDenied:
+        documents = AccessEntry.objects.filter_objects_by_access(PERMISSION_DOCUMENT_TRANSFORM, request.user, documents, exception_on_empty=True)
+
+    previous = request.POST.get('previous', request.GET.get('previous', request.META.get('HTTP_REFERER', post_redirect or reverse('document_list'))))
+    next = request.POST.get('next', request.GET.get('next', request.META.get('HTTP_REFERER', post_redirect or reverse('document_list'))))
+
+    if request.method == 'POST':
+        for document in documents:
+            try:
+                for document_page in document.pages.all():
+                    document_page.document.invalidate_cached_image(document_page.page_number)
+                    for transformation in Transformation.objects.for_model(document_page):
+                        transformation.delete()
+                messages.success(request, _(u'All the page transformations for document: %s, have been deleted successfully.') % document)
+            except Exception, e:
+                messages.error(request, _(u'Error deleting the page transformations for document: %(document)s; %(error)s.') % {
+                    'document': document, 'error': e})
+
+        return HttpResponseRedirect(next)
+
+    context = {
+        'object_name': _(u'document transformation'),
+        'delete_view': True,
+        'previous': previous,
+        'next': next,
+        'form_icon': icon_transformation_clear,
+    }
+
+    if len(documents) == 1:
+        context['object'] = documents[0]
+        context['title'] = _(u'Are you sure you wish to clear all the page transformations for document: %s?') % ', '.join([unicode(d) for d in documents])
+    elif len(documents) > 1:
+        context['title'] = _(u'Are you sure you wish to clear all the page transformations for documents: %s?') % ', '.join([unicode(d) for d in documents])
+
+    return render_to_response('generic_confirm.html', context,
+        context_instance=RequestContext(request))
+
+
+def document_multiple_clear_transformations(request):
+    return document_clear_transformations(request, document_pk_list=request.GET.get('id_list', []))

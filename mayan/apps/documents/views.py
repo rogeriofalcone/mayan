@@ -46,11 +46,10 @@ from .models import (Document, DocumentType, DocumentPage,
     RecentDocument, DocumentTypeFilename, DocumentVersion)
 from .permissions import (PERMISSION_DOCUMENT_PROPERTIES_EDIT,
     PERMISSION_DOCUMENT_VIEW, PERMISSION_DOCUMENT_DELETE,
-    PERMISSION_DOCUMENT_DOWNLOAD, PERMISSION_DOCUMENT_TRANSFORM,
-    PERMISSION_DOCUMENT_TOOLS, PERMISSION_DOCUMENT_EDIT,
-    PERMISSION_DOCUMENT_VERSION_REVERT, PERMISSION_DOCUMENT_TYPE_EDIT,
-    PERMISSION_DOCUMENT_TYPE_DELETE, PERMISSION_DOCUMENT_TYPE_CREATE,
-    PERMISSION_DOCUMENT_TYPE_VIEW)
+    PERMISSION_DOCUMENT_DOWNLOAD, PERMISSION_DOCUMENT_TOOLS,
+    PERMISSION_DOCUMENT_EDIT, PERMISSION_DOCUMENT_VERSION_REVERT,
+    PERMISSION_DOCUMENT_TYPE_EDIT, PERMISSION_DOCUMENT_TYPE_DELETE,
+    PERMISSION_DOCUMENT_TYPE_CREATE, PERMISSION_DOCUMENT_TYPE_VIEW)
 
 logger = logging.getLogger(__name__)
 
@@ -466,61 +465,6 @@ def document_update_page_count(request):
         'message': _(u'On large databases this operation may take some time to execute.'),
         'form_icon': icon_document_update_page_count,
     }, context_instance=RequestContext(request))
-
-
-def document_clear_transformations(request, document_id=None, document_id_list=None):
-    if document_id:
-        documents = [get_object_or_404(Document.objects, pk=document_id)]
-        post_redirect = reverse('document_view_simple', args=[documents[0].pk])
-    elif document_id_list:
-        documents = [get_object_or_404(Document, pk=document_id) for document_id in document_id_list.split(',')]
-        post_redirect = None
-    else:
-        messages.error(request, _(u'Must provide at least one document.'))
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER', u'/'))
-
-    try:
-        Permission.objects.check_permissions(request.user, [PERMISSION_DOCUMENT_TRANSFORM])
-    except PermissionDenied:
-        documents = AccessEntry.objects.filter_objects_by_access(PERMISSION_DOCUMENT_TRANSFORM, request.user, documents, exception_on_empty=True)
-
-    previous = request.POST.get('previous', request.GET.get('previous', request.META.get('HTTP_REFERER', post_redirect or reverse('document_list'))))
-    next = request.POST.get('next', request.GET.get('next', request.META.get('HTTP_REFERER', post_redirect or reverse('document_list'))))
-
-    if request.method == 'POST':
-        for document in documents:
-            try:
-                for document_page in document.pages.all():
-                    document_page.document.invalidate_cached_image(document_page.page_number)
-                    for transformation in document_page.documentpagetransformation_set.all():
-                        transformation.delete()
-                messages.success(request, _(u'All the page transformations for document: %s, have been deleted successfully.') % document)
-            except Exception, e:
-                messages.error(request, _(u'Error deleting the page transformations for document: %(document)s; %(error)s.') % {
-                    'document': document, 'error': e})
-
-        return HttpResponseRedirect(next)
-
-    context = {
-        'object_name': _(u'document transformation'),
-        'delete_view': True,
-        'previous': previous,
-        'next': next,
-        'form_icon': icon_transformation_clear,
-    }
-
-    if len(documents) == 1:
-        context['object'] = documents[0]
-        context['title'] = _(u'Are you sure you wish to clear all the page transformations for document: %s?') % ', '.join([unicode(d) for d in documents])
-    elif len(documents) > 1:
-        context['title'] = _(u'Are you sure you wish to clear all the page transformations for documents: %s?') % ', '.join([unicode(d) for d in documents])
-
-    return render_to_response('generic_confirm.html', context,
-        context_instance=RequestContext(request))
-
-
-def document_multiple_clear_transformations(request):
-    return document_clear_transformations(request, document_id_list=request.GET.get('id_list', []))
 
 
 def document_missing_list(request):

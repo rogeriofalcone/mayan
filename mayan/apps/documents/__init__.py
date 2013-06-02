@@ -7,7 +7,6 @@ from django.utils.translation import ugettext_lazy as _
 from acls.api import class_permissions
 from common.utils import validate_path, encapsulate
 from converter.classes import MenuLessObject
-from converter.links import link_transformation_list
 from diagnostics.api import DiagnosticNamespace
 from dynamic_search.classes import SearchModel
 from history.permissions import PERMISSION_HISTORY_VIEW
@@ -24,7 +23,6 @@ from .links import (document_list, document_list_recent,
     document_delete, document_multiple_delete, document_edit, document_download,
     document_multiple_download, document_version_download,
     document_find_duplicates, document_find_all_duplicates, document_update_page_count,
-    document_clear_transformations, document_multiple_clear_transformations,
     document_print, document_history_view, document_missing_list, document_clear_image_cache,
     document_page_view, document_page_text, document_page_edit, document_page_navigation_next,
     document_page_navigation_previous, document_page_navigation_first,
@@ -39,9 +37,8 @@ from .models import (Document, DocumentPage, DocumentType, DocumentTypeFilename,
     DocumentVersion)
 from .permissions import (PERMISSION_DOCUMENT_PROPERTIES_EDIT,
     PERMISSION_DOCUMENT_VIEW, PERMISSION_DOCUMENT_DELETE,
-    PERMISSION_DOCUMENT_DOWNLOAD, PERMISSION_DOCUMENT_TRANSFORM,
-    PERMISSION_DOCUMENT_EDIT, PERMISSION_DOCUMENT_VERSION_REVERT,
-    PERMISSION_DOCUMENT_NEW_VERSION)
+    PERMISSION_DOCUMENT_DOWNLOAD, PERMISSION_DOCUMENT_EDIT,
+    PERMISSION_DOCUMENT_VERSION_REVERT, PERMISSION_DOCUMENT_NEW_VERSION)
 import documents.settings as document_settings
 from .statistics import DocumentStatistics, DocumentUsageStatistics
 from .widgets import document_thumbnail
@@ -54,8 +51,8 @@ Link.bind_links(['setup_document_type_metadata', 'document_type_filename_delete'
 Link.bind_links([DocumentTypeFilename, 'document_type_filename_list', 'document_type_filename_create'], [document_type_filename_create], menu_name='sidebar')
 
 # Register document links
-Link.bind_links([Document], [document_view_simple, document_view_advanced, document_edit, document_print, document_delete, document_download, document_find_duplicates, document_clear_transformations])
-register_multi_item_links(['document_find_duplicates', 'folder_view', 'index_instance_node_view', 'document_type_document_list', 'search', 'results', 'document_group_view', 'document_list', 'document_list_recent', 'tag_tagged_item_list'], [document_multiple_clear_transformations, document_multiple_delete, document_multiple_download])
+Link.bind_links([Document], [document_view_simple, document_view_advanced, document_edit, document_print, document_delete, document_download, document_find_duplicates])
+register_multi_item_links(['document_find_duplicates', 'folder_view', 'index_instance_node_view', 'document_type_document_list', 'search', 'results', 'document_group_view', 'document_list', 'document_list_recent', 'tag_tagged_item_list'], [document_multiple_delete, document_multiple_download])
 
 # Document Version links
 Link.bind_links([DocumentVersion], [document_version_revert, document_version_download])
@@ -67,7 +64,7 @@ Link.bind_links([Document], secondary_menu_links, menu_name='secondary_menu')
 
 # Document page links
 Link.bind_links([DocumentPage], [
-    link_transformation_list, document_page_view,
+    document_page_view,
     document_page_text, document_page_edit,
 ])
 
@@ -125,7 +122,6 @@ class_permissions(Document, [
     PERMISSION_DOCUMENT_VIEW,
     PERMISSION_DOCUMENT_DELETE,
     PERMISSION_DOCUMENT_DOWNLOAD,
-    PERMISSION_DOCUMENT_TRANSFORM,
     PERMISSION_DOCUMENT_NEW_VERSION,
     PERMISSION_DOCUMENT_VERSION_REVERT,
     PERMISSION_HISTORY_VIEW
