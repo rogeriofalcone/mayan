@@ -14,9 +14,13 @@ What's new in Mayan EDMS v1.0
 ================================
 TODO: Remove dynamic search's LIMIT setting
 TODO: Permission/ACL filtered search results
+TODO: document_storage, gpg_home and image_cache now default to using site_media
+
 
 Upgrading from a previous version
 =================================
+TODO: libtiff-dev
+
 If you installed **Mayan EDMS** by cloning the Git repository issue the commands::
 
     $ git reset --hard HEAD
