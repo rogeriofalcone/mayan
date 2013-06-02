@@ -90,7 +90,7 @@ def transformation_create(request, app_label, module_name, object_pk):
     try:
         Permission.objects.check_permissions(request.user, [PERMISSION_TRANSFORMATION_CREATE])
     except PermissionDenied:
-        AccessEntry.objects.check_access(PERMISSION_TRANSFORMATION_CREATE, request.user, obj)
+        AccessEntry.objects.check_access(PERMISSION_TRANSFORMATION_CREATE, request.user, content_object)
 
     redirect_view = reverse('transformation_list', args=[content_object._meta.app_label, content_object._meta.module_name, content_object.pk])
     previous = request.POST.get('previous', request.GET.get('previous', request.META.get('HTTP_REFERER', reverse('home'))))
@@ -130,9 +130,13 @@ def transformation_create(request, app_label, module_name, object_pk):
 
 
 def transformation_edit(request, transformation_pk):
-    Permission.objects.check_permissions(request.user, [PERMISSION_TRANSFORMATION_EDIT])
-
     transformation = get_object_or_404(Transformation, pk=transformation_pk)
+
+    try:
+        Permission.objects.check_permissions(request.user, [PERMISSION_TRANSFORMATION_EDIT])
+    except PermissionDenied:
+        AccessEntry.objects.check_access(PERMISSION_TRANSFORMATION_EDIT, request.user, transformation.content_object)
+
     redirect_view = reverse('transformation_list', args=[transformation.content_object._meta.app_label, transformation.content_object._meta.module_name, transformation.content_object.pk])
     next = request.POST.get('next', request.GET.get('next', request.META.get('HTTP_REFERER', redirect_view)))
     previous = request.POST.get('previous', request.GET.get('previous', request.META.get('HTTP_REFERER', reverse('home'))))
@@ -170,9 +174,13 @@ def transformation_edit(request, transformation_pk):
 
 
 def transformation_delete(request, transformation_pk):
-    Permission.objects.check_permissions(request.user, [PERMISSION_TRANSFORMATION_DELETE])
-
     transformation = get_object_or_404(Transformation, pk=transformation_pk)
+
+    try:
+        Permission.objects.check_permissions(request.user, [PERMISSION_TRANSFORMATION_DELETE])
+    except PermissionDenied:
+        AccessEntry.objects.check_access(PERMISSION_TRANSFORMATION_DELETE, request.user, transformation.content_object)
+
     redirect_view = reverse('transformation_list', args=[transformation.content_object._meta.app_label, transformation.content_object._meta.module_name, transformation.content_object.pk])
     previous = request.POST.get('previous', request.GET.get('previous', request.META.get('HTTP_REFERER', reverse('home'))))
 
