@@ -12,7 +12,8 @@ from .links import (link_formats_list, link_transformation_list,
     link_transformation_create, link_transformation_edit, link_transformation_delete,
     link_document_clear_transformations, link_document_multiple_clear_transformations)
 from .models import Transformation
-from .permissions import PERMISSION_DOCUMENT_TRANSFORM
+from .permissions import (PERMISSION_TRANSFORMATION_CREATE, PERMISSION_TRANSFORMATION_DELETE,
+    PERMISSION_TRANSFORMATION_EDIT, PERMISSION_TRANSFORMATION_VIEW)
 
 register_sidebar_template(['formats_list'], 'converter_file_formats_help.html')
 
@@ -28,5 +29,6 @@ register_multi_item_links(['document_find_duplicates', 'folder_view', 'index_ins
 Link.bind_links([DocumentPage], [link_transformation_list])
 
 class_permissions(Document, [
-    PERMISSION_DOCUMENT_TRANSFORM,
+    PERMISSION_TRANSFORMATION_CREATE, PERMISSION_TRANSFORMATION_DELETE,
+    PERMISSION_TRANSFORMATION_EDIT, PERMISSION_TRANSFORMATION_VIEW,
 ])

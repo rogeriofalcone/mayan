@@ -20,7 +20,7 @@ from .forms import TransformationForm_create, TransformationForm
 from .icons import icon_transformation_clear
 from .models import Transformation
 from .permissions import (PERMISSION_TRANSFORMATION_CREATE, PERMISSION_TRANSFORMATION_DELETE,
-    PERMISSION_TRANSFORMATION_EDIT, PERMISSION_TRANSFORMATION_VIEW, PERMISSION_DOCUMENT_TRANSFORM)
+    PERMISSION_TRANSFORMATION_EDIT, PERMISSION_TRANSFORMATION_VIEW)
 from .settings import GRAPHICS_BACKEND
 
 
@@ -228,9 +228,9 @@ def document_clear_transformations(request, document_pk=None, document_pk_list=N
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', u'/'))
 
     try:
-        Permission.objects.check_permissions(request.user, [PERMISSION_DOCUMENT_TRANSFORM])
+        Permission.objects.check_permissions(request.user, [PERMISSION_TRANSFORMATION_DELETE])
     except PermissionDenied:
-        documents = AccessEntry.objects.filter_objects_by_access(PERMISSION_DOCUMENT_TRANSFORM, request.user, documents, exception_on_empty=True)
+        documents = AccessEntry.objects.filter_objects_by_access(PERMISSION_TRANSFORMATION_DELETE, request.user, documents, exception_on_empty=True)
 
     previous = request.POST.get('previous', request.GET.get('previous', request.META.get('HTTP_REFERER', post_redirect or reverse('document_list'))))
     next = request.POST.get('next', request.GET.get('next', request.META.get('HTTP_REFERER', post_redirect or reverse('document_list'))))

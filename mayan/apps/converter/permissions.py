@@ -10,4 +10,3 @@ PERMISSION_TRANSFORMATION_CREATE = Permission.objects.register(namespace, 'trans
 PERMISSION_TRANSFORMATION_DELETE = Permission.objects.register(namespace, 'transformation_delete', _(u'Delete transformations'))
 PERMISSION_TRANSFORMATION_EDIT = Permission.objects.register(namespace, 'transformation_edit', _(u'Edit transformations'))
 PERMISSION_TRANSFORMATION_VIEW = Permission.objects.register(namespace, 'transformation_view', _(u'View transformations'))
-PERMISSION_DOCUMENT_TRANSFORM = Permission.objects.register(namespace, 'transformation_document_transform', _(u'Transform documents'))
