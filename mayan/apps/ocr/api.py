@@ -19,18 +19,31 @@ from .literals import (DEFAULT_OCR_FILE_FORMAT, UNPAPER_FILE_FORMAT,
     DEFAULT_OCR_FILE_EXTENSION)
 from .parsers import parse_document_page
 from .parsers.exceptions import ParserError, ParserUnknownFile
-from .settings import (TESSERACT_PATH, TESSERACT_LANGUAGE, UNPAPER_PATH)
+from .settings import (TESSERACT_PATH, TESSERACT_LANGUAGE,
+    TESSERACT_CLEANUP_LANGUAGE, UNPAPER_PATH)
 
 
 def get_language_backend():
     """
-    Return the OCR cleanup language backend using the selected tesseract
-    language in the configuration settings
+    Check for the existence of the OCR backend(s) and return
+    the OCR cleanup language backend
     """
+    modules = TESSERACT_LANGUAGE.split('+')
     try:
-        module = import_module(u'.'.join([u'ocr', u'lang', TESSERACT_LANGUAGE]))
+        for module in modules:
+            module = import_module(u'.'.join([u'ocr', u'lang', module]))
     except ImportError:
-        sys.stderr.write(u'\nWarning: No OCR app language backend for language: %s\n\n' % TESSERACT_LANGUAGE)
+        sys.stderr.write(
+            u'\nWarning: No OCR cleanup backend defined for language: %s\n\n'
+            % module)
+
+    try:
+        module = import_module(u'.'.join([u'ocr', u'lang',
+                        TESSERACT_CLEANUP_LANGUAGE]))
+    except ImportError:
+        sys.stderr.write(
+            u'\nWarning: Missing OCR cleanup backend for language: %s\n\n'
+            % TESSERACT_CLEANUP_LANGUAGE)
         return None
     return module
 
