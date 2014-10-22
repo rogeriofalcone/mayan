@@ -17,8 +17,8 @@ sys.path.append(os.path.join(PROJECT_ROOT, 'apps'))
 sys.path.append(os.path.join(PROJECT_ROOT, 'shared_apps'))
 sys.path.append(os.path.join(PROJECT_ROOT, '3rd_party_apps'))
 
-PROJECT_TITLE = 'Mayan EDMS'
-PROJECT_NAME = 'mayan'
+PROJECT_TITLE = 'Nucleos EDMS'
+PROJECT_NAME = 'nucleos'
 
 DEBUG = True
 DEVELOPMENT = False
@@ -118,6 +118,8 @@ MIDDLEWARE_CLASSES = (
     'common.middleware.login_required_middleware.LoginRequiredMiddleware',
     'permissions.middleware.permission_denied_middleware.PermissionDeniedMiddleware',
     'pagination.middleware.PaginationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
