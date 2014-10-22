@@ -20,9 +20,9 @@ sys.path.append(os.path.join(PROJECT_ROOT, '3rd_party_apps'))
 PROJECT_TITLE = 'Mayan EDMS'
 PROJECT_NAME = 'mayan'
 
-DEBUG = False
+DEBUG = True
 DEVELOPMENT = False
-TEMPLATE_DEBUG = False
+TEMPLATE_DEBUG = True
 
 ADMINS = ()
 MANAGERS = ADMINS
@@ -49,7 +49,7 @@ TIME_ZONE = 'America/Puerto_Rico'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'pt-br'
 
 LANGUAGES = (
     ('ar', ugettext('Arabic')),

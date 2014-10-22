@@ -1,0 +1,20 @@
+<VirtualHost *:80>
+    # Uncomment if libapache2-mod-xsendfile is installed
+    # XSendFile On
+    # XSendFileAllowAbove On
+
+    WSGIScriptAlias / /usr/share/nucleos/nucleos/wsgi/dispatch.wsgi
+    
+    <Directory /usr/share/nucleos/nucleos>
+        Order deny,allow
+        Allow from all
+    </Directory>
+    ErrorLog /var/log/apache2/nucleos_error.log
+    LogLevel warn
+    CustomLog /var/log/apache2/nucleos_access.log combined
+
+    Alias /nucleos-static "/usr/share/nucleos/nucleos/static/"
+    <Location "/static">
+        SetHandler None
+    </Location>
+</VirtualHost>

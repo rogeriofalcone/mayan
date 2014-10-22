@@ -1,0 +1,3 @@
+include README.rst LICENSE HISTORY.rst
+recursive-include nucleos README *.txt *.html *.css *.ico *.png *.jpg *.js *.po *.mo *.ttf
+global-exclude settings_local.* nucleos.sqlite* db.sqlite* nucleos/media gpg_home document_storage image_cache

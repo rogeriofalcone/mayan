@@ -1,0 +1,7 @@
+[run]
+source=
+    nucleos
+omit=
+    nucleos/bin/nucleos-edms.py
+    nucleos/wsgi.py
+    tests.py

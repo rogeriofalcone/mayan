@@ -23,9 +23,9 @@
     {% endif %}
 {% endblock %}
 
-{% block html_title %}{% project_name %}{{ request.new_window_url }}{% block title %}{% endblock %}{% endblock %}
+{% block html_title %}{{ request.new_window_url }}{% block title %}{% endblock %}{% endblock %}
 
-{% block web_theme_project_name %}{% project_name %}{% if debug %} {% trans "(DEBUG)" %}{% endif %} - {% registered_name %}{% endblock %}
+{% block web_theme_project_name %}{% if debug %} {% trans "(DEBUG)" %}{% endif %}{% registered_name %}{% endblock %}
 
 {% block web_theme_stylesheets %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/famfamfam-silk-sprite.css" type="text/css" media="screen" />
